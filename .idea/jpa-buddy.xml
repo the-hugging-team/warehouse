@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JpaBuddyIdeaProjectConfig" ddlActionDbType="mysql">
-    <option name="defaultUnitInitialized" value="true" />
-    <option name="reverseEngineeringLastDbConnectionId" value="76635037-7922-4870-b255-070eee95de55" />
-    <option name="reLastEntityCreationPackage" value="src/main/java/com/the/hugging/team/entities" />
-  </component>
-</project>
