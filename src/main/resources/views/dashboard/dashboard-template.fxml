@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0"
+            prefWidth="1150.0" stylesheets="@../../assets/css/dashboard.css"
+            xmlns="http://javafx.com/javafx/17" fx:controller="com.the.hugging.team.controllers.DashboardTemplate">
+    <Pane fx:id="topbar" layoutX="14.0" layoutY="-5.0" prefHeight="30.0" prefWidth="1174.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+    <Pane fx:id="profile" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
+        <Label layoutX="10.0" layoutY="50.0" prefHeight="30.0" prefWidth="90.0" text="Admin">
+            <font>
+                <Font name="Arial" size="15.0"/>
+            </font>
+        </Label>
+        <Label layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="180.0" text="John Doe">
+            <font>
+                <Font name="Arial Bold" size="20.0"/>
+            </font>
+        </Label>
+    </Pane>
+    <Pane fx:id="menu" layoutY="130.0" prefHeight="491.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="130.0">
+        <VBox layoutY="5.0" prefHeight="485.0" prefWidth="200.0">
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu-button"
+                    text="Home">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Button>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0"
+                    styleClass="menu-button" text="Users-Admin">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Button>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0"
+                    styleClass="menu-button" text="Clients">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Button>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0"
+                    styleClass="menu-button" text="Suppliers">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Button>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0"
+                    styleClass="menu-button" text="Cash Registers">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Button>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0"
+                    styleClass="menu-button" text="Storage">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Button>
+        </VBox>
+    </Pane>
+    <Pane layoutX="200.0" layoutY="30.0" prefHeight="590.0" prefWidth="950.0" style="-fx-background-color: #e5e5e5;"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="30.0">
+        <LineChart layoutX="14.0" layoutY="14.0" prefHeight="180.0" prefWidth="272.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT"/>
+            </yAxis>
+        </LineChart>
+        <LineChart layoutX="664.0" layoutY="14.0" prefHeight="180.0" prefWidth="272.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT"/>
+            </yAxis>
+        </LineChart>
+        <LineChart layoutX="339.0" layoutY="14.0" prefHeight="180.0" prefWidth="272.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT"/>
+            </yAxis>
+        </LineChart>
+    </Pane>
+</AnchorPane>

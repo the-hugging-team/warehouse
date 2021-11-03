@@ -2,10 +2,18 @@ package com.the.hugging.team.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
 
 
 public class LoginController {
@@ -32,7 +40,19 @@ public class LoginController {
         anchor.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> formpane.setLayoutY((newSceneHeight.doubleValue() / 2) - (backgroundpane.getPrefHeight() / 2)));
     }
 
-    public void login(ActionEvent e) {
+    public void login(ActionEvent event) {
+      try{
+          Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("views/dashboard/dashboard-template.fxml")));
+          Scene scene = new Scene(root);
+          Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+          primaryStage.setMinHeight(620);
+          primaryStage.setMinWidth(1150);
+          primaryStage.setScene(scene);
+          primaryStage.show();
 
+      }catch(Exception e){
+          e.printStackTrace();
+
+      }
     }
 }

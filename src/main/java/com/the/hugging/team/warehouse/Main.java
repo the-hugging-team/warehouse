@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("views/Login/login.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("views/login/login.fxml")));
             Stage primaryStage = new Stage();
             Scene scene = new Scene(root);
             primaryStage.getIcons().add(new Image("assets/images/logos/cellablue_logo.png"));
