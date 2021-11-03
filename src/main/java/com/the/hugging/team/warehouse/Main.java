@@ -24,7 +24,7 @@ public class Main extends Application {
             primaryStage.getIcons().add(new Image("assets/images/logos/cellablue_logo.png"));
             primaryStage.setTitle("CELLA");
             primaryStage.setMinHeight(620);
-            primaryStage.setMinWidth(930);
+            primaryStage.setMinWidth(1150);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
