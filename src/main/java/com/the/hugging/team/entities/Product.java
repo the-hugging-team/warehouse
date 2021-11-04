@@ -55,10 +55,6 @@ public class Product implements Serializable {
     private Double deliveryPrice;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
-
-    @ManyToOne(optional = false)
     @JoinColumn(name = "shelf_id", nullable = false)
     private Shelf shelf;
 
@@ -72,6 +68,6 @@ public class Product implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, nomenclature, productCategory, quantity, productQuantityType, retailPrice, wholesalePrice, deliveryPrice, room, shelf);
+        return Objects.hash(id, name, nomenclature, productCategory, quantity, productQuantityType, retailPrice, wholesalePrice, deliveryPrice, shelf);
     }
 }

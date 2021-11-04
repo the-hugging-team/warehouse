@@ -25,6 +25,10 @@ public class Shelf implements Serializable {
     @Column(name = "name", nullable = false, length = 45)
     private String name;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
