@@ -5,19 +5,19 @@ Mid Blue - #73bfdc
 Light Blue - #8ecae6
 */
 
-#topbar {
-    -fx-background-color: #219ebc;
-}
+@import "font.css";
 
 #profile {
     -fx-background-color: #73bfdc;
 }
 
-#menu {
+.menu {
     -fx-background-color: #8ecae6;
-    -fx-border-style: solid none none none;
-    -fx-border-width: 3;
+    -fx-padding: 0px;
+    -fx-border-width: 3px 0px 0px 0px;
     -fx-border-color: #81c5e1;
+    -fx-font-family: "Open Sans";
+    -fx-font-weight: 700;
 }
 
 .menu-button {
@@ -30,11 +30,34 @@ Light Blue - #8ecae6
 }
 
 .menu-button:hover {
-    -fx-background-color: #73bfdc;
-    -fx-padding: 0 0 0 20;
+    -fx-background-color: #219ebc;
+    -fx-padding: 0 0 0 15;
+    -fx-border-color: #ffb703;
+    -fx-border-width: 0px 5px 0px 0px;
+    -fx-text-fill: WHITE;
+    -fx-font-family: "Open Sans SemiBold";
+}
+
+.menu-button:hover .menu-icon{
+    -fx-fill: WHITE;
 }
 
 .menu-button-active {
     -fx-background-color: #ffb703;
 }
 
+.menu2{
+    -fx-background-color: #8ecae6;
+}
+
+.menu2-button{
+    -fx-background-color: #8ecae6;
+}
+
+.menu2-button:hover{
+    -fx-background-color: #219ebc;
+}
+
+.menu2-button:hover .menu-icon{
+    -fx-fill: WHITE;
+}

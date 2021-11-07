@@ -2,6 +2,9 @@ package com.the.hugging.team.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+
+import java.awt.*;
 
 public class DashboardTemplate {
     @FXML
@@ -11,5 +14,10 @@ public class DashboardTemplate {
     private Pane profile;
 
     @FXML
-    private Pane menu;
+    private VBox menu;
+
+    @FXML
+    public void initialize(){
+
+    }
 }
