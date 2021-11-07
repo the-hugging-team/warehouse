@@ -27,14 +27,9 @@ public class Room  implements Serializable {
     @Column(name = "name", nullable = false, length = 45)
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "room_has_shelves",
-            joinColumns = { @JoinColumn(name = "room_id") },
-            inverseJoinColumns = { @JoinColumn(name = "shelf_id") }
-    )
+    @OneToMany(mappedBy="room")
     @ToString.Exclude
-    private Set<Shelf> shelves = new HashSet<>();
+    private Set<Shelf> shelves;
 
     @Override
     public boolean equals(Object o) {
