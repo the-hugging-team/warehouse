@@ -100,62 +100,79 @@
             <String fx:value="font-regular" />
          </styleClass>
          </Button>
+      <Button fx:id="products" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#productsClick" prefHeight="35.0" prefWidth="200.0" text="Products">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <styleClass>
+            <String fx:value="menu-button" />
+            <String fx:value="font-regular" />
+         </styleClass>
+      </Button>
+      <Button fx:id="reports" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#reportsClick" prefHeight="50.0" prefWidth="200.0" text="Reports">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="BAR_CHART" size="25" styleClass="menu-icon" />
+         </graphic>
+         <styleClass>
+            <String fx:value="menu-button" />
+            <String fx:value="font-regular" />
+         </styleClass>
+      </Button>
      </VBox>
-    <HBox layoutY="560.0" prefHeight="60.0" prefWidth="200.0" styleClass="menu2" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0">
+    <HBox layoutY="560.0" prefHeight="60.0" prefWidth="200.0" styleClass="menu2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="menu2-button">
            <HBox.margin>
-               <Insets left="5.0" top="5.0"/>
+               <Insets left="5.0" top="5.0" />
            </HBox.margin>
            <graphic>
-               <FontAwesomeIconView glyphName="SIGN_OUT" size="20" styleClass="menu-icon"/>
+               <FontAwesomeIconView glyphName="SIGN_OUT" size="20" styleClass="menu-icon" />
            </graphic>
         </Button>
         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="menu2-button">
            <HBox.margin>
-               <Insets left="90.0" top="5.0"/>
+               <Insets left="90.0" top="5.0" />
            </HBox.margin>
            <graphic>
-               <FontAwesomeIconView glyphName="BELL" size="20" styleClass="menu-icon"/>
+               <FontAwesomeIconView glyphName="BELL" size="20" styleClass="menu-icon" />
            </graphic>
         </Button>
     </HBox>
-    <AnchorPane layoutX="200.0" prefHeight="590.0" prefWidth="950.0" style="-fx-background-color: #e5e5e5;"
-                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0"
-                AnchorPane.topAnchor="0.0">
-        <HBox alignment="CENTER" layoutY="-30.0" prefHeight="230.0" prefWidth="950.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+    <AnchorPane layoutX="200.0" prefHeight="590.0" prefWidth="950.0" style="-fx-background-color: #e5e5e5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" layoutY="-30.0" prefHeight="230.0" prefWidth="950.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
                 <xAxis>
-                    <CategoryAxis side="BOTTOM"/>
+                    <CategoryAxis side="BOTTOM" />
                 </xAxis>
                 <yAxis>
-                    <NumberAxis side="LEFT"/>
+                    <NumberAxis side="LEFT" />
                 </yAxis>
                 <HBox.margin>
-                    <Insets/>
+                    <Insets />
                 </HBox.margin>
             </LineChart>
             <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
                 <xAxis>
-                    <CategoryAxis side="BOTTOM"/>
+                    <CategoryAxis side="BOTTOM" />
                 </xAxis>
                 <yAxis>
-                    <NumberAxis side="LEFT"/>
+                    <NumberAxis side="LEFT" />
                 </yAxis>
                 <HBox.margin>
-                    <Insets left="100.0" right="100.0"/>
+                    <Insets left="100.0" right="100.0" />
                 </HBox.margin>
             </LineChart>
             <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
                 <xAxis>
-                    <CategoryAxis side="BOTTOM"/>
+                    <CategoryAxis side="BOTTOM" />
                 </xAxis>
                 <yAxis>
-                    <NumberAxis side="LEFT"/>
+                    <NumberAxis side="LEFT" />
                 </yAxis>
                 <HBox.margin>
-                    <Insets/>
+                    <Insets />
                 </HBox.margin>
             </LineChart>
         </HBox>
