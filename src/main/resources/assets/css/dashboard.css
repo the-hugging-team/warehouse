@@ -29,19 +29,6 @@ Light Blue - #8ecae6
     -fx-font-size: 18;
 }
 
-.menu-button-dropdown {
-    -fx-background-color: #8ecae6;
-    -fx-pref-width: 200;
-    -fx-pref-height: 30;
-    -fx-alignment: center_left;
-    -fx-padding: 0 0 0 35;
-    -fx-font-size: 18;
-}
-
-.menu-button-dropdown:hover .menu-button-dropdown-icon{
-    -fx-fill: WHITE
-}
-
 .menu-button:hover {
     -fx-background-color: #219ebc;
     -fx-padding: 0 0 0 15;
@@ -74,3 +61,82 @@ Light Blue - #8ecae6
 .menu2-button:hover .menu-icon{
     -fx-fill: WHITE;
 }
+
+/*    Dropdown buttons start    */
+
+.menu-button-dropdown-container {
+    -fx-pref-height: 45;
+    -fx-pref-width: 200;
+    -fx-background-color: #8ecae6;
+    -fx-padding: 0;
+}
+
+.menu-button-dropdown {
+    -fx-background-color: #8ecae6;
+    -fx-pref-height: 45;
+    -fx-pref-width: 160;
+    -fx-alignment: center_left;
+    -fx-padding: 0 0 0 10;
+    -fx-font-size: 18;
+}
+
+.menu-button-dropdown-arrow {
+    -fx-background-color: #8ecae6;
+    -fx-pref-height: 45;
+    -fx-pref-width: 40;
+    -fx-alignment: center;
+    -fx-font-size: 18;
+}
+
+.menu-button-dropdown-container:hover .menu-button-dropdown-arrow {
+    -fx-background-color: #ffb703;
+}
+
+.menu-button-dropdown-container:hover .menu-button-dropdown-arrow .menu-icon {
+    -fx-fill: WHITE;
+}
+
+.menu-button-dropdown-container:hover .menu-button-dropdown {
+    -fx-background-color: #219ebc;
+    -fx-padding: 0 0 0 15;
+    -fx-text-fill: WHITE;
+}
+
+.menu-button-dropdown-container:hover .menu-button-dropdown .menu-icon{
+    -fx-fill: WHITE;
+}
+
+.menu-button-dropdown-item {
+    -fx-background-color: #73bfdc;
+    -fx-pref-width: 200;
+    -fx-pref-height: 30;
+    -fx-alignment: center_left;
+    -fx-padding: 0 0 0 35;
+    -fx-font-size: 18;
+}
+
+.menu-button-dropdown-item:hover {
+    -fx-background-color: #219ebc;
+    -fx-padding: 0 0 0 45;
+    -fx-text-fill: WHITE;
+}
+
+.menu-button-dropdown-active .menu-button-dropdown-arrow {
+    -fx-background-color: #ffb703;
+}
+
+.menu-button-dropdown-active .menu-button-dropdown-arrow .menu-icon {
+    -fx-fill: WHITE;
+}
+
+.menu-button-dropdown-active .menu-button-dropdown {
+    -fx-background-color: #219ebc;
+    -fx-padding: 0 0 0 15;
+    -fx-text-fill: WHITE;
+}
+
+.menu-button-dropdown-active .menu-button-dropdown .menu-icon{
+    -fx-fill: WHITE;
+}
+
+/*    Dropdown buttons end    */

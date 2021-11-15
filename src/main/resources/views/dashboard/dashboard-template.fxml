@@ -100,27 +100,45 @@
             <String fx:value="font-regular" />
          </styleClass>
          </Button>
-      <Button fx:id="products" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#productsClick" prefHeight="35.0" prefWidth="200.0" text="Products">
-         <font>
-            <Font size="18.0" />
-         </font>
-         <styleClass>
-            <String fx:value="menu-button" />
-            <String fx:value="font-regular" />
-         </styleClass>
-      </Button>
-      <Button fx:id="reports" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#reportsClick" prefHeight="50.0" prefWidth="200.0" text="Reports">
-         <font>
-            <Font size="18.0" />
-         </font>
-         <graphic>
-            <FontAwesomeIconView glyphName="BAR_CHART" size="25" styleClass="menu-icon" />
-         </graphic>
-         <styleClass>
-            <String fx:value="menu-button" />
-            <String fx:value="font-regular" />
-         </styleClass>
-      </Button>
+         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="menu-button-dropdown-container">
+             <Button fx:id="products" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" mnemonicParsing="false"
+                     onAction="#productsClick" prefHeight="35.0" prefWidth="200.0" text="Products">
+                 <font>
+                     <Font size="18.0"/>
+                 </font>
+                 <styleClass>
+                     <String fx:value="menu-button-dropdown"/>
+                     <String fx:value="font-regular"/>
+                 </styleClass>
+             </Button>
+             <Button fx:id="productsArrow" alignment="CENTER" mnemonicParsing="false" onAction="#productsClick"
+                     styleClass="menu-button-dropdown-arrow">
+                 <graphic>
+                     <FontAwesomeIconView glyphName="ANGLE_DOWN" styleClass="menu-icon"/>
+                 </graphic>
+             </Button>
+         </HBox>
+         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="menu-button-dropdown-container">
+             <Button fx:id="reports" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#reportsClick"
+                     prefHeight="50.0" prefWidth="200.0" text="Reports">
+                 <font>
+                     <Font size="18.0"/>
+                 </font>
+                 <graphic>
+                     <FontAwesomeIconView glyphName="BAR_CHART" size="25" styleClass="menu-icon"/>
+                 </graphic>
+                 <styleClass>
+                     <String fx:value="menu-button-dropdown"/>
+                     <String fx:value="font-regular"/>
+                 </styleClass>
+             </Button>
+             <Button fx:id="reportsArrow" alignment="CENTER" mnemonicParsing="false" onAction="#reportsClick"
+                     styleClass="menu-button-dropdown-arrow">
+                 <graphic>
+                     <FontAwesomeIconView glyphName="ANGLE_DOWN" styleClass="menu-icon"/>
+                 </graphic>
+             </Button>
+         </HBox>
      </VBox>
     <HBox layoutY="560.0" prefHeight="60.0" prefWidth="200.0" styleClass="menu2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="menu2-button">

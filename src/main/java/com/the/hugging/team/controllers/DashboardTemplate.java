@@ -22,7 +22,13 @@ public class DashboardTemplate {
     private Button products;
 
     @FXML
+    private Button productsArrow;
+
+    @FXML
     private Button reports;
+
+    @FXML
+    private Button reportsArrow;
 
     @FXML
     public void initialize() {
@@ -30,30 +36,30 @@ public class DashboardTemplate {
     }
 
     public void productsClick(ActionEvent e) {
-        boolean isActive = products.getStyleClass().contains("menu-button-dropdown-active");
+        boolean isActive = products.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
-        int productsIndex = menu.getChildren().indexOf(products);
+        int productsIndex = menu.getChildren().indexOf(products.getParent());
 
         if (isActive) {
-            products.getStyleClass().remove("menu-button-dropdown-active");
-//            ((FontAwesomeIconView) products.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
+            products.getParent().getStyleClass().remove("menu-button-dropdown-active");
+            ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
             menu.getChildren().remove(productsIndex + 1, productsIndex + 4);
         } else {
-            if(reports.getStyleClass().contains("menu-button-dropdown-active")) {
+            if(reports.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
                 reportsClick(e);
-                productsIndex = menu.getChildren().indexOf(products);
+                productsIndex = menu.getChildren().indexOf(products.getParent());
             }
 
-            products.getStyleClass().add("menu-button-dropdown-active");
-//            ((FontAwesomeIconView) products.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
+            products.getParent().getStyleClass().add("menu-button-dropdown-active");
+            ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
 
             Button stock = new Button("Stock");
             Button sell = new Button("Sell");
             Button delivery = new Button("Delivery");
 
-            stock.getStyleClass().addAll("menu-button-dropdown", "font-regular");
-            sell.getStyleClass().addAll("menu-button-dropdown", "font-regular");
-            delivery.getStyleClass().addAll("menu-button-dropdown", "font-regular");
+            stock.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+            sell.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+            delivery.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
 
             menu.getChildren().add(productsIndex + 1, stock);
             menu.getChildren().add(productsIndex + 2, sell);
@@ -62,26 +68,28 @@ public class DashboardTemplate {
     }
 
     public void reportsClick(ActionEvent e) {
-        boolean isActive = reports.getStyleClass().contains("menu-button-dropdown-active");
+        boolean isActive = reports.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
-        int reportsIndex = menu.getChildren().indexOf(reports);
+        int reportsIndex = menu.getChildren().indexOf(reports.getParent());
 
         if (isActive) {
-            reports.getStyleClass().remove("menu-button-dropdown-active");
+            reports.getParent().getStyleClass().remove("menu-button-dropdown-active");
+            ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
             menu.getChildren().remove(reportsIndex + 1, reportsIndex + 3);
         } else {
-            if(products.getStyleClass().contains("menu-button-dropdown-active")) {
+            if(products.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
                 productsClick(e);
-                reportsIndex = menu.getChildren().indexOf(reports);
+                reportsIndex = menu.getChildren().indexOf(reports.getParent());
             }
 
-            reports.getStyleClass().add("menu-button-dropdown-active");
+            reports.getParent().getStyleClass().add("menu-button-dropdown-active");
+            ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
 
             Button money = new Button("Money");
             Button user = new Button("User");
 
-            money.getStyleClass().addAll("menu-button-dropdown", "font-regular");
-            user.getStyleClass().addAll("menu-button-dropdown", "font-regular");
+            money.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+            user.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
 
             menu.getChildren().add(reportsIndex + 1, money);
             menu.getChildren().add(reportsIndex + 2, user);
