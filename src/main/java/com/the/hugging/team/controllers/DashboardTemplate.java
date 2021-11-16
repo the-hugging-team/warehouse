@@ -1,16 +1,19 @@
 package com.the.hugging.team.controllers;
 
+import com.the.hugging.team.utils.WindowHandler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class DashboardTemplate {
+public class DashboardTemplate extends WindowHandler {
+
     @FXML
-    private Pane topbar;
+    private AnchorPane workspace;
 
     @FXML
     private Pane profile;

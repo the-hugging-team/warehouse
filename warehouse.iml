@@ -8,7 +8,9 @@
         <datasource-mapping>
           <factory-entry name="default" value="8e965e26-6155-4882-a521-34716b748a76" />
         </datasource-mapping>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="default" />
+        </naming-strategy-map>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
