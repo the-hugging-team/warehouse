@@ -1,5 +1,8 @@
 package com.the.hugging.team.controllers;
 
+import com.the.hugging.team.entities.Role;
+import com.the.hugging.team.entities.User;
+import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
 import javafx.event.ActionEvent;
@@ -11,6 +14,8 @@ import javafx.scene.layout.Pane;
 
 
 public class LoginController extends WindowHandler {
+
+    Session session = Session.getInstance();
 
     @FXML
     private AnchorPane anchor;
@@ -37,8 +42,20 @@ public class LoginController extends WindowHandler {
     }
 
     public void login(ActionEvent event) {
-        Window loginWindow = new Window("views/dashboard/dashboard-template.fxml");
-        loginWindow.setAsNextStage(event);
-        loginWindow.showStage();
+//      For testing purposes only
+        Role role = new Role();
+        role.setName("admin");
+        role.setSlug("admin");
+
+        User user = new User();
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setUsername("johndoe");
+        user.setRole(role);
+        session.setUser(user);
+
+        Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml");
+        dashboardWindow.setAsNextStage(event);
+        dashboardWindow.showStage();
     }
 }

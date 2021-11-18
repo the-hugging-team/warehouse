@@ -16,12 +16,12 @@
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../assets/css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.the.hugging.team.controllers.DashboardTemplate">
     <Pane fx:id="profile" prefHeight="100.0" prefWidth="200.0">
-        <Label layoutX="10.0" layoutY="50.0" prefHeight="30.0" prefWidth="90.0" styleClass="font-regular" text="Admin">
+        <Label id="role" layoutX="10.0" layoutY="50.0" prefHeight="30.0" prefWidth="90.0" styleClass="font-regular" text="Admin">
             <font>
                 <Font name="Arial" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="180.0" styleClass="font-extra-bold" text="John Doe">
+        <Label id="userNames" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="180.0" styleClass="font-extra-bold" text="John Doe">
             <font>
                 <Font name="Arial Bold" size="20.0" />
             </font>
@@ -40,7 +40,7 @@
             <String fx:value="font-regular" />
          </styleClass>
          </Button>
-         <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Users-Admin">
+         <Button fx:id="usersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Users-Admin">
              <font>
                  <Font name="Open Sans Light" size="18.0" />
              </font>

@@ -20,6 +20,8 @@ import java.util.Set;
 @ToString
 @Entity
 public class Role implements Serializable {
+    public static final String ROLE_ADMIN = "roles.admin";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

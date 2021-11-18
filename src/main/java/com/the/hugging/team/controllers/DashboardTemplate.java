@@ -1,16 +1,23 @@
 package com.the.hugging.team.controllers;
 
+import com.the.hugging.team.entities.Role;
+import com.the.hugging.team.entities.User;
+import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.WindowHandler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class DashboardTemplate extends WindowHandler {
+
+    private Session session = Session.getInstance();
+    private final User user = session.getUser();
 
     @FXML
     private AnchorPane workspace;
@@ -20,6 +27,9 @@ public class DashboardTemplate extends WindowHandler {
 
     @FXML
     private VBox menu;
+
+    @FXML
+    private Button usersButton;
 
     @FXML
     private Button products;
@@ -35,7 +45,18 @@ public class DashboardTemplate extends WindowHandler {
 
     @FXML
     public void initialize() {
+        if (user != null) {
+            ((Label) profile.lookup("#userNames")).setText(user.getFirstName() + " " + user.getLastName());
+            ((Label) profile.lookup("#role")).setText(user.getRole().getName());
 
+            if(!user.getRole().getSlug().equals(Role.ROLE_ADMIN)) {
+                int usersButtonIndex = menu.getChildren().indexOf(usersButton);
+                menu.getChildren().remove(usersButtonIndex, usersButtonIndex+1);
+            }
+        } else {
+            ((Label) profile.lookup("#userNames")).setText("");
+            ((Label) profile.lookup("#role")).setText("");
+        }
     }
 
     public void productsClick(ActionEvent e) {
@@ -48,7 +69,7 @@ public class DashboardTemplate extends WindowHandler {
             ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
             menu.getChildren().remove(productsIndex + 1, productsIndex + 4);
         } else {
-            if(reports.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
+            if (reports.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
                 reportsClick(e);
                 productsIndex = menu.getChildren().indexOf(products.getParent());
             }
@@ -80,7 +101,7 @@ public class DashboardTemplate extends WindowHandler {
             ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
             menu.getChildren().remove(reportsIndex + 1, reportsIndex + 3);
         } else {
-            if(products.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
+            if (products.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
                 productsClick(e);
                 reportsIndex = menu.getChildren().indexOf(reports.getParent());
             }
@@ -97,5 +118,9 @@ public class DashboardTemplate extends WindowHandler {
             menu.getChildren().add(reportsIndex + 1, money);
             menu.getChildren().add(reportsIndex + 2, user);
         }
+    }
+
+    public void logout(ActionEvent e) {
+        session.cleanSession();
     }
 }
