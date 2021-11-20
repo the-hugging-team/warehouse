@@ -12,7 +12,6 @@ import java.util.Objects;
 
 @Table(name = "products", indexes = {
         @Index(name = "fk_product_quantity_type_id_idx", columnList = "product_quantity_type_id"),
-        @Index(name = "fk_room_id_idx", columnList = "room_id"),
         @Index(name = "fk_shelf_id_idx", columnList = "shelf_id"),
         @Index(name = "nomenclature_UNIQUE", columnList = "nomenclature", unique = true),
         @Index(name = "fk_product_category_id_idx", columnList = "product_category_id")

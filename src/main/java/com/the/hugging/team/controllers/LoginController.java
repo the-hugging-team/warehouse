@@ -1,22 +1,28 @@
 package com.the.hugging.team.controllers;
 
-import com.the.hugging.team.entities.Role;
+import java.util.List;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.services.UserService;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 
 public class LoginController extends WindowHandler {
 
     Session session = Session.getInstance();
-
+    private UserService userService = UserService.getInstance();
+    private String errorMessage = "Invalid user data";
+    private Label errorLabel = new Label(errorMessage);
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -24,7 +30,7 @@ public class LoginController extends WindowHandler {
     @FXML
     private TextField usernamefield;
     @FXML
-    private TextField passwordfield;
+    private PasswordField passwordfield;
     @FXML
     private Button loginbutton;
     @FXML
@@ -42,20 +48,20 @@ public class LoginController extends WindowHandler {
     }
 
     public void login(ActionEvent event) {
-//      For testing purposes only
-        Role role = new Role();
-        role.setName("admin");
-        role.setSlug("admin");
-
-        User user = new User();
-        user.setFirstName("John");
-        user.setLastName("Doe");
-        user.setUsername("johndoe");
-        user.setRole(role);
-        session.setUser(user);
-
-        Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml");
-        dashboardWindow.setAsNextStage(event);
-        dashboardWindow.showStage();
+        User authUser = userService.getAuthUser(usernamefield.getText(), passwordfield.getText());
+        if (authUser != null)
+        {
+            session.setUser(authUser);
+            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml");
+            dashboardWindow.setAsNextStage(event);
+            dashboardWindow.showStage();
+        }
+        else
+        {
+            //errorLabel.setLayoutX(100);
+            //errorLabel.setLayoutY(100);
+            //errorLabel.setTextFill(Color.RED);
+            //formpane.getChildren().add(errorLabel);
+        }
     }
 }

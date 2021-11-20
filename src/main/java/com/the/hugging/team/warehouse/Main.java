@@ -1,10 +1,16 @@
 package com.the.hugging.team.warehouse;
 
+import com.the.hugging.team.utils.Connection;
 import com.the.hugging.team.utils.Window;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Main extends Application{
+
+    private static final Logger Log = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
         launch(args);
@@ -15,5 +21,10 @@ public class Main extends Application{
         Window defaultWindow = new Window("views/login/login.fxml");
         defaultWindow.setAsDefaultStage();
         defaultWindow.showStage();
+    }
+
+    @Override
+    public void stop() {
+        Connection.closeEMF();
     }
 }
