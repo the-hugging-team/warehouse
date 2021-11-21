@@ -1,6 +1,6 @@
 package com.the.hugging.team.repositories;
 
-import com.the.hugging.team.entities.Activity;
+import com.the.hugging.team.entities.Transaction;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,22 +9,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-
 import javax.persistence.EntityManager;
 
-public class ActivityRepository implements ObjectRepository<Activity> {
+public class TransactionRepository implements ObjectRepository<Transaction> {
 
-    private final static Logger log = LogManager.getLogger(ClientRepository.class);
-    private static final ClientRepository INSTANCE = new ClientRepository();
+    private final static Logger log = LogManager.getLogger(TransactionRepository.class);
+    private static final TransactionRepository INSTANCE = new TransactionRepository();
     private EntityManager entityManager = Connection.getEntityManager();
 
-    public static ClientRepository getInstance()
+    public static TransactionRepository getInstance()
     {
         return INSTANCE;
     }
 
     @Override
-    public void save(Activity obj)
+    public void save(Transaction obj)
     {
         try
         {
@@ -35,7 +34,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity save error: " + e.getMessage());
+            log.error("Transaction save error: " + e.getMessage());
         }
         finally
         {
@@ -44,7 +43,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void update(Activity obj) {
+    public void update(Transaction obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -54,7 +53,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity update error: " + e.getMessage());
+            log.error("Transaction update error: " + e.getMessage());
         }
         finally
         {
@@ -63,7 +62,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void delete(Activity obj) {
+    public void delete(Transaction obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -74,7 +73,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity delete error: " + e.getMessage());
+            log.error("Transaction delete error: " + e.getMessage());
         }
         finally
         {
@@ -83,45 +82,45 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public Optional<Activity> getById(int id) {
-        Activity activity = null;
+    public Optional<Transaction> getById(int id) {
+        Transaction transaction = null;
         try
         {
             entityManager.getTransaction().begin();
-            activity = entityManager.find(Activity.class, id);
+            transaction = entityManager.find(Transaction.class, id);
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get activity by Id error: " + e.getMessage());
+            log.error("Get transaction by Id error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return Optional.of(activity);
+        return Optional.of(transaction);
     }
 
     @Override
-    public List<Activity> getAll() {
-        List<Activity> allActivities = new LinkedList<>();
+    public List<Transaction> getAll() {
+        List<Transaction> allTransactions = new LinkedList<>();
         try
         {
             entityManager.getTransaction().begin();
-            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
+            allTransactions.addAll(entityManager.createQuery("SELECT t FROM Transaction t", Transaction.class).getResultList());
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get all activities error: " + e.getMessage());
+            log.error("Get all transactions error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return allActivities;
+        return allTransactions;
     }
 }
 

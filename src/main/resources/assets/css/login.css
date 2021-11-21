@@ -1,3 +1,5 @@
+@import "font.css";
+
 #backgroundpane {
     -fx-background-image: url('../images/login_background.jpg');
     -fx-background-repeat: no-repeat;
@@ -23,4 +25,9 @@
 #loginbutton {
     -fx-background-color: #FFB703;
     -fx-background-radius: 50;
+}
+
+.errorlabel {
+    -fx-text-fill: RED;
+    -fx-font-size: 14;
 }

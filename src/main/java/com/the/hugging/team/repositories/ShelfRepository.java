@@ -1,6 +1,6 @@
 package com.the.hugging.team.repositories;
 
-import com.the.hugging.team.entities.Activity;
+import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,22 +9,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-
 import javax.persistence.EntityManager;
 
-public class ActivityRepository implements ObjectRepository<Activity> {
+public class ShelfRepository implements ObjectRepository<Shelf> {
 
-    private final static Logger log = LogManager.getLogger(ClientRepository.class);
-    private static final ClientRepository INSTANCE = new ClientRepository();
+    private final static Logger log = LogManager.getLogger(ShelfRepository.class);
+    private static final ShelfRepository INSTANCE = new ShelfRepository();
     private EntityManager entityManager = Connection.getEntityManager();
 
-    public static ClientRepository getInstance()
+    public static ShelfRepository getInstance()
     {
         return INSTANCE;
     }
 
     @Override
-    public void save(Activity obj)
+    public void save(Shelf obj)
     {
         try
         {
@@ -35,7 +34,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity save error: " + e.getMessage());
+            log.error("Shelf save error: " + e.getMessage());
         }
         finally
         {
@@ -44,7 +43,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void update(Activity obj) {
+    public void update(Shelf obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -54,7 +53,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity update error: " + e.getMessage());
+            log.error("Shelf update error: " + e.getMessage());
         }
         finally
         {
@@ -63,7 +62,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void delete(Activity obj) {
+    public void delete(Shelf obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -74,7 +73,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity delete error: " + e.getMessage());
+            log.error("Shelf delete error: " + e.getMessage());
         }
         finally
         {
@@ -83,45 +82,45 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public Optional<Activity> getById(int id) {
-        Activity activity = null;
+    public Optional<Shelf> getById(int id) {
+        Shelf shelf = null;
         try
         {
             entityManager.getTransaction().begin();
-            activity = entityManager.find(Activity.class, id);
+            shelf = entityManager.find(Shelf.class, id);
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get activity by Id error: " + e.getMessage());
+            log.error("Get shelf by Id error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return Optional.of(activity);
+        return Optional.of(shelf);
     }
 
     @Override
-    public List<Activity> getAll() {
-        List<Activity> allActivities = new LinkedList<>();
+    public List<Shelf> getAll() {
+        List<Shelf> allShelves = new LinkedList<>();
         try
         {
             entityManager.getTransaction().begin();
-            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
+            allShelves.addAll(entityManager.createQuery("SELECT t FROM Shelf t", Shelf.class).getResultList());
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get all activities error: " + e.getMessage());
+            log.error("Get shelves error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return allActivities;
+        return allShelves;
     }
 }
 

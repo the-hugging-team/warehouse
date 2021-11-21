@@ -1,6 +1,6 @@
 package com.the.hugging.team.repositories;
 
-import com.the.hugging.team.entities.Activity;
+import com.the.hugging.team.entities.ProductCategory;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,19 +12,19 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-public class ActivityRepository implements ObjectRepository<Activity> {
+public class ProductCategoryRepository implements ObjectRepository<ProductCategory> {
 
-    private final static Logger log = LogManager.getLogger(ClientRepository.class);
-    private static final ClientRepository INSTANCE = new ClientRepository();
+    private final static Logger log = LogManager.getLogger(ProductCategoryRepository.class);
+    private static final ProductCategoryRepository INSTANCE = new ProductCategoryRepository();
     private EntityManager entityManager = Connection.getEntityManager();
 
-    public static ClientRepository getInstance()
+    public static ProductCategoryRepository getInstance()
     {
         return INSTANCE;
     }
 
     @Override
-    public void save(Activity obj)
+    public void save(ProductCategory obj)
     {
         try
         {
@@ -35,7 +35,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity save error: " + e.getMessage());
+            log.error("Product category save error: " + e.getMessage());
         }
         finally
         {
@@ -44,7 +44,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void update(Activity obj) {
+    public void update(ProductCategory obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -54,7 +54,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity update error: " + e.getMessage());
+            log.error("Product category update error: " + e.getMessage());
         }
         finally
         {
@@ -63,7 +63,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void delete(Activity obj) {
+    public void delete(ProductCategory obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -74,7 +74,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity delete error: " + e.getMessage());
+            log.error("Product category delete error: " + e.getMessage());
         }
         finally
         {
@@ -83,45 +83,45 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public Optional<Activity> getById(int id) {
-        Activity activity = null;
+    public Optional<ProductCategory> getById(int id) {
+        ProductCategory productCategory = null;
         try
         {
             entityManager.getTransaction().begin();
-            activity = entityManager.find(Activity.class, id);
+            productCategory = entityManager.find(ProductCategory.class, id);
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get activity by Id error: " + e.getMessage());
+            log.error("Get productCategory by Id error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return Optional.of(activity);
+        return Optional.of(productCategory);
     }
 
     @Override
-    public List<Activity> getAll() {
-        List<Activity> allActivities = new LinkedList<>();
+    public List<ProductCategory> getAll() {
+        List<ProductCategory> AllProductCategory = new LinkedList<>();
         try
         {
             entityManager.getTransaction().begin();
-            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
+            AllProductCategory.addAll(entityManager.createQuery("SELECT t FROM ProductCategory t", ProductCategory.class).getResultList());
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get all activities error: " + e.getMessage());
+            log.error("Get all product categories error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return allActivities;
+        return AllProductCategory;
     }
 }
 

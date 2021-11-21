@@ -1,6 +1,6 @@
 package com.the.hugging.team.repositories;
 
-import com.the.hugging.team.entities.Activity;
+import com.the.hugging.team.entities.Permission;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,19 +12,19 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-public class ActivityRepository implements ObjectRepository<Activity> {
+public class PermissionRepository implements ObjectRepository<Permission> {
 
-    private final static Logger log = LogManager.getLogger(ClientRepository.class);
-    private static final ClientRepository INSTANCE = new ClientRepository();
+    private final static Logger log = LogManager.getLogger(PermissionRepository.class);
+    private static final PermissionRepository INSTANCE = new PermissionRepository();
     private EntityManager entityManager = Connection.getEntityManager();
 
-    public static ClientRepository getInstance()
+    public static PermissionRepository getInstance()
     {
         return INSTANCE;
     }
 
     @Override
-    public void save(Activity obj)
+    public void save(Permission obj)
     {
         try
         {
@@ -35,7 +35,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity save error: " + e.getMessage());
+            log.error("Permission save error: " + e.getMessage());
         }
         finally
         {
@@ -44,7 +44,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void update(Activity obj) {
+    public void update(Permission obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -54,7 +54,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity update error: " + e.getMessage());
+            log.error("Permission update error: " + e.getMessage());
         }
         finally
         {
@@ -63,7 +63,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void delete(Activity obj) {
+    public void delete(Permission obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -74,7 +74,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity delete error: " + e.getMessage());
+            log.error("Permission delete error: " + e.getMessage());
         }
         finally
         {
@@ -83,45 +83,45 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public Optional<Activity> getById(int id) {
-        Activity activity = null;
+    public Optional<Permission> getById(int id) {
+        Permission permission = null;
         try
         {
             entityManager.getTransaction().begin();
-            activity = entityManager.find(Activity.class, id);
+            permission = entityManager.find(Permission.class, id);
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get activity by Id error: " + e.getMessage());
+            log.error("Get permission by Id error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return Optional.of(activity);
+        return Optional.of(permission);
     }
 
     @Override
-    public List<Activity> getAll() {
-        List<Activity> allActivities = new LinkedList<>();
+    public List<Permission> getAll() {
+        List<Permission> allPermissions = new LinkedList<>();
         try
         {
             entityManager.getTransaction().begin();
-            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
+            allPermissions.addAll(entityManager.createQuery("SELECT t FROM Permission t", Permission.class).getResultList());
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get all activities error: " + e.getMessage());
+            log.error("Get all permissions error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return allActivities;
+        return allPermissions;
     }
 }
 

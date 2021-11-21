@@ -127,6 +127,7 @@ public class UserRepository implements ObjectRepository<User> {
 
     public User getByUsername(String username)
     {
+        entityManager = Connection.getEntityManager();
         User authUser = null;
         String query = "SELECT t FROM User t WHERE t.username = :Username";
         TypedQuery<User> typedQuery = entityManager.createQuery(query, User.class);

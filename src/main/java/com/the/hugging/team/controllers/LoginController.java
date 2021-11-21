@@ -1,6 +1,5 @@
 package com.the.hugging.team.controllers;
 
-import java.util.List;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.UserService;
 import com.the.hugging.team.utils.Session;
@@ -14,15 +13,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 
 public class LoginController extends WindowHandler {
 
     Session session = Session.getInstance();
     private UserService userService = UserService.getInstance();
-    private String errorMessage = "Invalid user data";
-    private Label errorLabel = new Label(errorMessage);
+    private String invalidDataMessage = "Invalid username or password";
+    private Label invalidDataLabel = new Label(invalidDataMessage);
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -49,6 +47,7 @@ public class LoginController extends WindowHandler {
 
     public void login(ActionEvent event) {
         User authUser = userService.getAuthUser(usernamefield.getText(), passwordfield.getText());
+
         if (authUser != null)
         {
             session.setUser(authUser);
@@ -58,10 +57,10 @@ public class LoginController extends WindowHandler {
         }
         else
         {
-            //errorLabel.setLayoutX(100);
-            //errorLabel.setLayoutY(100);
-            //errorLabel.setTextFill(Color.RED);
-            //formpane.getChildren().add(errorLabel);
+            formpane.getChildren().add(invalidDataLabel);
+            invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
+            invalidDataLabel.setLayoutX(150);
+            invalidDataLabel.setLayoutY(150);
         }
     }
 }

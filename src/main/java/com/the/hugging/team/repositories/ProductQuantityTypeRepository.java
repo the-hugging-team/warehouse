@@ -1,6 +1,6 @@
 package com.the.hugging.team.repositories;
 
-import com.the.hugging.team.entities.Activity;
+import com.the.hugging.team.entities.ProductQuantityType;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,22 +9,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-
 import javax.persistence.EntityManager;
 
-public class ActivityRepository implements ObjectRepository<Activity> {
+public class ProductQuantityTypeRepository implements ObjectRepository<ProductQuantityType> {
 
-    private final static Logger log = LogManager.getLogger(ClientRepository.class);
-    private static final ClientRepository INSTANCE = new ClientRepository();
+    private final static Logger log = LogManager.getLogger(ProductQuantityTypeRepository.class);
+    private static final ProductQuantityTypeRepository INSTANCE = new ProductQuantityTypeRepository();
     private EntityManager entityManager = Connection.getEntityManager();
 
-    public static ClientRepository getInstance()
+    public static ProductQuantityTypeRepository getInstance()
     {
         return INSTANCE;
     }
 
     @Override
-    public void save(Activity obj)
+    public void save(ProductQuantityType obj)
     {
         try
         {
@@ -35,7 +34,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity save error: " + e.getMessage());
+            log.error("Product quantity type save error: " + e.getMessage());
         }
         finally
         {
@@ -44,7 +43,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void update(Activity obj) {
+    public void update(ProductQuantityType obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -54,7 +53,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity update error: " + e.getMessage());
+            log.error("Product quantity type update error: " + e.getMessage());
         }
         finally
         {
@@ -63,7 +62,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public void delete(Activity obj) {
+    public void delete(ProductQuantityType obj) {
         try
         {
             entityManager.getTransaction().begin();
@@ -74,7 +73,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activity delete error: " + e.getMessage());
+            log.error("Product quantity type delete error: " + e.getMessage());
         }
         finally
         {
@@ -83,45 +82,45 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     @Override
-    public Optional<Activity> getById(int id) {
-        Activity activity = null;
+    public Optional<ProductQuantityType> getById(int id) {
+        ProductQuantityType productQuantityType = null;
         try
         {
             entityManager.getTransaction().begin();
-            activity = entityManager.find(Activity.class, id);
+            productQuantityType = entityManager.find(ProductQuantityType.class, id);
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get activity by Id error: " + e.getMessage());
+            log.error("Get productQuantityType by Id error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return Optional.of(activity);
+        return Optional.of(productQuantityType);
     }
 
     @Override
-    public List<Activity> getAll() {
-        List<Activity> allActivities = new LinkedList<>();
+    public List<ProductQuantityType> getAll() {
+        List<ProductQuantityType> allProductQuantityTypes = new LinkedList<>();
         try
         {
             entityManager.getTransaction().begin();
-            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
+            allProductQuantityTypes.addAll(entityManager.createQuery("SELECT t FROM ProductQuantityType t", ProductQuantityType.class).getResultList());
             entityManager.getTransaction().commit();
         }
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Get all activities error: " + e.getMessage());
+            log.error("Get all product quantity types error: " + e.getMessage());
         }
         finally
         {
             entityManager.close();
         }
-        return allActivities;
+        return allProductQuantityTypes;
     }
 }
 
