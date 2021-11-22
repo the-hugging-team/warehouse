@@ -26,6 +26,8 @@ public class UserService {
 
     private boolean checkPassword(User user, String password)
     {
+        //to be changed in when we have hashed passwords in the db
+        //return Hash.check(password, user.getPassword());
         return user.getPassword().equals(password);
     }
 

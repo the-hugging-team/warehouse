@@ -14,11 +14,11 @@ import javax.persistence.EntityManager;
 
 public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
 
-    private final static Logger log = LogManager.getLogger(ClientRepository.class);
-    private static final ClientRepository INSTANCE = new ClientRepository();
+    private final static Logger log = LogManager.getLogger(ActivityTypeRepository.class);
+    private static final ActivityTypeRepository INSTANCE = new ActivityTypeRepository();
     private EntityManager entityManager = Connection.getEntityManager();
 
-    public static ClientRepository getInstance()
+    public static ActivityTypeRepository getInstance()
     {
         return INSTANCE;
     }
@@ -54,7 +54,7 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
         catch (Exception e)
         {
             entityManager.getTransaction().rollback();
-            log.error("Activty type update error: " + e.getMessage());
+            log.error("Activity type update error: " + e.getMessage());
         }
         finally
         {
