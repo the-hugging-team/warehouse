@@ -3,6 +3,7 @@ package com.the.hugging.team.controllers;
 import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.Session;
+import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -89,6 +90,9 @@ public class DashboardTemplate extends WindowHandler {
             menu.getChildren().add(productsIndex + 2, sell);
             menu.getChildren().add(productsIndex + 3, delivery);
         }
+
+        Window home = new Window("views/dashboard/test-template-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
     }
 
     public void reportsClick(ActionEvent e) {
