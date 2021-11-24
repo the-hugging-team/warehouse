@@ -126,5 +126,9 @@ public class DashboardTemplate extends WindowHandler {
 
     public void logout(ActionEvent e) {
         session.cleanSession();
+
+        Window loginWindow = new Window("views/login/login.fxml");
+        loginWindow.setAsNextStage(e);
+        loginWindow.showStage();
     }
 }

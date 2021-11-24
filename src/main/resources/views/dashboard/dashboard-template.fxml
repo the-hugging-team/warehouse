@@ -137,7 +137,7 @@
          </HBox>
      </VBox>
     <HBox layoutY="560.0" prefHeight="60.0" prefWidth="200.0" styleClass="menu2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="menu2-button">
+        <Button mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="50.0" styleClass="menu2-button">
            <HBox.margin>
                <Insets left="5.0" top="5.0" />
            </HBox.margin>
