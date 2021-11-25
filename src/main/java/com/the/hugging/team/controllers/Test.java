@@ -1,6 +1,7 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.utils.TableResizer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +15,7 @@ import javafx.scene.control.TextField;
 public class Test extends DashboardTemplate {
 
     @FXML
-    private TableView<User> table;
+    private TableView<Object> table;
 
     @FXML
     private TableColumn<User, String> firstName;
@@ -65,10 +66,11 @@ public class Test extends DashboardTemplate {
         sex.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSex() == 1 ? "Male" : "Female"));
 
         table.getItems().setAll(filteredList);
+        TableResizer.setResizer(table);
     }
 
     public void edit(ActionEvent e) {
-        User user = table.getSelectionModel().getSelectedItem();
+        User user = (User)table.getSelectionModel().getSelectedItem();
 
         System.out.println(user);
     }

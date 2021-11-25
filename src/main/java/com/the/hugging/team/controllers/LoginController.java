@@ -40,9 +40,9 @@ public class LoginController extends WindowHandler {
     @FXML
     private void initialize() {
         anchor.widthProperty().addListener(
-                (observableValue, oldSceneWidth, newSceneWidth) -> formpane.setLayoutX((newSceneWidth.doubleValue() / 2) - (backgroundpane.getPrefWidth() / 2)));
+                (observableValue, oldAnchorWidth, newAnchorWidth) -> formpane.setLayoutX((newAnchorWidth.doubleValue() / 2) - (backgroundpane.getPrefWidth() / 2)));
         anchor.heightProperty().addListener(
-                (observableValue, oldSceneHeight, newSceneHeight) -> formpane.setLayoutY((newSceneHeight.doubleValue() / 2) - (backgroundpane.getPrefHeight() / 2)));
+                (observableValue, oldAnchorHeight, newAnchorHeight) -> formpane.setLayoutY((newAnchorHeight.doubleValue() / 2) - (backgroundpane.getPrefHeight() / 2)));
     }
 
     public void login(ActionEvent event) {

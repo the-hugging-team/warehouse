@@ -154,7 +154,7 @@
            </graphic>
         </Button>
     </HBox>
-    <AnchorPane fx:id="workspace" layoutX="200.0" prefHeight="590.0" prefWidth="950.0" style="-fx-background-color: #e5e5e5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane fx:id="workspace" layoutX="200.0" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #e5e5e5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <HBox alignment="CENTER" layoutY="-30.0" prefHeight="230.0" prefWidth="950.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
             <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
                 <xAxis>

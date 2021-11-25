@@ -140,3 +140,7 @@ Light Blue - #8ecae6
 }
 
 /*    Dropdown buttons end    */
+
+.crud-button {
+    -fx-background-color: #73bfdc;
+}
