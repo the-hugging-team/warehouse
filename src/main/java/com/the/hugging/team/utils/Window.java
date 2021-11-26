@@ -24,42 +24,34 @@ public class Window {
     private Stage stage;
     private Scene scene;
 
-    public Window(String fxmlPath)
-    {
-        try
-        {
+    public Window(String fxmlPath) {
+        try {
             fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource(fxmlPath)));
             root = fxmlLoader.load();
             WindowHandler wh = fxmlLoader.getController();
             if (wh != null) wh.setWindow(this);
             scene = new Scene(root);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setAsDefaultStage()
-    {
+    public void setAsDefaultStage() {
         stage = new Stage();
         stage.getIcons().add(new Image(CELLABLUE_PATH));
         stage.setTitle(DEFAULT_WIN_CAPTION);
     }
 
-    public void setAsNextStage(ActionEvent event)
-    {
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    public void setAsNextStage(ActionEvent event) {
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     }
 
-    public void setAsAnchorPane(AnchorPane parent, Window window)
-    {
+    public void setAsAnchorPane(AnchorPane parent, Window window) {
         window.fxmlLoader.setController(this.fxmlLoader.getController());
         parent.getChildren().setAll(root.getChildrenUnmodifiable());
     }
 
-    public void showStage()
-    {
+    public void showStage() {
         stage.setMinWidth(DEFAULT_WIN_WIDTH);
         stage.setMinHeight(DEFAULT_WIN_HEIGHT);
         stage.setScene(scene);

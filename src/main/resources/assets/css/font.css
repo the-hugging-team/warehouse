@@ -6,32 +6,32 @@
     src: url("../font/OpenSans-Italic.ttf");
 }
 
-.font-italic{
+.font-italic {
     -fx-font-style: italic;
 }
 
-.font-light{
+.font-light {
     -fx-font-family: 'Open Sans Light';
     -fx-font-weight: 300;
 }
 
-.font-regular{
+.font-regular {
     -fx-font-family: 'Open Sans';
     -fx-font-weight: 400;
 }
 
-.font-semi-bold{
+.font-semi-bold {
     -fx-font-family: 'Open Sans SemiBold';
     -fx-font-weight: 600;
 }
 
-.font-bold{
+.font-bold {
     -fx-font-family: 'Open Sans';
     -fx-font-weight: 700;
     -fx-font-style: normal;
 }
 
-.font-extra-bold{
+.font-extra-bold {
     -fx-font-family: 'Open Sans ExtraBold';
     -fx-font-weight: 800;
 }

@@ -8,7 +8,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Room  implements Serializable {
+public class Room implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,7 +26,7 @@ public class Room  implements Serializable {
     @Column(name = "name", nullable = false, length = 45)
     private String name;
 
-    @OneToMany(mappedBy="room")
+    @OneToMany(mappedBy = "room")
     @ToString.Exclude
     private Set<Shelf> shelves;
 

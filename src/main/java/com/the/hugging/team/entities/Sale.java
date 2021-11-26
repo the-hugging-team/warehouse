@@ -49,8 +49,8 @@ public class Sale {
     @ManyToMany
     @JoinTable(
             name = "sales_has_products",
-            joinColumns = { @JoinColumn(name = "sale_id") },
-            inverseJoinColumns = { @JoinColumn(name = "product_id") }
+            joinColumns = {@JoinColumn(name = "sale_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id")}
     )
     @ToString.Exclude
     private Set<Product> products = new HashSet<>();

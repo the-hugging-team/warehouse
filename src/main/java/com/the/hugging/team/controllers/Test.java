@@ -70,7 +70,7 @@ public class Test extends DashboardTemplate {
     }
 
     public void edit(ActionEvent e) {
-        User user = (User)table.getSelectionModel().getSelectedItem();
+        User user = (User) table.getSelectionModel().getSelectedItem();
 
         System.out.println(user);
     }

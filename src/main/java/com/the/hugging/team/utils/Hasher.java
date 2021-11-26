@@ -3,7 +3,7 @@ package com.the.hugging.team.utils;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Hasher {
-    public static String hash(String text){
+    public static String hash(String text) {
         return BCrypt.hashpw(text, BCrypt.gensalt());
     }
 

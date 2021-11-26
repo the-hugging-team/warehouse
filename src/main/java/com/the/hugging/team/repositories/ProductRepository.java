@@ -5,100 +5,71 @@ import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.persistence.EntityManager;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-
-import javax.persistence.EntityManager;
-
 public class ProductRepository implements ObjectRepository<Product> {
 
-    private final static Logger log = LogManager.getLogger(ProductCategoryRepository.class);
-    private static final ProductCategoryRepository INSTANCE = new ProductCategoryRepository();
-    private EntityManager entityManager = Connection.getEntityManager();
+    private final static Logger log = LogManager.getLogger(ProductRepository.class);
+    private static ProductRepository INSTANCE = null;
+    private final EntityManager entityManager = Connection.getEntityManager();
 
-    public static ProductCategoryRepository getInstance()
-    {
+    public static ProductRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ProductRepository();
+        }
         return INSTANCE;
     }
 
     @Override
-    public void save(Product obj)
-    {
-        try
-        {
+    public void save(Product obj) {
+        try {
             entityManager.getTransaction().begin();
             entityManager.persist(obj);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.error("Product save error: " + e.getMessage());
-        }
-        finally
-        {
-            entityManager.close();
         }
     }
 
     @Override
     public void update(Product obj) {
-        try
-        {
+        try {
             entityManager.getTransaction().begin();
             entityManager.merge(obj);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.error("Product update error: " + e.getMessage());
-        }
-        finally
-        {
-            entityManager.close();
         }
     }
 
     @Override
     public void delete(Product obj) {
-        try
-        {
+        try {
             entityManager.getTransaction().begin();
             obj = entityManager.merge(obj);
             entityManager.remove(obj);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.error("Product delete error: " + e.getMessage());
-        }
-        finally
-        {
-            entityManager.close();
         }
     }
 
     @Override
     public Optional<Product> getById(int id) {
         Product product = null;
-        try
-        {
+        try {
             entityManager.getTransaction().begin();
             product = entityManager.find(Product.class, id);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.error("Get product by Id error: " + e.getMessage());
-        }
-        finally
-        {
-            entityManager.close();
         }
         return Optional.of(product);
     }
@@ -106,20 +77,13 @@ public class ProductRepository implements ObjectRepository<Product> {
     @Override
     public List<Product> getAll() {
         List<Product> AllProducts = new LinkedList<>();
-        try
-        {
+        try {
             entityManager.getTransaction().begin();
             AllProducts.addAll(entityManager.createQuery("SELECT t FROM Product t", Product.class).getResultList());
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.error("Get all products error: " + e.getMessage());
-        }
-        finally
-        {
-            entityManager.close();
         }
         return AllProducts;
     }

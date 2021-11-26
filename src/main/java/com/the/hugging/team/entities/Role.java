@@ -37,8 +37,8 @@ public class Role implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "role_has_permissions",
-            joinColumns = { @JoinColumn(name = "role_id") },
-            inverseJoinColumns = { @JoinColumn(name = "permission_id") }
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "permission_id")}
     )
     @ToString.Exclude
     private Set<Permission> permissions = new HashSet<>();

@@ -4,13 +4,11 @@ public abstract class WindowHandler {
 
     private Window currentWindow;
 
-    public Window getWindow()
-    {
+    public Window getWindow() {
         return this.currentWindow;
     }
 
-    public void setWindow(Window win)
-    {
+    public void setWindow(Window win) {
         this.currentWindow = win;
     }
 }

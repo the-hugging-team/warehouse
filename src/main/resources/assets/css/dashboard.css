@@ -38,7 +38,7 @@ Light Blue - #8ecae6
     -fx-font-family: "Open Sans SemiBold";
 }
 
-.menu-button:hover .menu-icon{
+.menu-button:hover .menu-icon {
     -fx-fill: WHITE;
 }
 
@@ -46,19 +46,19 @@ Light Blue - #8ecae6
     -fx-background-color: #ffb703;
 }
 
-.menu2{
+.menu2 {
     -fx-background-color: #8ecae6;
 }
 
-.menu2-button{
+.menu2-button {
     -fx-background-color: #8ecae6;
 }
 
-.menu2-button:hover{
+.menu2-button:hover {
     -fx-background-color: #219ebc;
 }
 
-.menu2-button:hover .menu-icon{
+.menu2-button:hover .menu-icon {
     -fx-fill: WHITE;
 }
 
@@ -102,7 +102,7 @@ Light Blue - #8ecae6
     -fx-text-fill: WHITE;
 }
 
-.menu-button-dropdown-container:hover .menu-button-dropdown .menu-icon{
+.menu-button-dropdown-container:hover .menu-button-dropdown .menu-icon {
     -fx-fill: WHITE;
 }
 
@@ -135,7 +135,7 @@ Light Blue - #8ecae6
     -fx-text-fill: WHITE;
 }
 
-.menu-button-dropdown-active .menu-button-dropdown .menu-icon{
+.menu-button-dropdown-active .menu-button-dropdown .menu-icon {
     -fx-fill: WHITE;
 }
 

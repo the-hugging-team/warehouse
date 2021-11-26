@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 
 public class DashboardTemplate extends WindowHandler {
 
-    private Session session = Session.getInstance();
+    private final Session session = Session.getInstance();
     private final User user = session.getUser();
 
     @FXML
@@ -50,9 +50,9 @@ public class DashboardTemplate extends WindowHandler {
             ((Label) profile.lookup("#userNames")).setText(user.getFirstName() + " " + user.getLastName());
             ((Label) profile.lookup("#role")).setText(user.getRole().getName());
 
-            if(!user.getRole().getSlug().equals(Role.ROLE_ADMIN)) {
+            if (!user.getRole().getSlug().equals(Role.ROLE_ADMIN)) {
                 int usersButtonIndex = menu.getChildren().indexOf(usersButton);
-                menu.getChildren().remove(usersButtonIndex, usersButtonIndex+1);
+                menu.getChildren().remove(usersButtonIndex, usersButtonIndex + 1);
             }
         } else {
             ((Label) profile.lookup("#userNames")).setText("");
