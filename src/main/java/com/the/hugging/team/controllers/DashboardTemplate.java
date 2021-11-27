@@ -9,9 +9,11 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -30,16 +32,31 @@ public class DashboardTemplate extends WindowHandler {
     private VBox menu;
 
     @FXML
+    private Button homeButton;
+
+    @FXML
     private Button usersButton;
 
     @FXML
-    private Button products;
+    private Button clientsButton;
+
+    @FXML
+    private Button suppliersButton;
+
+    @FXML
+    private Button cashRegistersButton;
+
+    @FXML
+    private Button storageButton;
+
+    @FXML
+    private Button productsButton;
 
     @FXML
     private Button productsArrow;
 
     @FXML
-    private Button reports;
+    private Button reportsButton;
 
     @FXML
     private Button reportsArrow;
@@ -60,22 +77,37 @@ public class DashboardTemplate extends WindowHandler {
         }
     }
 
-    public void productsClick(ActionEvent e) {
-        boolean isActive = products.getParent().getStyleClass().contains("menu-button-dropdown-active");
+    @FXML
+    public void homeClick(ActionEvent event) {
+        selectButton(homeButton);
 
-        int productsIndex = menu.getChildren().indexOf(products.getParent());
+        Window homeWindow = new Window("views/dashboard/home.fxml");
+        homeWindow.setAsAnchorPane(workspace, this.getWindow());
+    }
+
+    @FXML
+    public void usersClick(ActionEvent event) {
+        selectButton(usersButton);
+
+        Window usersWindow = new Window("views/users/index.fxml");
+        usersWindow.setAsAnchorPane(workspace, this.getWindow());
+    }
+
+    @FXML
+    public void productsClick(ActionEvent e) {
+        boolean isActive = productsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
+
+        int productsIndex = menu.getChildren().indexOf(productsButton.getParent());
 
         if (isActive) {
-            products.getParent().getStyleClass().remove("menu-button-dropdown-active");
+            productsButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
             ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
             menu.getChildren().remove(productsIndex + 1, productsIndex + 4);
         } else {
-            if (reports.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
-                reportsClick(e);
-                productsIndex = menu.getChildren().indexOf(products.getParent());
-            }
+            selectButton(productsButton);
+            productsIndex = menu.getChildren().indexOf(productsButton.getParent());
 
-            products.getParent().getStyleClass().add("menu-button-dropdown-active");
+            productsButton.getParent().getStyleClass().add("menu-button-dropdown-active");
             ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
 
             Button stock = new Button("Stock");
@@ -95,22 +127,21 @@ public class DashboardTemplate extends WindowHandler {
         home.setAsAnchorPane(workspace, this.getWindow());
     }
 
+    @FXML
     public void reportsClick(ActionEvent e) {
-        boolean isActive = reports.getParent().getStyleClass().contains("menu-button-dropdown-active");
+        boolean isActive = reportsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
-        int reportsIndex = menu.getChildren().indexOf(reports.getParent());
+        int reportsIndex = menu.getChildren().indexOf(reportsButton.getParent());
 
         if (isActive) {
-            reports.getParent().getStyleClass().remove("menu-button-dropdown-active");
+            reportsButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
             ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
             menu.getChildren().remove(reportsIndex + 1, reportsIndex + 3);
         } else {
-            if (products.getParent().getStyleClass().contains("menu-button-dropdown-active")) {
-                productsClick(e);
-                reportsIndex = menu.getChildren().indexOf(reports.getParent());
-            }
+            selectButton(reportsButton);
+            reportsIndex = menu.getChildren().indexOf(reportsButton.getParent());
 
-            reports.getParent().getStyleClass().add("menu-button-dropdown-active");
+            reportsButton.getParent().getStyleClass().add("menu-button-dropdown-active");
             ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
 
             Button money = new Button("Money");
@@ -130,5 +161,34 @@ public class DashboardTemplate extends WindowHandler {
         Window loginWindow = new Window("views/login/login.fxml");
         loginWindow.setAsNextStage(e);
         loginWindow.showStage();
+    }
+
+    private void selectButton(Button button) {
+        for (Node node : menu.getChildren()) {
+            if (node instanceof Button) {
+                node.getStyleClass().remove("menu-button-active");
+            }
+
+            if (node instanceof HBox) {
+                HBox dropdown = (HBox) node;
+                if (dropdown.getStyleClass().contains("menu-button-dropdown-active")) {
+                    for (Node dropdownNode : dropdown.getChildren()) {
+                        if (dropdownNode instanceof Button) {
+                            if (dropdownNode == productsButton) {
+                                productsClick(null);
+                            } else if (dropdownNode == reportsButton) {
+                                reportsClick(null);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (button == productsButton || button == reportsButton) {
+            button.getParent().getStyleClass().add("menu-button-dropdown-active");
+        } else {
+            button.getStyleClass().add("menu-button-active");
+        }
     }
 }

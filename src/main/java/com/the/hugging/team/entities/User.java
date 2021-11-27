@@ -9,6 +9,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 @Table(name = "users", indexes = {
@@ -47,8 +48,16 @@ public class User implements Serializable {
     @Column(name = "sex", nullable = false)
     private Integer sex;
 
+    public String getSexFormatted(){
+        return this.sex == 1 ? "Male" : "Female";
+    }
+
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+
+    public String getCreatedAtFormatted() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(createdAt);
+    }
 
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
