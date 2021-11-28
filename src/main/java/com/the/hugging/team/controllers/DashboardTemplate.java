@@ -60,6 +60,11 @@ public class DashboardTemplate extends WindowHandler {
         }
     }
 
+    public void clientsClick(ActionEvent e) {
+        Window home = new Window("views/dashboard/cruds/clients-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
+    }
+
     public void productsClick(ActionEvent e) {
         boolean isActive = products.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
