@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 public class DashboardTemplate extends WindowHandler {
 
     private final Session session = Session.getInstance();
-    private final User user = session.getUser();
+    protected final User user = session.getUser();
 
     @FXML
     private AnchorPane workspace;
@@ -45,19 +45,29 @@ public class DashboardTemplate extends WindowHandler {
     private Button reportsArrow;
 
     @FXML
+    private Button clientsButton;
+
+    @FXML
     public void initialize() {
         if (user != null) {
             ((Label) profile.lookup("#userNames")).setText(user.getFirstName() + " " + user.getLastName());
             ((Label) profile.lookup("#role")).setText(user.getRole().getName());
 
             if (!user.getRole().getSlug().equals(Role.ROLE_ADMIN)) {
-                int usersButtonIndex = menu.getChildren().indexOf(usersButton);
-                menu.getChildren().remove(usersButtonIndex, usersButtonIndex + 1);
+                menu.getChildren().remove(usersButton);
+            }
+            if (!user.can("permissions.clients.index")) {
+                menu.getChildren().remove(clientsButton);
             }
         } else {
             ((Label) profile.lookup("#userNames")).setText("");
             ((Label) profile.lookup("#role")).setText("");
         }
+    }
+
+    public void clientsClick(ActionEvent e) {
+        Window home = new Window("views/dashboard/cruds/clients-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
     }
 
     public void productsClick(ActionEvent e) {
