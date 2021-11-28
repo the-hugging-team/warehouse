@@ -14,14 +14,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
-public class ClientsCRUDController extends DashboardTemplate {
+public class ClientController extends DashboardTemplate {
 
     private final ClientService clientService = ClientService.getInstance();
     @FXML
@@ -32,6 +30,14 @@ public class ClientsCRUDController extends DashboardTemplate {
     private TableColumn<Client, String> id;
     @FXML
     private TextField searchField;
+    @FXML
+    private VBox sideBox;
+    @FXML
+    private Button createButton;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button deleteButton;
 
     private ObservableList<Client> data;
     private FilteredList<Client> filteredList;
@@ -60,7 +66,7 @@ public class ClientsCRUDController extends DashboardTemplate {
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setCustomColumns(table, new ArrayList<>(Arrays.asList(0)), new ArrayList<>(Arrays.asList(100)));
+        TableResizer.setCustomColumns(table, new ArrayList<>(List.of(0)), new ArrayList<>(List.of(100)));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() == 0) {
@@ -68,6 +74,17 @@ public class ClientsCRUDController extends DashboardTemplate {
                 table.getItems().setAll(filteredList);
             }
         });
+
+        if (!user.can("permissions.clients.create")) {
+            sideBox.getChildren().remove(createButton);
+        }
+        if (!user.can("permissions.clients.edit")) {
+            sideBox.getChildren().remove(editButton);
+        }
+        if (!user.can("permissions.clients.delete")) {
+            sideBox.getChildren().remove(deleteButton);
+        }
+
     }
 
     public void search(ActionEvent e) {
@@ -99,7 +116,7 @@ public class ClientsCRUDController extends DashboardTemplate {
         TextInputDialog dialog = new TextInputDialog(Objects.requireNonNull(client).getName());
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setTitle("Edit Client");
-        dialog.setHeaderText("Change client data");
+        dialog.setHeaderText(null);
         dialog.setContentText("Enter the new name:");
 
         Optional<String> result = dialog.showAndWait();

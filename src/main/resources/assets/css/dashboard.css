@@ -142,12 +142,10 @@ Light Blue - #8ecae6
 /*    Dropdown buttons end    */
 
 .crud-button {
-    -fx-font-family: "Open Sans";
     -fx-background-color: WHITE;
     -fx-background-radius: 10;
 }
 
 .crud-search-button {
-    -fx-font-family: "Open Sans";
     -fx-background-radius: 10;
 }
