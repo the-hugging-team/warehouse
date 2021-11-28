@@ -2,6 +2,7 @@ package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.utils.ICallsBack;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
@@ -17,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class DashboardTemplate extends WindowHandler {
+public class DashboardTemplate extends WindowHandler implements ICallsBack {
 
     private final Session session = Session.getInstance();
     private final User user = session.getUser();
@@ -163,6 +164,8 @@ public class DashboardTemplate extends WindowHandler {
         loginWindow.showStage();
     }
 
+//    ----------Utility Methods----------
+
     private void selectButton(Button button) {
         for (Node node : menu.getChildren()) {
             if (node instanceof Button) {
@@ -190,5 +193,10 @@ public class DashboardTemplate extends WindowHandler {
         } else {
             button.getStyleClass().add("menu-button-active");
         }
+    }
+
+    @Override
+    public void callBack(Object... objects) {
+        homeClick(null);
     }
 }

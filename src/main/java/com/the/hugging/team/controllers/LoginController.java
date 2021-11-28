@@ -17,10 +17,10 @@ import javafx.scene.layout.Pane;
 
 public class LoginController extends WindowHandler {
 
-    Session session = Session.getInstance();
     private final UserService userService = UserService.getInstance();
     private final String invalidDataMessage = "Invalid username or password";
     private final Label invalidDataLabel = new Label(invalidDataMessage);
+    Session session = Session.getInstance();
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -50,14 +50,16 @@ public class LoginController extends WindowHandler {
 
         if (authUser != null) {
             session.setUser(authUser);
-            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml");
+            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml", (Object[]) null);
             dashboardWindow.setAsNextStage(event);
             dashboardWindow.showStage();
         } else {
-            formpane.getChildren().add(invalidDataLabel);
-            invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
-            invalidDataLabel.setLayoutX(150);
-            invalidDataLabel.setLayoutY(150);
+            if(!formpane.getChildren().contains(invalidDataLabel)) {
+                formpane.getChildren().add(invalidDataLabel);
+                invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
+                invalidDataLabel.setLayoutX(150);
+                invalidDataLabel.setLayoutY(150);
+            }
         }
     }
 }

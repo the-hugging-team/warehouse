@@ -31,7 +31,7 @@ Light Blue - #8ecae6
 
 .menu-button:hover {
     -fx-background-color: #219ebc;
-    -fx-padding: 0 0 0 15;
+    -fx-padding: 0 0 0 20;
     -fx-border-color: #ffb703;
     -fx-border-width: 0px 5px 0px 0px;
     -fx-text-fill: WHITE;
@@ -44,6 +44,16 @@ Light Blue - #8ecae6
 
 .menu-button-active {
     -fx-background-color: #ffb703;
+    -fx-text-fill: WHITE;
+}
+
+.menu-button-active .menu-icon {
+    -fx-fill: WHITE;
+}
+
+.menu-button-active:hover {
+    -fx-background-color: #ffb703;
+    -fx-padding: 0 0 0 20;
 }
 
 .menu2 {
