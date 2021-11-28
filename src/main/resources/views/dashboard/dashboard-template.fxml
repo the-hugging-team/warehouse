@@ -51,8 +51,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button fx:id="clientsButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0"
-                prefWidth="200.0" text="Clients">
+        <Button fx:id="clientsButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#clientsClick"
+                prefHeight="25.0" prefWidth="200.0" text="Clients">
             <font>
                 <Font name="Open Sans ExtraBold" size="18.0"/>
             </font>

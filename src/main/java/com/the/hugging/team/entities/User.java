@@ -10,7 +10,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Table(name = "users", indexes = {
         @Index(name = "fk_role_id_idx", columnList = "role_id"),
@@ -81,5 +83,17 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, firstName, lastName, role, sex, createdAt, updatedAt, createdBy, updatedBy);
+    }
+
+    public boolean can(String permission) {
+        Set<Permission> rolePermissions = role.getPermissions();
+
+        return rolePermissions.stream().map(Permission::getSlug).toList().contains(permission);
+    }
+
+    public boolean can(List<String> permissions) {
+        Set<Permission> rolePermissions = role.getPermissions();
+
+        return rolePermissions.stream().map(Permission::getSlug).toList().containsAll(permissions);
     }
 }

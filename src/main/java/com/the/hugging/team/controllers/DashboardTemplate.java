@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 public class DashboardTemplate extends WindowHandler implements ICallsBack {
 
     private final Session session = Session.getInstance();
-    private final User user = session.getUser();
+    protected final User user = session.getUser();
 
     @FXML
     private AnchorPane workspace;
@@ -69,8 +69,10 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
             ((Label) profile.lookup("#role")).setText(user.getRole().getName());
 
             if (!user.getRole().getSlug().equals(Role.ROLE_ADMIN)) {
-                int usersButtonIndex = menu.getChildren().indexOf(usersButton);
-                menu.getChildren().remove(usersButtonIndex, usersButtonIndex + 1);
+                menu.getChildren().remove(usersButton);
+            }
+            if (!user.can("permissions.clients.index")) {
+                menu.getChildren().remove(clientsButton);
             }
         } else {
             ((Label) profile.lookup("#userNames")).setText("");
@@ -95,6 +97,11 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
     }
 
     @FXML
+    public void clientsClick(ActionEvent e) {
+        Window home = new Window("views/dashboard/cruds/clients-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
+    }
+
     public void productsClick(ActionEvent e) {
         boolean isActive = productsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
 

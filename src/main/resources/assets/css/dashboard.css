@@ -152,5 +152,10 @@ Light Blue - #8ecae6
 /*    Dropdown buttons end    */
 
 .crud-button {
-    -fx-background-color: #73bfdc;
+    -fx-background-color: WHITE;
+    -fx-background-radius: 10;
+}
+
+.crud-search-button {
+    -fx-background-radius: 10;
 }
