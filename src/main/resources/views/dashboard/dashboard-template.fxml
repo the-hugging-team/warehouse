@@ -64,7 +64,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="283.0" text="Suppliers">
+        <Button fx:id="suppliersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#suppliersClick"
+                prefHeight="25.0" prefWidth="283.0" text="Suppliers">
             <font>
                 <Font size="18.0"/>
             </font>

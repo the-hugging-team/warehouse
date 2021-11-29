@@ -1,9 +1,9 @@
 package com.the.hugging.team.controllers.CRUDControllers;
 
 import com.the.hugging.team.controllers.DashboardTemplate;
-import com.the.hugging.team.entities.Client;
-import com.the.hugging.team.repositories.ClientRepository;
-import com.the.hugging.team.services.ClientService;
+import com.the.hugging.team.entities.Supplier;
+import com.the.hugging.team.repositories.SupplierRepository;
+import com.the.hugging.team.services.SupplierService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import com.the.hugging.team.utils.Window;
@@ -21,15 +21,15 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientController extends DashboardTemplate {
+public class SupplierController extends DashboardTemplate {
 
-    private final ClientService clientService = ClientService.getInstance();
+    private final SupplierService supplierService = SupplierService.getInstance();
     @FXML
     private TableView<Object> table;
     @FXML
-    private TableColumn<Client, String> name;
+    private TableColumn<Supplier, String> name;
     @FXML
-    private TableColumn<Client, String> id;
+    private TableColumn<Supplier, String> id;
     @FXML
     private TextField searchField;
     @FXML
@@ -41,26 +41,26 @@ public class ClientController extends DashboardTemplate {
     @FXML
     private Button deleteButton;
 
-    private ObservableList<Client> data;
-    private FilteredList<Client> filteredList;
+    private ObservableList<Supplier> data;
+    private FilteredList<Supplier> filteredList;
 
-    private Client getSelected() {
-        Client client = (Client) table.getSelectionModel().getSelectedItem();
-        if (client == null) {
+    private Supplier getSelected() {
+        Supplier supplier = (Supplier) table.getSelectionModel().getSelectedItem();
+        if (supplier == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
             alert.setTitle("Warning: Client not selected");
             alert.setHeaderText(null);
-            alert.setContentText("Please select a client!");
+            alert.setContentText("Please select a supplier!");
 
             alert.showAndWait();
         }
 
-        return client;
+        return supplier;
     }
 
     public void initialize() {
-        data = FXCollections.observableArrayList(ClientRepository.getInstance().getAll());
+        data = FXCollections.observableArrayList(SupplierRepository.getInstance().getAll());
 
         filteredList = new FilteredList<>(data, p -> true);
 
@@ -77,13 +77,13 @@ public class ClientController extends DashboardTemplate {
             }
         });
 
-        if (!user.can("permissions.clients.create")) {
+        if (!user.can("permissions.suppliers.create")) {
             sideBox.getChildren().remove(createButton);
         }
-        if (!user.can("permissions.clients.edit")) {
+        if (!user.can("permissions.suppliers.edit")) {
             sideBox.getChildren().remove(editButton);
         }
-        if (!user.can("permissions.clients.delete")) {
+        if (!user.can("permissions.suppliers.delete")) {
             sideBox.getChildren().remove(deleteButton);
         }
     }
@@ -92,32 +92,33 @@ public class ClientController extends DashboardTemplate {
         String search = searchField.getText();
 
         filteredList.setPredicate(client -> client.getName().contains(search));
+
         table.getItems().setAll(filteredList);
     }
 
     public void create(ActionEvent e) {
-        Dialogs.singleTextInputDialog("Name", "Create client", "Enter the name: ").ifPresent(name ->
+        Dialogs.singleTextInputDialog("Name", "Create supplier", "Enter the name: ").ifPresent(name ->
         {
-            data.add(clientService.addClient(name));
+            data.add(supplierService.addSupplier(name));
             table.getItems().setAll(filteredList);
         });
     }
 
     public void edit(ActionEvent e) {
-        Client client = (Client) table.getSelectionModel().getSelectedItem();
+        Supplier supplier = (Supplier) table.getSelectionModel().getSelectedItem();
 
-        if (client == null) Dialogs.NotSelectedWarning();
-        else Dialogs.singleTextInputDialog(client.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
+        if (supplier == null) Dialogs.NotSelectedWarning();
+        else Dialogs.singleTextInputDialog(supplier.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
         {
-            clientService.setClientName(client, name);
+            supplierService.setSupplierName(supplier, name);
             table.refresh();
         });
     }
 
     public void delete(ActionEvent e) {
-        Client client = this.getSelected();
-        data.remove(client);
+        Supplier supplier = this.getSelected();
+        data.remove(supplier);
         table.getItems().setAll(filteredList);
-        clientService.deleteClient(client);
+        supplierService.deleteSupplier(supplier);
     }
 }
