@@ -63,6 +63,9 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
     private Button reportsArrow;
 
     @FXML
+    private Button suppliersButton;
+
+    @FXML
     public void initialize() {
         if (user != null) {
             ((Label) profile.lookup("#userNames")).setText(user.getFirstName() + " " + user.getLastName());
@@ -73,6 +76,9 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
             }
             if (!user.can("permissions.clients.index")) {
                 menu.getChildren().remove(clientsButton);
+            }
+            if (!user.can("permissions.suppliers.index")) {
+                menu.getChildren().remove(suppliersButton);
             }
         } else {
             ((Label) profile.lookup("#userNames")).setText("");
@@ -99,6 +105,11 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
     @FXML
     public void clientsClick(ActionEvent e) {
         Window home = new Window("views/dashboard/cruds/clients-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
+    }
+
+    public void suppliersClick(ActionEvent e) {
+        Window home = new Window("views/dashboard/cruds/suppliers-crud.fxml");
         home.setAsAnchorPane(workspace, this.getWindow());
     }
 
