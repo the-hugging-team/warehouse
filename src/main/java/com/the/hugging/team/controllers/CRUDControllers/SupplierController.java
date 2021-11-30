@@ -44,21 +44,6 @@ public class SupplierController extends DashboardTemplate {
     private ObservableList<Supplier> data;
     private FilteredList<Supplier> filteredList;
 
-    private Supplier getSelected() {
-        Supplier supplier = (Supplier) table.getSelectionModel().getSelectedItem();
-        if (supplier == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
-            alert.setTitle("Warning: Client not selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a supplier!");
-
-            alert.showAndWait();
-        }
-
-        return supplier;
-    }
-
     public void initialize() {
         data = FXCollections.observableArrayList(SupplierRepository.getInstance().getAll());
 
@@ -116,9 +101,13 @@ public class SupplierController extends DashboardTemplate {
     }
 
     public void delete(ActionEvent e) {
-        Supplier supplier = this.getSelected();
-        data.remove(supplier);
-        table.getItems().setAll(filteredList);
-        supplierService.deleteSupplier(supplier);
+        Supplier supplier = (Supplier) table.getSelectionModel().getSelectedItem();
+
+        if (supplier == null) Dialogs.NotSelectedWarning();
+        else {
+            data.remove(supplier);
+            table.getItems().setAll(filteredList);
+            supplierService.deleteSupplier(supplier);
+        }
     }
 }

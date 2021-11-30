@@ -44,21 +44,6 @@ public class ClientController extends DashboardTemplate {
     private ObservableList<Client> data;
     private FilteredList<Client> filteredList;
 
-    private Client getSelected() {
-        Client client = (Client) table.getSelectionModel().getSelectedItem();
-        if (client == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
-            alert.setTitle("Warning: Client not selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a client!");
-
-            alert.showAndWait();
-        }
-
-        return client;
-    }
-
     public void initialize() {
         data = FXCollections.observableArrayList(ClientRepository.getInstance().getAll());
 
@@ -115,9 +100,13 @@ public class ClientController extends DashboardTemplate {
     }
 
     public void delete(ActionEvent e) {
-        Client client = this.getSelected();
-        data.remove(client);
-        table.getItems().setAll(filteredList);
-        clientService.deleteClient(client);
+        Client client = (Client) table.getSelectionModel().getSelectedItem();
+
+        if (client == null) Dialogs.NotSelectedWarning();
+        else {
+            data.remove(client);
+            table.getItems().setAll(filteredList);
+            clientService.deleteClient(client);
+        }
     }
 }
