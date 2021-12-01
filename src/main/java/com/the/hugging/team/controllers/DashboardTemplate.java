@@ -92,11 +92,15 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
 
     @FXML
     public void clientsClick(ActionEvent e) {
+        selectButton(clientsButton);
+
         Window home = new Window("views/dashboard/cruds/clients-crud.fxml");
         home.setAsAnchorPane(workspace, this.getWindow());
     }
 
     public void suppliersClick(ActionEvent e) {
+        selectButton(suppliersButton);
+
         Window home = new Window("views/dashboard/cruds/suppliers-crud.fxml");
         home.setAsAnchorPane(workspace, this.getWindow());
     }
