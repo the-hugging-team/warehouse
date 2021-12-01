@@ -49,28 +49,28 @@ public class User implements Serializable {
 
     @Column(name = "sex", nullable = false)
     private Integer sex;
-
-    public String getSexFormatted(){
-        return this.sex == 1 ? "Male" : "Female";
-    }
-
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+    @Column(name = "updated_at", nullable = false)
+    private Timestamp updatedAt;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "updated_by", nullable = false)
+    private User updatedBy;
+
+    public String getSexFormatted() {
+        if (this.sex == null) {
+            return "";
+        }
+
+        return this.sex == 1 ? "Male" : "Female";
+    }
 
     public String getCreatedAtFormatted() {
         return new SimpleDateFormat("dd.MM.yyyy").format(createdAt);
     }
-
-    @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "created_by", nullable = false)
-    private User createdBy;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "updated_by", nullable = false)
-    private User updatedBy;
 
     @Override
     public boolean equals(Object o) {

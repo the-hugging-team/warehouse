@@ -74,6 +74,19 @@ public class RoleRepository implements ObjectRepository<Role> {
         return Optional.of(role);
     }
 
+    public Optional<Role> getBySlug(String slug) {
+        Role role = null;
+        try {
+            entityManager.getTransaction().begin();
+            role = entityManager.createQuery("SELECT t FROM Role t where t.slug = :slug", Role.class).setParameter("slug", slug).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get role by slug error: " + e.getMessage());
+        }
+        return Optional.of(role);
+    }
+
     @Override
     public List<Role> getAll() {
         List<Role> AllProducts = new LinkedList<>();

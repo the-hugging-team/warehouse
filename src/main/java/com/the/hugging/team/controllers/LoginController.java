@@ -54,7 +54,7 @@ public class LoginController extends WindowHandler {
             dashboardWindow.setAsNextStage(event);
             dashboardWindow.showStage();
         } else {
-            if(!formpane.getChildren().contains(invalidDataLabel)) {
+            if (!formpane.getChildren().contains(invalidDataLabel)) {
                 formpane.getChildren().add(invalidDataLabel);
                 invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
                 invalidDataLabel.setLayoutX(150);

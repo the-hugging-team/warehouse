@@ -1,6 +1,5 @@
 package com.the.hugging.team.controllers;
 
-import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.ICallsBack;
 import com.the.hugging.team.utils.Session;
@@ -63,23 +62,12 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
     private Button reportsArrow;
 
     @FXML
-    private Button suppliersButton;
-
-    @FXML
     public void initialize() {
         if (user != null) {
             ((Label) profile.lookup("#userNames")).setText(user.getFirstName() + " " + user.getLastName());
             ((Label) profile.lookup("#role")).setText(user.getRole().getName());
 
-            if (!user.getRole().getSlug().equals(Role.ROLE_ADMIN)) {
-                menu.getChildren().remove(usersButton);
-            }
-            if (!user.can("permissions.clients.index")) {
-                menu.getChildren().remove(clientsButton);
-            }
-            if (!user.can("permissions.suppliers.index")) {
-                menu.getChildren().remove(suppliersButton);
-            }
+            checkMenuPermissions();
         } else {
             ((Label) profile.lookup("#userNames")).setText("");
             ((Label) profile.lookup("#role")).setText("");
@@ -98,7 +86,7 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
     public void usersClick(ActionEvent event) {
         selectButton(usersButton);
 
-        Window usersWindow = new Window("views/users/index.fxml");
+        Window usersWindow = new Window("views/dashboard/cruds/users-crud.fxml");
         usersWindow.setAsAnchorPane(workspace, this.getWindow());
     }
 
@@ -190,8 +178,7 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
                 node.getStyleClass().remove("menu-button-active");
             }
 
-            if (node instanceof HBox) {
-                HBox dropdown = (HBox) node;
+            if (node instanceof HBox dropdown) {
                 if (dropdown.getStyleClass().contains("menu-button-dropdown-active")) {
                     for (Node dropdownNode : dropdown.getChildren()) {
                         if (dropdownNode instanceof Button) {
@@ -210,6 +197,18 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
             button.getParent().getStyleClass().add("menu-button-dropdown-active");
         } else {
             button.getStyleClass().add("menu-button-active");
+        }
+    }
+
+    private void checkMenuPermissions() {
+        if (!user.can("permissions.users.index")) {
+            menu.getChildren().remove(usersButton);
+        }
+        if (!user.can("permissions.clients.index")) {
+            menu.getChildren().remove(clientsButton);
+        }
+        if (!user.can("permissions.suppliers.index")) {
+            menu.getChildren().remove(suppliersButton);
         }
     }
 

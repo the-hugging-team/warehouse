@@ -1,26 +1,26 @@
-package com.the.hugging.team.controllers.CRUDControllers;
+package com.the.hugging.team.controllers;
 
-import com.the.hugging.team.controllers.DashboardTemplate;
 import com.the.hugging.team.entities.Client;
 import com.the.hugging.team.repositories.ClientRepository;
 import com.the.hugging.team.services.ClientService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
-import com.the.hugging.team.utils.Window;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("DuplicatedCode")
 public class ClientController extends DashboardTemplate {
 
     private final ClientService clientService = ClientService.getInstance();
