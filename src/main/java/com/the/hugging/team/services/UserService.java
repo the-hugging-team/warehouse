@@ -3,6 +3,7 @@ package com.the.hugging.team.services;
 import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.repositories.UserRepository;
+import com.the.hugging.team.utils.Hasher;
 
 import java.util.List;
 
@@ -28,9 +29,7 @@ public class UserService {
     }
 
     private boolean checkPassword(User user, String password) {
-        //to be changed in when we have hashed passwords in the db
-        //return Hasher.check(password, user.getPassword());
-        return user.getPassword().equals(password);
+        return Hasher.check(password, user.getPassword());
     }
 
     public User getAuthUser(String username, String password) {
