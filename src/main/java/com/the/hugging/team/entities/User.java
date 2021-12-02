@@ -9,6 +9,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -48,20 +49,28 @@ public class User implements Serializable {
 
     @Column(name = "sex", nullable = false)
     private Integer sex;
-
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
-
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "updated_by", nullable = false)
     private User updatedBy;
+
+    public String getSexFormatted() {
+        if (this.sex == null) {
+            return "";
+        }
+
+        return this.sex == 1 ? "Male" : "Female";
+    }
+
+    public String getCreatedAtFormatted() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(createdAt);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -50,14 +50,16 @@ public class LoginController extends WindowHandler {
 
         if (authUser != null) {
             session.setUser(authUser);
-            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml");
+            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml", (Object[]) null);
             dashboardWindow.setAsNextStage(event);
             dashboardWindow.showStage();
         } else {
-            formpane.getChildren().add(invalidDataLabel);
-            invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
-            invalidDataLabel.setLayoutX(150);
-            invalidDataLabel.setLayoutY(150);
+            if (!formpane.getChildren().contains(invalidDataLabel)) {
+                formpane.getChildren().add(invalidDataLabel);
+                invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
+                invalidDataLabel.setLayoutX(150);
+                invalidDataLabel.setLayoutY(150);
+            }
         }
     }
 }

@@ -11,8 +11,10 @@ public class TableResizer {
         table.widthProperty().addListener(
                 (observableValue, oldTableWidth, newTableWidth) ->
                 {
+                    double newColumnWidth = newTableWidth.doubleValue() / columnsCount;
+
                     for (int i = 0; i < columnsCount; i++) {
-                        table.getColumns().get(i).setPrefWidth(newTableWidth.doubleValue() / columnsCount);
+                        table.getColumns().get(i).setPrefWidth(newColumnWidth);
                     }
                 });
     }

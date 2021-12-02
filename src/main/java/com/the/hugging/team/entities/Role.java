@@ -21,6 +21,7 @@ import java.util.Set;
 @Entity
 public class Role implements Serializable {
     public static final String ROLE_ADMIN = "roles.admin";
+    public static final String ROLE_OPERATOR = "roles.operator";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

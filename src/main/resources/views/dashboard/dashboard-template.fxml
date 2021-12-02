@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -26,7 +25,8 @@
     </Pane>
     <VBox fx:id="menu" layoutY="100.0" prefHeight="460.0" prefWidth="200.0" styleClass="menu"
           AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
-        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Home">
+        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeClick" prefHeight="25.0" prefWidth="200.0"
+                text="Home">
             <font>
                 <Font name="Open Sans Regular" size="18.0"/>
             </font>
@@ -38,8 +38,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button fx:id="usersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0"
-                text="Users-Admin">
+        <Button fx:id="usersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#usersClick"
+                prefHeight="25.0" prefWidth="200.0" text="Users-Admin">
             <font>
                 <Font name="Open Sans Light" size="18.0"/>
             </font>
@@ -77,8 +77,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0"
-                text="Cash Registers">
+        <Button fx:id="cashRegistersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0"
+                prefWidth="186.0" text="Cash Registers">
             <font>
                 <Font size="18.0"/>
             </font>
@@ -90,7 +90,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Storage">
+        <Button fx:id="storageButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="50.0"
+                prefWidth="200.0" text="Storage">
             <font>
                 <Font size="18.0"/>
             </font>
@@ -103,7 +104,7 @@
             </styleClass>
         </Button>
         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="menu-button-dropdown-container">
-            <Button fx:id="products" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" mnemonicParsing="false"
+            <Button fx:id="productsButton" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" mnemonicParsing="false"
                     onAction="#productsClick" prefHeight="35.0" prefWidth="200.0" text="Products">
                 <font>
                     <Font size="18.0"/>
@@ -121,7 +122,7 @@
             </Button>
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="menu-button-dropdown-container">
-            <Button fx:id="reports" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#reportsClick"
+            <Button fx:id="reportsButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#reportsClick"
                     prefHeight="50.0" prefWidth="200.0" text="Reports">
                 <font>
                     <Font size="18.0"/>
@@ -164,41 +165,5 @@
     <AnchorPane fx:id="workspace" layoutX="200.0" prefHeight="720.0" prefWidth="1080.0"
                 style="-fx-background-color: #e5e5e5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0"
                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <HBox alignment="CENTER" layoutY="-30.0" prefHeight="230.0" prefWidth="950.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-            <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
-                <xAxis>
-                    <CategoryAxis side="BOTTOM"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis side="LEFT"/>
-                </yAxis>
-                <HBox.margin>
-                    <Insets/>
-                </HBox.margin>
-            </LineChart>
-            <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
-                <xAxis>
-                    <CategoryAxis side="BOTTOM"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis side="LEFT"/>
-                </yAxis>
-                <HBox.margin>
-                    <Insets left="100.0" right="100.0"/>
-                </HBox.margin>
-            </LineChart>
-            <LineChart prefHeight="150.0" prefWidth="400.0" HBox.hgrow="NEVER">
-                <xAxis>
-                    <CategoryAxis side="BOTTOM"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis side="LEFT"/>
-                </yAxis>
-                <HBox.margin>
-                    <Insets/>
-                </HBox.margin>
-            </LineChart>
-        </HBox>
     </AnchorPane>
 </AnchorPane>
