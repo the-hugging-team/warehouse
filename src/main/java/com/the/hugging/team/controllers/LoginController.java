@@ -50,7 +50,7 @@ public class LoginController extends WindowHandler {
 
         if (authUser != null) {
             session.setUser(authUser);
-            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml", (Object[]) null);
+            Window dashboardWindow = new Window("views/dashboard/dashboard-template.fxml");
             dashboardWindow.setAsNextStage(event);
             dashboardWindow.showStage();
         } else {

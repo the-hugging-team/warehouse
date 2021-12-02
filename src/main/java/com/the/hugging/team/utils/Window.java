@@ -36,14 +36,6 @@ public class Window {
         }
     }
 
-    public Window(String fxmlPath, Object... args) {
-        this(fxmlPath);
-
-        if (fxmlLoader.getController() instanceof ICallsBack) {
-            ((ICallsBack) fxmlLoader.getController()).callBack(args);
-        }
-    }
-
     public void setAsDefaultStage() {
         stage = new Stage();
         stage.getIcons().add(new Image(CELLABLUE_PATH));

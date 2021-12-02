@@ -1,12 +1,12 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.User;
-import com.the.hugging.team.utils.ICallsBack;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class DashboardTemplate extends WindowHandler implements ICallsBack {
+public class DashboardTemplate extends WindowHandler {
 
     private final Session session = Session.getInstance();
     protected final User user = session.getUser();
@@ -72,6 +72,8 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
             ((Label) profile.lookup("#userNames")).setText("");
             ((Label) profile.lookup("#role")).setText("");
         }
+
+        Platform.runLater(() -> homeClick(null));
     }
 
     @FXML
@@ -214,10 +216,5 @@ public class DashboardTemplate extends WindowHandler implements ICallsBack {
         if (!user.can("permissions.suppliers.index")) {
             menu.getChildren().remove(suppliersButton);
         }
-    }
-
-    @Override
-    public void callBack(Object... objects) {
-        homeClick(null);
     }
 }
