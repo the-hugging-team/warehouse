@@ -90,8 +90,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button fx:id="storageButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="50.0"
-                prefWidth="200.0" text="Storage">
+        <Button fx:id="storageButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#storageClick"
+                prefHeight="50.0" prefWidth="200.0" text="Storage">
             <font>
                 <Font size="18.0"/>
             </font>

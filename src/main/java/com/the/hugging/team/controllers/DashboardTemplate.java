@@ -107,6 +107,13 @@ public class DashboardTemplate extends WindowHandler {
         home.setAsAnchorPane(workspace, this.getWindow());
     }
 
+    public void storageClick(ActionEvent e) {
+        selectButton(storageButton);
+
+        Window home = new Window("views/dashboard/cruds/rooms-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
+    }
+
     public void productsClick(ActionEvent e) {
         boolean isActive = productsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
@@ -215,6 +222,9 @@ public class DashboardTemplate extends WindowHandler {
         }
         if (!user.can("permissions.suppliers.index")) {
             menu.getChildren().remove(suppliersButton);
+        }
+        if (!user.can("permissions.rooms.index")) {
+            menu.getChildren().remove(storageButton);
         }
     }
 }
