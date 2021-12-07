@@ -149,11 +149,24 @@ Light Blue - #8ecae6
     -fx-fill: WHITE;
 }
 
+.menu-button-dropdown-item.menu-button-active{
+    -fx-background-color: #ffb703;
+    -fx-text-fill: WHITE;
+}
+
+.menu-button-dropdown-item.menu-button-active .menu-icon{
+    -fx-text-fill: WHITE;
+}
+
 /*    Dropdown buttons end    */
 
 .crud-button {
     -fx-background-color: WHITE;
+    -fx-border-color: #73bfdc;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
     -fx-background-radius: 10;
+    -fx-background-insets: 1, 9, 9, 10, 11;
 }
 
 .crud-search-button {
