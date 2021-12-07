@@ -1,8 +1,8 @@
 package com.the.hugging.team.controllers;
 
-import com.the.hugging.team.entities.Client;
-import com.the.hugging.team.repositories.ClientRepository;
-import com.the.hugging.team.services.ClientService;
+import com.the.hugging.team.entities.Supplier;
+import com.the.hugging.team.repositories.SupplierRepository;
+import com.the.hugging.team.services.SupplierService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,16 +20,15 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("DuplicatedCode")
-public class ClientController extends DashboardTemplate {
+public class SuppliersController extends DashboardTemplate {
 
-    private final ClientService clientService = ClientService.getInstance();
+    private final SupplierService supplierService = SupplierService.getInstance();
     @FXML
     private TableView<Object> table;
     @FXML
-    private TableColumn<Client, String> name;
+    private TableColumn<Supplier, String> name;
     @FXML
-    private TableColumn<Client, String> id;
+    private TableColumn<Supplier, String> id;
     @FXML
     private TextField searchField;
     @FXML
@@ -41,11 +40,11 @@ public class ClientController extends DashboardTemplate {
     @FXML
     private Button deleteButton;
 
-    private ObservableList<Client> data;
-    private FilteredList<Client> filteredList;
+    private ObservableList<Supplier> data;
+    private FilteredList<Supplier> filteredList;
 
     public void initialize() {
-        data = FXCollections.observableArrayList(ClientRepository.getInstance().getAll());
+        data = FXCollections.observableArrayList(SupplierRepository.getInstance().getAll());
 
         filteredList = new FilteredList<>(data, p -> true);
 
@@ -62,51 +61,56 @@ public class ClientController extends DashboardTemplate {
             }
         });
 
-        if (!user.can("permissions.clients.create")) {
-            sideBox.getChildren().remove(createButton);
-        }
-        if (!user.can("permissions.clients.edit")) {
-            sideBox.getChildren().remove(editButton);
-        }
-        if (!user.can("permissions.clients.delete")) {
-            sideBox.getChildren().remove(deleteButton);
-        }
+        checkPermissions();
     }
 
     public void search(ActionEvent e) {
         String search = searchField.getText();
 
         filteredList.setPredicate(client -> client.getName().contains(search));
+
         table.getItems().setAll(filteredList);
     }
 
     public void create(ActionEvent e) {
-        Dialogs.singleTextInputDialog("Name", "Create client", "Enter the name: ").ifPresent(name ->
+        Dialogs.singleTextInputDialog("Name", "Create supplier", "Enter the name: ").ifPresent(name ->
         {
-            data.add(clientService.addClient(name));
+            data.add(supplierService.addSupplier(name));
             table.getItems().setAll(filteredList);
         });
     }
 
     public void edit(ActionEvent e) {
-        Client client = (Client) table.getSelectionModel().getSelectedItem();
+        Supplier supplier = (Supplier) table.getSelectionModel().getSelectedItem();
 
-        if (client == null) Dialogs.NotSelectedWarning();
-        else Dialogs.singleTextInputDialog(client.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
+        if (supplier == null) Dialogs.NotSelectedWarning();
+        else Dialogs.singleTextInputDialog(supplier.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
         {
-            clientService.setClientName(client, name);
+            supplierService.setSupplierName(supplier, name);
             table.refresh();
         });
     }
 
     public void delete(ActionEvent e) {
-        Client client = (Client) table.getSelectionModel().getSelectedItem();
+        Supplier supplier = (Supplier) table.getSelectionModel().getSelectedItem();
 
-        if (client == null) Dialogs.NotSelectedWarning();
+        if (supplier == null) Dialogs.NotSelectedWarning();
         else {
-            data.remove(client);
+            data.remove(supplier);
             table.getItems().setAll(filteredList);
-            clientService.deleteClient(client);
+            supplierService.deleteSupplier(supplier);
+        }
+    }
+
+    private void checkPermissions() {
+        if (!user.can("permissions.suppliers.create")) {
+            sideBox.getChildren().remove(createButton);
+        }
+        if (!user.can("permissions.suppliers.edit")) {
+            sideBox.getChildren().remove(editButton);
+        }
+        if (!user.can("permissions.suppliers.delete")) {
+            sideBox.getChildren().remove(deleteButton);
         }
     }
 }

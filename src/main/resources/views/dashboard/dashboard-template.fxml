@@ -77,8 +77,8 @@
                 <String fx:value="font-regular"/>
             </styleClass>
         </Button>
-        <Button fx:id="cashRegistersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="25.0"
-                prefWidth="186.0" text="Cash Registers">
+        <Button fx:id="cashRegistersButton" alignment="BOTTOM_LEFT" mnemonicParsing="false"
+                onAction="#cashRegistersClick" prefHeight="25.0" prefWidth="186.0" text="Cash Registers">
             <font>
                 <Font size="18.0"/>
             </font>

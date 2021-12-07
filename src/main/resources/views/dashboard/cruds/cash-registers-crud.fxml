@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="720.0" prefWidth="1080.0"
             stylesheets="@../../../assets/css/dashboard.css" xmlns="http://javafx.com/javafx/17"
-            fx:controller="com.the.hugging.team.controllers.ClientsController">
+            fx:controller="com.the.hugging.team.controllers.CashRegistersController">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0"
                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
         <TextField fx:id="searchField" layoutX="15.0" layoutY="23.0" onAction="#search" prefHeight="30.0"
@@ -14,8 +14,9 @@
                    AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
             <columns>
                 <TableColumn fx:id="id" editable="false" minWidth="-1.0" prefWidth="75.0" resizable="false" text="ID"/>
-                <TableColumn fx:id="name" editable="false" maxWidth="1.7976931348623157E308" prefWidth="287.0"
-                             resizable="false" text="Name"/>
+                <TableColumn fx:id="userAssigned" editable="false" maxWidth="1.7976931348623157E308" prefWidth="287.0"
+                             resizable="false" text="Assigned user"/>
+                <TableColumn fx:id="balance" prefWidth="75.0" text="Balance"/>
             </columns>
         </TableView>
         <Button layoutX="274.0" layoutY="13.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0"
@@ -34,15 +35,22 @@
                     <String fx:value="font-regular"/>
                 </styleClass>
             </Button>
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#edit" prefHeight="50.0" prefWidth="151.0"
-                    text="Edit">
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" prefHeight="50.0" prefWidth="151.0"
+                    text="Delete">
                 <styleClass>
                     <String fx:value="crud-button"/>
                     <String fx:value="font-regular"/>
                 </styleClass>
             </Button>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" prefHeight="50.0" prefWidth="151.0"
-                    text="Delete">
+            <Button fx:id="operateButton" mnemonicParsing="false" onAction="#operate" prefHeight="50.0"
+                    prefWidth="151.0" text="Operate">
+                <styleClass>
+                    <String fx:value="crud-button"/>
+                    <String fx:value="font-regular"/>
+                </styleClass>
+            </Button>
+            <Button fx:id="showHistoryButton" mnemonicParsing="false" onAction="#showHistory" prefHeight="50.0"
+                    prefWidth="151.0" text="Show History">
                 <styleClass>
                     <String fx:value="crud-button"/>
                     <String fx:value="font-regular"/>

@@ -74,7 +74,7 @@ public class UsersController extends DashboardTemplate {
         createdAt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedAtFormatted()));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setResizer(table);
+        TableResizer.setDefault(table);
 
         if (!user.can("permissions.clients.create")) {
             sideBox.getChildren().remove(createButton);

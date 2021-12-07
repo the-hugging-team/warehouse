@@ -26,8 +26,8 @@ public class Transaction {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "cash_register_id", nullable = false)
+    @ManyToOne()
+    @JoinColumn(name = "cash_register_id")
     private CashRegister cashRegister;
 
     @ManyToOne(optional = false)

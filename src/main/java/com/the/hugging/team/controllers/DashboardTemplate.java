@@ -107,6 +107,13 @@ public class DashboardTemplate extends WindowHandler {
         home.setAsAnchorPane(workspace, this.getWindow());
     }
 
+    public void cashRegistersClick(ActionEvent e) {
+        selectButton(cashRegistersButton);
+
+        Window home = new Window("views/dashboard/cruds/cash-registers-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
+    }
+
     public void productsClick(ActionEvent e) {
         boolean isActive = productsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
@@ -215,6 +222,9 @@ public class DashboardTemplate extends WindowHandler {
         }
         if (!user.can("permissions.suppliers.index")) {
             menu.getChildren().remove(suppliersButton);
+        }
+        if (!user.can("permissions.cash-registers.index")) {
+            menu.getChildren().remove(cashRegistersButton);
         }
     }
 }
