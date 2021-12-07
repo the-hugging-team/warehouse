@@ -42,13 +42,6 @@
                     <String fx:value="font-regular"/>
                 </styleClass>
             </Button>
-            <Button fx:id="operateButton" mnemonicParsing="false" onAction="#operate" prefHeight="50.0"
-                    prefWidth="151.0" text="Operate">
-                <styleClass>
-                    <String fx:value="crud-button"/>
-                    <String fx:value="font-regular"/>
-                </styleClass>
-            </Button>
             <Button fx:id="showHistoryButton" mnemonicParsing="false" onAction="#showHistory" prefHeight="50.0"
                     prefWidth="151.0" text="Show History">
                 <styleClass>

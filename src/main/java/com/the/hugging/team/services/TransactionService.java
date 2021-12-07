@@ -9,10 +9,7 @@ import java.util.List;
 public class TransactionService {
     private static final TransactionRepository transactionRepository = TransactionRepository.getInstance();
 
-    public static List<Transaction> getTransactionsByCrId(CashRegister cr) {
-        List<Transaction> transactions = transactionRepository.getAll();
-        transactions.removeIf(transaction -> !transaction.getCashRegister().equals(cr));
-
-        return transactions;
+    public static List<Transaction> getTransactionsByCashRegister(CashRegister cr) {
+        return transactionRepository.getByCashRegister(cr);
     }
 }

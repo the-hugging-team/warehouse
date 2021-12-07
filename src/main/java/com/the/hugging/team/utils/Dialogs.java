@@ -131,7 +131,7 @@ public class Dialogs {
         dialog.setTitle("Cash register " + cr.getId() + " history");
         dialog.setResizable(false);
 
-        ObservableList<Transaction> data = FXCollections.observableArrayList(TransactionService.getTransactionsByCrId(cr));
+        ObservableList<Transaction> data = FXCollections.observableArrayList(TransactionService.getTransactionsByCashRegister(cr));
 
         if (data.size() == 0) {
             dialog.setHeaderText("Nothing to show");

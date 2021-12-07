@@ -1,5 +1,6 @@
 package com.the.hugging.team.repositories;
 
+import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Transaction;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
@@ -86,6 +87,19 @@ public class TransactionRepository implements ObjectRepository<Transaction> {
             log.error("Get all transactions error: " + e.getMessage());
         }
         return allTransactions;
+    }
+
+    public List<Transaction> getByCashRegister(CashRegister cr) {
+        List<Transaction> cashRegisterSpecific = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            cashRegisterSpecific.addAll(entityManager.createQuery("SELECT t FROM Transaction t WHERE t.cashRegister = :cashRegister", Transaction.class).setParameter("cashRegister", cr).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get cash register specific transactions error: " + e.getMessage());
+        }
+        return cashRegisterSpecific;
     }
 }
 
