@@ -35,31 +35,33 @@ public class DashboardTemplate extends WindowHandler {
     private Button homeButton;
 
     @FXML
+    private Button manageButton;
+
+    @FXML
+    private Button manageArrow;
+
     private Button usersButton;
 
-    @FXML
     private Button clientsButton;
 
-    @FXML
     private Button suppliersButton;
 
-    @FXML
     private Button cashRegistersButton;
+
+    @FXML
+    private Button sellButton;
+
+    @FXML
+    private Button deliveriesButton;
 
     @FXML
     private Button storageButton;
 
     @FXML
-    private Button productsButton;
-
-    @FXML
-    private Button productsArrow;
+    private Button inventoryButton;
 
     @FXML
     private Button reportsButton;
-
-    @FXML
-    private Button reportsArrow;
 
     @FXML
     public void initialize() {
@@ -74,6 +76,45 @@ public class DashboardTemplate extends WindowHandler {
         }
 
         Platform.runLater(() -> homeClick(null));
+
+        FontAwesomeIconView usersIcon = new FontAwesomeIconView(FontAwesomeIcon.USERS);
+        usersIcon.setSize("12.0pt");
+        usersIcon.getStyleClass().add("menu-icon");
+        usersButton = new Button("Users");
+        usersButton.setGraphic(usersIcon);
+        usersButton.setGraphicTextGap(6);
+        usersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+        usersButton.setOnAction(this::usersClick);
+
+
+        FontAwesomeIconView clientsIcon = new FontAwesomeIconView(FontAwesomeIcon.BRIEFCASE);
+        clientsIcon.setSize("12.0pt");
+        clientsIcon.getStyleClass().add("menu-icon");
+        clientsButton = new Button("Clients");
+        clientsButton.setGraphic(clientsIcon);
+        clientsButton.setGraphicTextGap(6);
+        clientsButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+        clientsButton.setOnAction(this::clientsClick);
+
+
+        FontAwesomeIconView suppliersIcon = new FontAwesomeIconView(FontAwesomeIcon.TRUCK);
+        suppliersIcon.setSize("12.0pt");
+        suppliersIcon.getStyleClass().add("menu-icon");
+        suppliersButton = new Button("Suppliers");
+        suppliersButton.setGraphic(suppliersIcon);
+        suppliersButton.setGraphicTextGap(6);
+        suppliersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+        suppliersButton.setOnAction(this::suppliersClick);
+
+
+        FontAwesomeIconView cashRegistersIcon = new FontAwesomeIconView(FontAwesomeIcon.MONEY);
+        cashRegistersIcon.setSize("12.0pt");
+        cashRegistersIcon.getStyleClass().add("menu-icon");
+        cashRegistersButton = new Button("Cash Registers");
+        cashRegistersButton.setGraphic(cashRegistersIcon);
+        cashRegistersButton.setGraphicTextGap(6);
+        cashRegistersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+//        cashRegistersButton.setOnAction(this::cashRegistersClick);
     }
 
     @FXML
@@ -84,7 +125,37 @@ public class DashboardTemplate extends WindowHandler {
         homeWindow.setAsAnchorPane(workspace, this.getWindow());
     }
 
+    // Dropdown menu start
     @FXML
+    public void manageClick(ActionEvent e) {
+        boolean isActive = manageButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
+
+
+        if (isActive) {
+            closeManageDropdown();
+        } else {
+            openManageDropdown();
+        }
+    }
+
+    private void openManageDropdown() {
+        int manageButtonIndex = menu.getChildren().indexOf(manageButton.getParent());
+        manageButton.getParent().getStyleClass().add("menu-button-dropdown-active");
+        ((FontAwesomeIconView) manageArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
+
+        menu.getChildren().add(manageButtonIndex + 1, usersButton);
+        menu.getChildren().add(manageButtonIndex + 2, clientsButton);
+        menu.getChildren().add(manageButtonIndex + 3, suppliersButton);
+        menu.getChildren().add(manageButtonIndex + 4, cashRegistersButton);
+    }
+
+    private void closeManageDropdown() {
+        int manageButtonIndex = menu.getChildren().indexOf(manageButton.getParent());
+        manageButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
+        ((FontAwesomeIconView) manageArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
+        menu.getChildren().remove(manageButtonIndex + 1, manageButtonIndex + 5);
+    }
+
     public void usersClick(ActionEvent event) {
         selectButton(usersButton);
 
@@ -92,7 +163,6 @@ public class DashboardTemplate extends WindowHandler {
         usersWindow.setAsAnchorPane(workspace, this.getWindow());
     }
 
-    @FXML
     public void clientsClick(ActionEvent e) {
         selectButton(clientsButton);
 
@@ -106,66 +176,31 @@ public class DashboardTemplate extends WindowHandler {
         Window home = new Window("views/dashboard/cruds/suppliers-crud.fxml");
         home.setAsAnchorPane(workspace, this.getWindow());
     }
+    // Dropdown menu end
 
-    public void productsClick(ActionEvent e) {
-        boolean isActive = productsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
+    @FXML
+    public void sellClick(ActionEvent event) {
+        selectButton(sellButton);
+    }
 
-        int productsIndex = menu.getChildren().indexOf(productsButton.getParent());
+    @FXML
+    public void deliveriesClick(ActionEvent event){
+        selectButton(deliveriesButton);
+    }
 
-        if (isActive) {
-            productsButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
-            ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
-            menu.getChildren().remove(productsIndex + 1, productsIndex + 4);
-        } else {
-            selectButton(productsButton);
-            productsIndex = menu.getChildren().indexOf(productsButton.getParent());
+    @FXML
+    public void storageClick(ActionEvent event){
+        selectButton(storageButton);
+    }
 
-            productsButton.getParent().getStyleClass().add("menu-button-dropdown-active");
-            ((FontAwesomeIconView) productsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
-
-            Button stock = new Button("Stock");
-            Button sell = new Button("Sell");
-            Button delivery = new Button("Delivery");
-
-            stock.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-            sell.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-            delivery.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-
-            menu.getChildren().add(productsIndex + 1, stock);
-            menu.getChildren().add(productsIndex + 2, sell);
-            menu.getChildren().add(productsIndex + 3, delivery);
-        }
-
-        Window home = new Window("views/dashboard/test-template-crud.fxml");
-        home.setAsAnchorPane(workspace, this.getWindow());
+    @FXML
+    public void inventoryClick(ActionEvent event){
+        selectButton(inventoryButton);
     }
 
     @FXML
     public void reportsClick(ActionEvent e) {
-        boolean isActive = reportsButton.getParent().getStyleClass().contains("menu-button-dropdown-active");
 
-        int reportsIndex = menu.getChildren().indexOf(reportsButton.getParent());
-
-        if (isActive) {
-            reportsButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
-            ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
-            menu.getChildren().remove(reportsIndex + 1, reportsIndex + 3);
-        } else {
-            selectButton(reportsButton);
-            reportsIndex = menu.getChildren().indexOf(reportsButton.getParent());
-
-            reportsButton.getParent().getStyleClass().add("menu-button-dropdown-active");
-            ((FontAwesomeIconView) reportsArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
-
-            Button money = new Button("Money");
-            Button user = new Button("User");
-
-            money.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-            user.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-
-            menu.getChildren().add(reportsIndex + 1, money);
-            menu.getChildren().add(reportsIndex + 2, user);
-        }
     }
 
     public void logout(ActionEvent e) {
@@ -179,31 +214,21 @@ public class DashboardTemplate extends WindowHandler {
 //    ----------Utility Methods----------
 
     private void selectButton(Button button) {
+        boolean isDropdownItem = button.getStyleClass().contains("menu-button-dropdown-item");
+
         for (Node node : menu.getChildren()) {
             if (node instanceof Button) {
                 node.getStyleClass().remove("menu-button-active");
             }
 
-            if (node instanceof HBox dropdown) {
-                if (dropdown.getStyleClass().contains("menu-button-dropdown-active")) {
-                    for (Node dropdownNode : dropdown.getChildren()) {
-                        if (dropdownNode instanceof Button) {
-                            if (dropdownNode == productsButton) {
-                                productsClick(null);
-                            } else if (dropdownNode == reportsButton) {
-                                reportsClick(null);
-                            }
-                        }
-                    }
+            if (node instanceof HBox && !isDropdownItem) {
+                if (node.getStyleClass().contains("menu-button-dropdown-active")) {
+                    Platform.runLater(this::closeManageDropdown);
                 }
             }
         }
 
-        if (button == productsButton || button == reportsButton) {
-            button.getParent().getStyleClass().add("menu-button-dropdown-active");
-        } else {
-            button.getStyleClass().add("menu-button-active");
-        }
+        button.getStyleClass().add("menu-button-active");
     }
 
     private void checkMenuPermissions() {
