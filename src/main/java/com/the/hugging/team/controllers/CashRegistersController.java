@@ -80,7 +80,7 @@ public class CashRegistersController extends DashboardTemplate {
     }
 
     public void create(ActionEvent e) {
-        data.add(clientService.addCR());
+        data.add(clientService.addCashRegister());
         table.getItems().setAll(filteredList);
     }
 
@@ -101,7 +101,7 @@ public class CashRegistersController extends DashboardTemplate {
         else {
             data.remove(cr);
             table.getItems().setAll(filteredList);
-            clientService.deleteCR(cr);
+            clientService.deleteCashRegister(cr);
         }
     }
 

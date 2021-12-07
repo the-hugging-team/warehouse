@@ -16,14 +16,14 @@ public class CashRegistersService {
         return INSTANCE;
     }
 
-    public CashRegister addCR() {
+    public CashRegister addCashRegister() {
         CashRegister cr = new CashRegister();
         cr.setBalance(0.00);
         cashRegisterRepository.save(cr);
         return cr;
     }
 
-    public void deleteCR(CashRegister cr) {
+    public void deleteCashRegister(CashRegister cr) {
         cashRegisterRepository.delete(cr);
     }
 }
