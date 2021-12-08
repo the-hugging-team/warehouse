@@ -1,6 +1,6 @@
 package com.the.hugging.team.controllers;
 
-import com.the.hugging.team.entities.Room;
+import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.services.StorageService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
@@ -21,15 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("DuplicatedCode")
-public class RoomController extends DashboardTemplate {
+public class ShelfController extends DashboardTemplate {
 
     private final StorageService storageService = StorageService.getInstance();
     @FXML
     private TableView<Object> table;
     @FXML
-    private TableColumn<Room, String> name;
+    private TableColumn<Shelf, String> name;
     @FXML
-    private TableColumn<Room, String> id;
+    private TableColumn<Shelf, String> id;
+    @FXML
+    private TableColumn<Shelf, String> room;
     @FXML
     private TextField searchField;
     @FXML
@@ -43,19 +45,20 @@ public class RoomController extends DashboardTemplate {
     @FXML
     private Button deleteButton;
 
-    private ObservableList<Room> data;
-    private FilteredList<Room> filteredList;
+    private ObservableList<Shelf> data;
+    private FilteredList<Shelf> filteredList;
 
     public void initialize() {
-        data = FXCollections.observableArrayList(storageService.getAllRooms());
+        data = FXCollections.observableArrayList(storageService.getAllShelves());
 
         filteredList = new FilteredList<>(data, p -> true);
 
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
+        room.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getName()));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setCustomColumns(table, new ArrayList<>(List.of(0)), new ArrayList<>(List.of(100)));
+        TableResizer.setCustomColumns(table, new ArrayList<>(List.of(0,2)), new ArrayList<>(List.of(100,200)));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() == 0) {
@@ -85,40 +88,39 @@ public class RoomController extends DashboardTemplate {
     public void create(ActionEvent e) {
         Dialogs.singleTextInputDialog("Name", "Create client", "Enter the name: ").ifPresent(name ->
         {
-            data.add(storageService.addRoom(name));
+            data.add(storageService.addShelf(name, Session.getInstance().getSelectedRoom()));
             table.getItems().setAll(filteredList);
         });
     }
 
     public void edit(ActionEvent e) {
-        Room room = (Room) table.getSelectionModel().getSelectedItem();
+        Shelf shelf = (Shelf) table.getSelectionModel().getSelectedItem();
 
-        if (room == null) Dialogs.NotSelectedWarning();
-        else Dialogs.singleTextInputDialog(room.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
+        if (shelf == null) Dialogs.NotSelectedWarning();
+        else Dialogs.singleTextInputDialog(shelf.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
         {
-            storageService.setRoomName(room, name);
+            storageService.setShelfName(shelf, name);
             table.refresh();
         });
     }
 
     public void delete(ActionEvent e) {
-        Room room = (Room) table.getSelectionModel().getSelectedItem();
+        Shelf shelf = (Shelf) table.getSelectionModel().getSelectedItem();
 
-        if (room == null) Dialogs.NotSelectedWarning();
+        if (shelf == null) Dialogs.NotSelectedWarning();
         else {
-            data.remove(room);
+            data.remove(shelf);
             table.getItems().setAll(filteredList);
-            storageService.deleteRoom(room);
+            storageService.deleteShelf(shelf);
         }
     }
 
     public void show(ActionEvent e) {
-        Room room = (Room) table.getSelectionModel().getSelectedItem();
+        Shelf shelf = (Shelf) table.getSelectionModel().getSelectedItem();
 
-        if (room == null) Dialogs.NotSelectedWarning();
+        if (shelf == null) Dialogs.NotSelectedWarning();
         else {
-            DashboardTemplate.getInstance().loadView("views/dashboard/cruds/shelves-crud.fxml");
-            Session.getInstance().setSelectedRoom(room);
+
         }
     }
 }

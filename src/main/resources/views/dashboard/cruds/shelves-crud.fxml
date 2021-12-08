@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@../../../assets/css/dashboard.css"
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.the.hugging.team.controllers.RoomController">
+            fx:controller="com.the.hugging.team.controllers.ShelfController">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0"
                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
         <TextField fx:id="searchField" layoutX="15.0" layoutY="23.0" onAction="#search" prefHeight="30.0"
@@ -16,10 +16,11 @@
                 <TableColumn fx:id="id" editable="false" minWidth="-1.0" prefWidth="75.0" resizable="false" text="ID"/>
                 <TableColumn fx:id="name" editable="false" maxWidth="1.7976931348623157E308" prefWidth="287.0"
                              resizable="false" text="Name"/>
+                <TableColumn fx:id="room" prefWidth="187.0" text="Room"/>
             </columns>
         </TableView>
-        <Button layoutX="274.0" layoutY="13.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0"
-                prefWidth="60.0" style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="270.0"
+        <Button layoutX="403.0" layoutY="10.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0"
+                prefWidth="60.0" style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="403.0"
                 AnchorPane.topAnchor="10.0"/>
     </AnchorPane>
     <AnchorPane layoutX="749.0" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="200.0"
