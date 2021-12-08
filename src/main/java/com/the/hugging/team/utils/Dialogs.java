@@ -1,7 +1,13 @@
 package com.the.hugging.team.utils;
 
+import com.the.hugging.team.entities.CashRegister;
+import com.the.hugging.team.entities.Transaction;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.services.TransactionService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -116,5 +122,57 @@ public class Dialogs {
         });
 
         return dialog.showAndWait();
+    }
+
+    public static void cashRegisterHistoryDialog(CashRegister cr) {
+        Dialog<CashRegister> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle("Cash register " + cr.getId() + " history");
+        dialog.setResizable(false);
+
+        ObservableList<Transaction> data = FXCollections.observableArrayList(TransactionService.getTransactionsByCashRegister(cr));
+
+        if (data.size() == 0) {
+            dialog.setHeaderText("Nothing to show");
+            dialog.getDialogPane().setPrefWidth(500);
+        } else {
+            dialog.setHeaderText(null);
+            dialog.getDialogPane().setPrefSize(500, 600);
+
+            FilteredList<Transaction> filteredList = new FilteredList<>(data, p -> true);
+
+            TableView<Transaction> table = new TableView<>();
+            TableColumn<Transaction, String> transaction = new TableColumn<>();
+            TableColumn<Transaction, String> operator = new TableColumn<>();
+            TableColumn<Transaction, String> time = new TableColumn<>();
+
+            String transactionString;
+            transaction.setCellValueFactory(cellData ->
+                    new SimpleStringProperty((cellData.getValue().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
+                            + cellData.getValue().getAmount().toString()));
+            transaction.setText("Transaction");
+
+            operator.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedBy().getFirstName() + " " +
+                    cellData.getValue().getCreatedBy().getLastName()));
+            operator.setText("Operator");
+
+            time.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedAt().toString()));
+            time.setText("Time");
+
+            table.getColumns().addAll(transaction, time, operator);
+            table.setEditable(false);
+            table.getItems().setAll(filteredList);
+            int columns = table.getColumns().size();
+            for (int i = 0; i < columns; i++) {
+                table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);
+                table.getColumns().get(i).setReorderable(false);
+                table.getColumns().get(i).setResizable(false);
+            }
+
+            dialog.getDialogPane().setContent(table);
+        }
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.show();
     }
 }
