@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 
 public class CashRegistersController extends DashboardTemplate {
 
-    private final CashRegistersService clientService = CashRegistersService.getInstance();
+    private final CashRegistersService cashRegistersService = CashRegistersService.getInstance();
     @FXML
     private TableView<Object> table;
     @FXML
@@ -51,10 +51,11 @@ public class CashRegistersController extends DashboardTemplate {
 
         userAssigned.setCellValueFactory(cellData ->
         {
+            String textData;
             if (cellData.getValue().getUser() != null)
-                return new SimpleStringProperty(
-                        cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName());
-            else return new SimpleStringProperty("No user assigned");
+                textData = cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName();
+            else textData = "No user assigned";
+            return new SimpleStringProperty(textData);
         });
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
         balance.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBalance().toString()));
@@ -80,7 +81,7 @@ public class CashRegistersController extends DashboardTemplate {
     }
 
     public void create(ActionEvent e) {
-        data.add(clientService.addCashRegister());
+        data.add(cashRegistersService.addCashRegister());
         table.getItems().setAll(filteredList);
     }
 
@@ -101,7 +102,7 @@ public class CashRegistersController extends DashboardTemplate {
         else {
             data.remove(cr);
             table.getItems().setAll(filteredList);
-            clientService.deleteCashRegister(cr);
+            cashRegistersService.deleteCashRegister(cr);
         }
     }
 
