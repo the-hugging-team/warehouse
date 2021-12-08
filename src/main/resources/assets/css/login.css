@@ -1,7 +1,7 @@
 @import "font.css";
 
 #backgroundpane {
-    -fx-background-image: url('../images/login_background.jpg');
+    -fx-background-image: url('../images/login_backgorund.jpg');
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-background-size: cover;
@@ -13,12 +13,12 @@
 }
 
 #usernamefield {
-    -fx-background-color: #e5e5e5;
+    -fx-background-color: rgb(229, 229, 229);
     -fx-background-radius: 50;
 }
 
 #passwordfield {
-    -fx-background-color: #e5e5e5;
+    -fx-background-color: rgb(229, 229, 229);
     -fx-background-radius: 50;
 }
 
