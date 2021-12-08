@@ -66,7 +66,7 @@ public class Test extends DashboardTemplate {
         sex.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSex() == 1 ? "Male" : "Female"));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setResizer(table);
+        TableResizer.setDefault(table);
     }
 
     public void edit(ActionEvent e) {

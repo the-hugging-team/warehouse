@@ -114,7 +114,7 @@ public class DashboardTemplate extends WindowHandler {
         cashRegistersButton.setGraphic(cashRegistersIcon);
         cashRegistersButton.setGraphicTextGap(6);
         cashRegistersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-//        cashRegistersButton.setOnAction(this::cashRegistersClick);
+        cashRegistersButton.setOnAction(this::cashRegistersClick);
     }
 
     @FXML
@@ -174,6 +174,13 @@ public class DashboardTemplate extends WindowHandler {
         selectButton(suppliersButton);
 
         Window home = new Window("views/dashboard/cruds/suppliers-crud.fxml");
+        home.setAsAnchorPane(workspace, this.getWindow());
+    }
+
+    public void cashRegistersClick(ActionEvent e) {
+        selectButton(cashRegistersButton);
+
+        Window home = new Window("views/dashboard/cruds/cash-registers-crud.fxml");
         home.setAsAnchorPane(workspace, this.getWindow());
     }
     // Dropdown menu end
@@ -240,6 +247,9 @@ public class DashboardTemplate extends WindowHandler {
         }
         if (!user.can("permissions.suppliers.index")) {
             menu.getChildren().remove(suppliersButton);
+        }
+        if (!user.can("permissions.cash-registers.index")) {
+            menu.getChildren().remove(cashRegistersButton);
         }
     }
 }

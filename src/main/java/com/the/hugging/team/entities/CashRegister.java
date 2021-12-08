@@ -23,8 +23,8 @@ public class CashRegister {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "balance", nullable = false)
