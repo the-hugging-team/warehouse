@@ -3,8 +3,6 @@ package com.the.hugging.team.services;
 import com.the.hugging.team.entities.Supplier;
 import com.the.hugging.team.repositories.SupplierRepository;
 
-import java.util.List;
-
 public class SupplierService {
 
     private static SupplierService INSTANCE = null;
@@ -16,10 +14,6 @@ public class SupplierService {
         }
 
         return INSTANCE;
-    }
-
-    public List<Supplier> getAllSuppliers() {
-        return supplierRepository.getAll();
     }
 
     public void setSupplierName(Supplier supplier, String name) {

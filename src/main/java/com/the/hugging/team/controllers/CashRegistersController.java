@@ -1,6 +1,7 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.CashRegister;
+import com.the.hugging.team.repositories.CashRegisterRepository;
 import com.the.hugging.team.services.CashRegistersService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
@@ -44,7 +45,7 @@ public class CashRegistersController extends DashboardTemplate {
     private FilteredList<CashRegister> filteredList;
 
     public void initialize() {
-        data = FXCollections.observableArrayList(cashRegistersService.getAllCashRegisters());
+        data = FXCollections.observableArrayList(CashRegisterRepository.getInstance().getAll());
 
         filteredList = new FilteredList<>(data, p -> true);
 

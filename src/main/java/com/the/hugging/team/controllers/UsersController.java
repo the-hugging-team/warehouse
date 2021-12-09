@@ -60,7 +60,9 @@ public class UsersController extends DashboardTemplate {
 
     @FXML
     public void initialize() {
-        data = FXCollections.observableArrayList(userService.getAllUsers());
+        List<User> users = userService.getAllUsers();
+
+        data = FXCollections.observableArrayList(users);
 
         filteredList = new FilteredList<>(data, p -> true);
 
