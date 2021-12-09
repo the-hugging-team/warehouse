@@ -49,13 +49,17 @@ public class User implements Serializable {
 
     @Column(name = "sex", nullable = false)
     private Integer sex;
+    @ToString.Exclude
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+    @ToString.Exclude
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
+    @ToString.Exclude
     @ManyToOne(optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+    @ToString.Exclude
     @ManyToOne(optional = false)
     @JoinColumn(name = "updated_by", nullable = false)
     private User updatedBy;
@@ -77,7 +81,9 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName)
+                && Objects.equals(username, user.username) && Objects.equals(role, user.role) && Objects.equals(sex, user.sex);
+
     }
 
     @Override
