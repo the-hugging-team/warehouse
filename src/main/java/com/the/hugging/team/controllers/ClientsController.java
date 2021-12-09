@@ -1,7 +1,6 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Client;
-import com.the.hugging.team.repositories.ClientRepository;
 import com.the.hugging.team.services.ClientService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
@@ -45,7 +44,7 @@ public class ClientsController extends DashboardTemplate {
     private FilteredList<Client> filteredList;
 
     public void initialize() {
-        data = FXCollections.observableArrayList(ClientRepository.getInstance().getAll());
+        data = FXCollections.observableArrayList(clientService.getAllClients());
 
         filteredList = new FilteredList<>(data, p -> true);
 

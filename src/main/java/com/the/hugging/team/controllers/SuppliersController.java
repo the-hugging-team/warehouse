@@ -1,7 +1,6 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Supplier;
-import com.the.hugging.team.repositories.SupplierRepository;
 import com.the.hugging.team.services.SupplierService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
@@ -44,7 +43,7 @@ public class SuppliersController extends DashboardTemplate {
     private FilteredList<Supplier> filteredList;
 
     public void initialize() {
-        data = FXCollections.observableArrayList(SupplierRepository.getInstance().getAll());
+        data = FXCollections.observableArrayList(supplierService.getAllSuppliers());
 
         filteredList = new FilteredList<>(data, p -> true);
 
