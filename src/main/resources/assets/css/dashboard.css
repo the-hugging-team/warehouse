@@ -149,12 +149,12 @@ Light Blue - #8ecae6
     -fx-fill: WHITE;
 }
 
-.menu-button-dropdown-item.menu-button-active{
+.menu-button-dropdown-item.menu-button-active {
     -fx-background-color: #ffb703;
     -fx-text-fill: WHITE;
 }
 
-.menu-button-dropdown-item.menu-button-active .menu-icon{
+.menu-button-dropdown-item.menu-button-active .menu-icon {
     -fx-text-fill: WHITE;
 }
 

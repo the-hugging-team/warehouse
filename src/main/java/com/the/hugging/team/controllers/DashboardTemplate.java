@@ -19,52 +19,44 @@ import javafx.scene.layout.VBox;
 
 public class DashboardTemplate extends WindowHandler {
 
+    private static DashboardTemplate instance = null;
     private final Session session = Session.getInstance();
     protected final User user = session.getUser();
-
     @FXML
     private AnchorPane workspace;
-
     @FXML
     private Pane profile;
-
     @FXML
     private VBox menu;
-
     @FXML
     private Button homeButton;
-
     @FXML
     private Button manageButton;
-
     @FXML
     private Button manageArrow;
-
     private Button usersButton;
-
     private Button clientsButton;
-
     private Button suppliersButton;
-
     private Button cashRegistersButton;
-
     @FXML
     private Button sellButton;
-
     @FXML
     private Button deliveriesButton;
-
     @FXML
     private Button storageButton;
-
     @FXML
     private Button inventoryButton;
-
     @FXML
     private Button reportsButton;
 
+    public static DashboardTemplate getInstance() {
+        return instance;
+    }
+
     @FXML
     public void initialize() {
+        instance = this;
+
         if (user != null) {
             ((Label) profile.lookup("#userNames")).setText(user.getFirstName() + " " + user.getLastName());
             ((Label) profile.lookup("#role")).setText(user.getRole().getName());
@@ -121,8 +113,7 @@ public class DashboardTemplate extends WindowHandler {
     public void homeClick(ActionEvent event) {
         selectButton(homeButton);
 
-        Window homeWindow = new Window("views/dashboard/home.fxml");
-        homeWindow.setAsAnchorPane(workspace, this.getWindow());
+        loadView("views/dashboard/home.fxml");
     }
 
     // Dropdown menu start
@@ -159,29 +150,25 @@ public class DashboardTemplate extends WindowHandler {
     public void usersClick(ActionEvent event) {
         selectButton(usersButton);
 
-        Window usersWindow = new Window("views/dashboard/cruds/users-crud.fxml");
-        usersWindow.setAsAnchorPane(workspace, this.getWindow());
+        loadView("views/dashboard/cruds/users-crud.fxml");
     }
 
     public void clientsClick(ActionEvent e) {
         selectButton(clientsButton);
 
-        Window home = new Window("views/dashboard/cruds/clients-crud.fxml");
-        home.setAsAnchorPane(workspace, this.getWindow());
+        loadView("views/dashboard/cruds/clients-crud.fxml");
     }
 
     public void suppliersClick(ActionEvent e) {
         selectButton(suppliersButton);
 
-        Window home = new Window("views/dashboard/cruds/suppliers-crud.fxml");
-        home.setAsAnchorPane(workspace, this.getWindow());
+        loadView("views/dashboard/cruds/suppliers-crud.fxml");
     }
 
     public void cashRegistersClick(ActionEvent e) {
         selectButton(cashRegistersButton);
 
-        Window home = new Window("views/dashboard/cruds/cash-registers-crud.fxml");
-        home.setAsAnchorPane(workspace, this.getWindow());
+        loadView("views/dashboard/cruds/cash-registers-crud.fxml");
     }
     // Dropdown menu end
 
@@ -191,17 +178,19 @@ public class DashboardTemplate extends WindowHandler {
     }
 
     @FXML
-    public void deliveriesClick(ActionEvent event){
+    public void deliveriesClick(ActionEvent event) {
         selectButton(deliveriesButton);
     }
 
     @FXML
-    public void storageClick(ActionEvent event){
+    public void storageClick(ActionEvent event) {
         selectButton(storageButton);
+
+        loadView("views/dashboard/cruds/rooms-crud.fxml");
     }
 
     @FXML
-    public void inventoryClick(ActionEvent event){
+    public void inventoryClick(ActionEvent event) {
         selectButton(inventoryButton);
     }
 
@@ -248,8 +237,16 @@ public class DashboardTemplate extends WindowHandler {
         if (!user.can("permissions.suppliers.index")) {
             menu.getChildren().remove(suppliersButton);
         }
+        if (!user.can("permissions.rooms.index")) {
+            menu.getChildren().remove(storageButton);
+        }
         if (!user.can("permissions.cash-registers.index")) {
             menu.getChildren().remove(cashRegistersButton);
         }
+    }
+
+    protected void loadView(String view) {
+        Window window = new Window(view);
+        window.setAsAnchorPane(workspace, this.getWindow());
     }
 }

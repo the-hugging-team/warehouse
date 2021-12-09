@@ -1,8 +1,7 @@
 package com.the.hugging.team.utils;
 
-import com.the.hugging.team.entities.CashRegister;
-import com.the.hugging.team.entities.Transaction;
-import com.the.hugging.team.entities.User;
+import com.the.hugging.team.entities.*;
+import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.TransactionService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +16,9 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 public class Dialogs {
+    private static final TransactionService transactionService = TransactionService.getInstance();
+    private static final ProductService productService = ProductService.getInstance();
+
     public static void NotSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
@@ -131,7 +133,7 @@ public class Dialogs {
         dialog.setTitle("Cash register " + cr.getId() + " history");
         dialog.setResizable(false);
 
-        ObservableList<Transaction> data = FXCollections.observableArrayList(TransactionService.getTransactionsByCashRegister(cr));
+        ObservableList<Transaction> data = FXCollections.observableArrayList(transactionService.getTransactionsByCashRegister(cr));
 
         if (data.size() == 0) {
             dialog.setHeaderText("Nothing to show");
@@ -147,7 +149,6 @@ public class Dialogs {
             TableColumn<Transaction, String> operator = new TableColumn<>();
             TableColumn<Transaction, String> time = new TableColumn<>();
 
-            String transactionString;
             transaction.setCellValueFactory(cellData ->
                     new SimpleStringProperty((cellData.getValue().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
                             + cellData.getValue().getAmount().toString()));
@@ -172,7 +173,72 @@ public class Dialogs {
 
             dialog.getDialogPane().setContent(table);
         }
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        dialog.show();
+    }
+
+    public static void shelfItemsDialog(Shelf shelf) {
+        Dialog<Shelf> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle("Shelf " + shelf.getName() + " items");
+        dialog.setResizable(false);
+
+        ObservableList<Product> data = FXCollections.observableArrayList(productService.getProductsByShelf(shelf));
+
+        if (data.size() == 0) {
+            dialog.setHeaderText("Nothing to show");
+            dialog.getDialogPane().setPrefWidth(500);
+        } else {
+            dialog.setHeaderText(null);
+            dialog.getDialogPane().setPrefSize(1300, 600);
+
+            FilteredList<Product> filteredList = new FilteredList<>(data, p -> true);
+
+            TableView<Product> table = new TableView<>();
+            TableColumn<Product, String> name = new TableColumn<>();
+            TableColumn<Product, String> nomenclature = new TableColumn<>();
+            TableColumn<Product, String> category = new TableColumn<>();
+            TableColumn<Product, String> quantity = new TableColumn<>();
+            TableColumn<Product, String> retailPrice = new TableColumn<>();
+            TableColumn<Product, String> wholesalePrice = new TableColumn<>();
+            TableColumn<Product, String> deliveryPrice = new TableColumn<>();
+
+            name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+            name.setText("Name");
+
+            nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
+            nomenclature.setText("Nomenclature");
+
+            category.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductCategory().getName()));
+            category.setText("Category");
+
+            quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString() + " " + cellData.getValue().getProductQuantityType().getName()));
+            quantity.setText("Quantity");
+
+            retailPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRetailPrice().toString()));
+            retailPrice.setText("Retail price");
+
+            wholesalePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getWholesalePrice().toString()));
+            wholesalePrice.setText("Wholesale price");
+
+            deliveryPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeliveryPrice().toString()));
+            deliveryPrice.setText("Delivery price");
+
+            table.getColumns().addAll(name, nomenclature, category, quantity, retailPrice, wholesalePrice, deliveryPrice);
+
+            table.setEditable(false);
+            table.getItems().setAll(filteredList);
+            int columns = table.getColumns().size();
+            for (int i = 0; i < columns; i++) {
+                table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);
+                table.getColumns().get(i).setReorderable(false);
+                table.getColumns().get(i).setResizable(false);
+            }
+
+            dialog.getDialogPane().setContent(table);
+        }
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
         dialog.show();
     }
 }
