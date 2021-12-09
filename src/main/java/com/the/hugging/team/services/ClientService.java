@@ -3,6 +3,8 @@ package com.the.hugging.team.services;
 import com.the.hugging.team.entities.Client;
 import com.the.hugging.team.repositories.ClientRepository;
 
+import java.util.List;
+
 public class ClientService {
 
     private static ClientService INSTANCE = null;
@@ -14,6 +16,10 @@ public class ClientService {
         }
 
         return INSTANCE;
+    }
+
+    public List<Client> getAllClients() {
+        return clientRepository.getAll();
     }
 
     public void setClientName(Client client, String name) {

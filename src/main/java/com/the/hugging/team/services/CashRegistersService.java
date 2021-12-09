@@ -3,6 +3,8 @@ package com.the.hugging.team.services;
 import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.repositories.CashRegisterRepository;
 
+import java.util.List;
+
 public class CashRegistersService {
 
     private static CashRegistersService INSTANCE = null;
@@ -14,6 +16,10 @@ public class CashRegistersService {
         }
 
         return INSTANCE;
+    }
+
+    public List<CashRegister> getAllCashRegisters() {
+        return cashRegisterRepository.getAll();
     }
 
     public CashRegister addCashRegister() {
