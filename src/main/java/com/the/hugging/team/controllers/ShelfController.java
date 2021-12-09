@@ -31,8 +31,6 @@ public class ShelfController extends DashboardTemplate {
     @FXML
     private TableColumn<Shelf, String> id;
     @FXML
-    private TableColumn<Shelf, String> room;
-    @FXML
     private TextField searchField;
     @FXML
     private VBox sideBox;
@@ -55,10 +53,9 @@ public class ShelfController extends DashboardTemplate {
 
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
-        room.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getName()));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setCustomColumns(table, new ArrayList<>(List.of(0,2)), new ArrayList<>(List.of(100,200)));
+        TableResizer.setCustomColumns(table, new ArrayList<>(List.of(0, 2)), new ArrayList<>(List.of(100, 200)));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() == 0) {
@@ -67,15 +64,7 @@ public class ShelfController extends DashboardTemplate {
             }
         });
 
-        if (!user.can("permissions.rooms.create")) {
-            sideBox.getChildren().remove(createButton);
-        }
-        if (!user.can("permissions.rooms.edit")) {
-            sideBox.getChildren().remove(editButton);
-        }
-        if (!user.can("permissions.rooms.delete")) {
-            sideBox.getChildren().remove(deleteButton);
-        }
+        checkPermissions();
     }
 
     public void search(ActionEvent e) {
@@ -86,7 +75,7 @@ public class ShelfController extends DashboardTemplate {
     }
 
     public void create(ActionEvent e) {
-        Dialogs.singleTextInputDialog("Name", "Create client", "Enter the name: ").ifPresent(name ->
+        Dialogs.singleTextInputDialog("Name", "Create shelf", "Enter the name: ").ifPresent(name ->
         {
             data.add(storageService.addShelf(name, Session.getInstance().getSelectedRoom()));
             table.getItems().setAll(filteredList);
@@ -120,7 +109,22 @@ public class ShelfController extends DashboardTemplate {
 
         if (shelf == null) Dialogs.NotSelectedWarning();
         else {
+            Dialogs.shelfItemsDialog(shelf);
+        }
+    }
 
+    private void checkPermissions() {
+        if (!user.can("permissions.shelves.create")) {
+            sideBox.getChildren().remove(createButton);
+        }
+        if (!user.can("permissions.shelves.edit")) {
+            sideBox.getChildren().remove(editButton);
+        }
+        if (!user.can("permissions.shelves.delete")) {
+            sideBox.getChildren().remove(deleteButton);
+        }
+        if (!user.can("permissions.products.index")) {
+            sideBox.getChildren().remove(showButton);
         }
     }
 }

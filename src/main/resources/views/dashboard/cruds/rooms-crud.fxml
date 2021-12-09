@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@../../../assets/css/dashboard.css"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="720.0" prefWidth="1080.0"
+            stylesheets="@../../../assets/css/dashboard.css" xmlns="http://javafx.com/javafx/17"
             fx:controller="com.the.hugging.team.controllers.RoomController">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0"
                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">

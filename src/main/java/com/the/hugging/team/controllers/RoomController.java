@@ -64,15 +64,7 @@ public class RoomController extends DashboardTemplate {
             }
         });
 
-        if (!user.can("permissions.rooms.create")) {
-            sideBox.getChildren().remove(createButton);
-        }
-        if (!user.can("permissions.rooms.edit")) {
-            sideBox.getChildren().remove(editButton);
-        }
-        if (!user.can("permissions.rooms.delete")) {
-            sideBox.getChildren().remove(deleteButton);
-        }
+        checkPermissions();
     }
 
     public void search(ActionEvent e) {
@@ -83,7 +75,7 @@ public class RoomController extends DashboardTemplate {
     }
 
     public void create(ActionEvent e) {
-        Dialogs.singleTextInputDialog("Name", "Create client", "Enter the name: ").ifPresent(name ->
+        Dialogs.singleTextInputDialog("Name", "Create room", "Enter the name: ").ifPresent(name ->
         {
             data.add(storageService.addRoom(name));
             table.getItems().setAll(filteredList);
@@ -119,6 +111,21 @@ public class RoomController extends DashboardTemplate {
         else {
             DashboardTemplate.getInstance().loadView("views/dashboard/cruds/shelves-crud.fxml");
             Session.getInstance().setSelectedRoom(room);
+        }
+    }
+
+    private void checkPermissions() {
+        if (!user.can("permissions.rooms.create")) {
+            sideBox.getChildren().remove(createButton);
+        }
+        if (!user.can("permissions.rooms.edit")) {
+            sideBox.getChildren().remove(editButton);
+        }
+        if (!user.can("permissions.rooms.delete")) {
+            sideBox.getChildren().remove(deleteButton);
+        }
+        if (!user.can("permissions.shelves.index")) {
+            sideBox.getChildren().remove(showButton);
         }
     }
 }

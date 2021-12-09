@@ -116,7 +116,7 @@ public class CashRegistersController extends DashboardTemplate {
         if (!user.can("permissions.cash-registers.operate")) {
             sideBox.getChildren().remove(operateButton);
         }
-        if (!user.can("permissions.cash-registers.show-history")) {
+        if (!user.can("permissions.transaction.index")) {
             sideBox.getChildren().remove(showHistoryButton);
         }
     }

@@ -1,6 +1,7 @@
 package com.the.hugging.team.repositories;
 
 import com.the.hugging.team.entities.Product;
+import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,6 +87,19 @@ public class ProductRepository implements ObjectRepository<Product> {
             log.error("Get all products error: " + e.getMessage());
         }
         return AllProducts;
+    }
+
+    public List<Product> getByShelf(Shelf shelf) {
+        List<Product> products = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            products.addAll(entityManager.createQuery("SELECT t FROM Product t WHERE t.shelf = :shelf", Product.class).setParameter("shelf", shelf).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get products by shelf error: " + e.getMessage());
+        }
+        return products;
     }
 }
 
