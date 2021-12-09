@@ -23,7 +23,7 @@
         <class>com.the.hugging.team.entities.Transaction</class>
         <class>com.the.hugging.team.entities.User</class>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/warehouse"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cella"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.show_sql" value="true"/>
