@@ -37,6 +37,7 @@ public class DashboardTemplate extends WindowHandler {
     private Button usersButton;
     private Button clientsButton;
     private Button suppliersButton;
+    private Button companiesButton;
     private Button cashRegistersButton;
     @FXML
     private Button sellButton;
@@ -98,6 +99,15 @@ public class DashboardTemplate extends WindowHandler {
         suppliersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
         suppliersButton.setOnAction(this::suppliersClick);
 
+        FontAwesomeIconView companiesIcon = new FontAwesomeIconView(FontAwesomeIcon.TRUCK);
+        companiesIcon.setSize("12.0pt");
+        companiesIcon.getStyleClass().add("menu-icon");
+        companiesButton = new Button("Companies");
+        companiesButton.setGraphic(companiesIcon);
+        companiesButton.setGraphicTextGap(6);
+        companiesButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
+        companiesButton.setOnAction(this::companiesClick);
+
 
         FontAwesomeIconView cashRegistersIcon = new FontAwesomeIconView(FontAwesomeIcon.MONEY);
         cashRegistersIcon.setSize("12.0pt");
@@ -137,14 +147,15 @@ public class DashboardTemplate extends WindowHandler {
         menu.getChildren().add(manageButtonIndex + 1, usersButton);
         menu.getChildren().add(manageButtonIndex + 2, clientsButton);
         menu.getChildren().add(manageButtonIndex + 3, suppliersButton);
-        menu.getChildren().add(manageButtonIndex + 4, cashRegistersButton);
+        menu.getChildren().add(manageButtonIndex + 4, companiesButton);
+        menu.getChildren().add(manageButtonIndex + 5, cashRegistersButton);
     }
 
     private void closeManageDropdown() {
         int manageButtonIndex = menu.getChildren().indexOf(manageButton.getParent());
         manageButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
         ((FontAwesomeIconView) manageArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
-        menu.getChildren().remove(manageButtonIndex + 1, manageButtonIndex + 5);
+        menu.getChildren().remove(manageButtonIndex + 1, manageButtonIndex + 6);
     }
 
     public void usersClick(ActionEvent event) {
@@ -163,6 +174,12 @@ public class DashboardTemplate extends WindowHandler {
         selectButton(suppliersButton);
 
         loadView("views/dashboard/cruds/suppliers-crud.fxml");
+    }
+
+    public void companiesClick(ActionEvent e) {
+        selectButton(companiesButton);
+
+        loadView("views/dashboard/cruds/wizard-test.fxml");
     }
 
     public void cashRegistersClick(ActionEvent e) {
