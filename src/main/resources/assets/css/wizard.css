@@ -1,0 +1,31 @@
+.stepLabel {
+    -fx-border-radius: 40px;
+    -fx-border-width: 3px;
+    -fx-background-radius: 40px;
+    -fx-background-color: transparent;
+    -fx-font-size: 25px;
+}
+
+.stepName, .filler {
+    -fx-border-width: 3px 0px 3px 0px;
+    -fx-background-color: transparent;
+    -fx-font-size: 15px;
+}
+
+.previousStep .stepLabel, .previousStep .stepName, .previousStep .filler {
+    -fx-border-color: #8ecae6;
+}
+
+.currentStep .stepLabel, .currentStep .stepName, .currentStep .filler {
+    -fx-border-color: #219ebc;
+}
+
+.currentStep .stepLabel {
+    -fx-background-color: #219ebc;
+    -fx-text-fill: white;
+}
+
+.nextStep .stepLabel, .nextStep .stepName, .nextStep .filler {
+    -fx-border-color: #cfcfcf;
+}
+

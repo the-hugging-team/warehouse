@@ -6,6 +6,7 @@ Light Blue - #8ecae6
 */
 
 @import "font.css";
+@import "wizard.css";
 
 #profile {
     -fx-background-color: #73bfdc;

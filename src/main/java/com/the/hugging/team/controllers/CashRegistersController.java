@@ -1,9 +1,12 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.CashRegister;
+import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.CashRegistersService;
 import com.the.hugging.team.utils.Dialogs;
+import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.TableResizer;
+import com.the.hugging.team.utils.WindowHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +19,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class CashRegistersController extends DashboardTemplate {
+public class CashRegistersController extends WindowHandler {
 
     private final CashRegistersService cashRegistersService = CashRegistersService.getInstance();
+    private final Session session = Session.getInstance();
+    private final User user = session.getUser();
+
     @FXML
     private TableView<Object> table;
     @FXML

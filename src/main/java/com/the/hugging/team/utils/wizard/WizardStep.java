@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.TextAlignment;
 
-public /*abstract*/ class WizardStep {
+public /*abstract*/ class WizardStep implements Listener<StepEvent> {
     private final int stepNumber;
     private final String stepName;
     private final Button fillerButton = new Button();
@@ -16,29 +16,33 @@ public /*abstract*/ class WizardStep {
     private final Button stepNameButton = new Button();
     private String fxmlPath;
     private AnchorPane anchor;
+    private HBox stepHBox;
     private Window window;
+    private EventSource eventSource = EventSource.getInstance();
 
-    public WizardStep(int stepNumber, String stepName) {
+    public WizardStep(int stepNumber, String stepName, String fxmlPath) {
         this.stepNumber = stepNumber;
         this.stepName = stepName;
+        this.fxmlPath = fxmlPath;
     }
 
     public void initStep(AnchorPane anchor, Window current, HBox parent, int currentStep) {
         this.anchor = anchor;
         this.window = current;
+        this.stepHBox = new HBox();
         showStep(parent, currentStep);
         setButtonClick();
+
+        eventSource.addListener(EventType.STEP_EVENT_TYPE, this);
     }
 
     public void showStep(HBox parent, int currentStep) {
         HBox stepHBox = renderStep(currentStep);
         parent.getChildren().add(stepHBox);
         HBox.setHgrow(stepHBox, Priority.ALWAYS);
-
     }
 
     private HBox renderStep(int currentStep) {
-        HBox stepHBox = new HBox();
 
         stepLabelButton.setText(stepNumber + "");
         stepNameButton.setText(stepName);
@@ -52,15 +56,18 @@ public /*abstract*/ class WizardStep {
         stepLabelButton.setMaxWidth(80);
         stepLabelButton.setTextAlignment(TextAlignment.CENTER);
         stepLabelButton.setAlignment(Pos.CENTER);
+        stepLabelButton.getStyleClass().add("stepLabel");
 
         stepNameButton.setPrefHeight(30);
         stepNameButton.setPrefWidth(1000);
         stepNameButton.setMaxWidth(1000);
         stepNameButton.setAlignment(Pos.BASELINE_LEFT);
+        stepNameButton.getStyleClass().add("stepName");
 
         fillerButton.setPrefHeight(30);
         fillerButton.setPrefWidth(30);
         fillerButton.setMaxWidth(30);
+        fillerButton.getStyleClass().add("filler");
 
         stepHBox.getChildren().addAll(fillerButton, stepLabelButton, stepNameButton);
         HBox.setHgrow(fillerButton, Priority.SOMETIMES);
@@ -70,26 +77,31 @@ public /*abstract*/ class WizardStep {
         return stepHBox;
     }
 
-    private void selectStep() {
-    }
-
     public void loadStep(AnchorPane anchor, Window current) {
-//        Window stepWindow = new Window("fxml");
-//        stepWindow.setAsAnchorPane(anchor, current);
+        Window stepWindow = new Window(fxmlPath);
+        stepWindow.setAsAnchorPane(anchor, current);
     }
 
     public void setButtonClick() {
-        stepLabelButton.setOnAction(e -> {
-            selectStep();
+        stepLabelButton.setOnAction(e -> eventSource.fire(EventType.WIZARD_EVENT_EVENT_TYPE, new WizardEvent(stepNumber)));
+        stepNameButton.setOnAction(e -> eventSource.fire(EventType.WIZARD_EVENT_EVENT_TYPE, new WizardEvent(stepNumber)));
+        fillerButton.setOnAction(e -> eventSource.fire(EventType.WIZARD_EVENT_EVENT_TYPE, new WizardEvent(stepNumber)));
+    }
+
+    @Override
+    public void handle(StepEvent event) {
+        System.out.println("WizardStep: " + event.getStepNumber());
+        stepHBox.getStyleClass().removeAll("previousStep", "currentStep", "nextStep");
+        if (event.getStepNumber() == stepNumber) {
+            System.out.println("currentStep");
+            stepHBox.getStyleClass().add("currentStep");
             loadStep(anchor, window);
-        });
-        stepNameButton.setOnAction(e -> {
-            selectStep();
-            loadStep(anchor, window);
-        });
-        fillerButton.setOnAction(e -> {
-            selectStep();
-            loadStep(anchor, window);
-        });
+        } else if (event.getStepNumber() > stepNumber) {
+            System.out.println("previousStep");
+            stepHBox.getStyleClass().add("previousStep");
+        } else if (event.getStepNumber() < stepNumber) {
+            System.out.println("nextStep");
+            stepHBox.getStyleClass().add("nextStep");
+        }
     }
 }

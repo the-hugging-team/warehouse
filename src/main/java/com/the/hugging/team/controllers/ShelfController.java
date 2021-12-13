@@ -1,10 +1,12 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Shelf;
+import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.StorageService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.TableResizer;
+import com.the.hugging.team.utils.WindowHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,9 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("DuplicatedCode")
-public class ShelfController extends DashboardTemplate {
+public class ShelfController extends WindowHandler {
 
     private final StorageService storageService = StorageService.getInstance();
+    private final Session session = Session.getInstance();
+    private final User user = session.getUser();
     @FXML
     private TableView<Object> table;
     @FXML

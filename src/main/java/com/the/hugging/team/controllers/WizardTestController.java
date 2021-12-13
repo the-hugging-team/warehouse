@@ -17,13 +17,15 @@ public class WizardTestController extends DashboardTemplate {
     @FXML
     @Override
     public void initialize() {
-        WizardStep step1 = new WizardStep(1, "Step 1 content");
-        WizardStep step2 = new WizardStep(2, "Step 2 content");
-        WizardStep step3 = new WizardStep(3, "Step 3 content");
+        WizardStep step1 = new WizardStep(1, "Step 1 content", "views/dashboard/cruds/users-crud.fxml");
+        WizardStep step2 = new WizardStep(2, "Step 2 content", "views/dashboard/cruds/cash-registers-crud.fxml");
+        WizardStep step3 = new WizardStep(3, "Step 3 content", "views/dashboard/cruds/users-crud.fxml");
 
-        wizard = new Wizard(mainAnchor, List.of(step1, step2, step3), this.getWindow());
 
-        Platform.runLater(() -> wizard.setUpWizard());
+        Platform.runLater(() -> {
+            wizard = new Wizard(mainAnchor, List.of(step1, step2, step3), this.getWindow());
+            wizard.setUpWizard();
+        });
     }
 
     @FXML

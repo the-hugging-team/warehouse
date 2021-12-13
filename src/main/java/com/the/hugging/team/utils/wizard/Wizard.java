@@ -6,30 +6,28 @@ import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-public class Wizard {
+public class Wizard implements Listener<WizardEvent> {
     private List<WizardStep> steps;
     private int currentStep;
     private AnchorPane mainAnchor;
     private AnchorPane childAnchor;
     private Window currentWindow;
+    private EventSource eventSource = EventSource.getInstance();
 
-    public Wizard(AnchorPane anchor, List<WizardStep> steps, Window currentWindow)
-    {
+    public Wizard(AnchorPane anchor, List<WizardStep> steps, Window currentWindow) {
         this.steps = steps;
-        this.currentStep = 0;
+        this.currentStep = 1;
         this.mainAnchor = anchor;
         this.currentWindow = currentWindow;
 
         this.childAnchor = new AnchorPane();
         this.childAnchor.setPrefWidth(anchor.getPrefWidth());
-        this.childAnchor.setPrefHeight(anchor.getPrefHeight()-80);
+        this.childAnchor.setPrefHeight(anchor.getPrefHeight() - 80);
     }
 
-    public void setUpWizard()
-    {
+    public void setUpWizard() {
         HBox stepBox = new HBox();
-        for (WizardStep wizardStep : steps)
-        {
+        for (WizardStep wizardStep : steps) {
             wizardStep.initStep(childAnchor, currentWindow, stepBox, currentStep);
         }
         //TODO: Set up HBox
@@ -44,5 +42,15 @@ public class Wizard {
         AnchorPane.setBottomAnchor(childAnchor, 0.0);
 
         mainAnchor.getChildren().addAll(stepBox, childAnchor);
+
+        eventSource.addListener(EventType.WIZARD_EVENT_EVENT_TYPE, this);
+        eventSource.fire(EventType.STEP_EVENT_TYPE, new StepEvent(currentStep));
+    }
+
+    @Override
+    public void handle(WizardEvent event) {
+        System.out.println("Wizard Event: " + event.currentStep);
+
+        eventSource.fire(EventType.STEP_EVENT_TYPE, new StepEvent(event.currentStep));
     }
 }

@@ -47,7 +47,6 @@ public class Window {
     }
 
     public void setAsAnchorPane(AnchorPane parent, Window window) {
-        window.fxmlLoader.setController(this.fxmlLoader.getController());
         parent.getChildren().setAll(root.getChildrenUnmodifiable());
     }
 
