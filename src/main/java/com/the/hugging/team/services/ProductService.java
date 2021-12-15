@@ -22,4 +22,8 @@ public class ProductService {
     public List<Product> getProductsByShelf(Shelf shelf) {
         return productRepository.getByShelf(shelf);
     }
+
+    public List<Product> getProductsByProductCategoryType(String productCategoryTypeSlug) {
+        return productRepository.getByProductCategoryType(productCategoryTypeSlug);
+    }
 }

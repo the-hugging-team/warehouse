@@ -47,8 +47,20 @@ public class Product implements Serializable {
     @Column(name = "retail_price", nullable = false)
     private Double retailPrice;
 
+    @Transient
+    private Double ddsRetailPrice;
+
+    @Transient
+    private Double totalRetailPrice;
+
     @Column(name = "wholesale_price", nullable = false)
     private Double wholesalePrice;
+
+    @Transient
+    private Double ddsWholesalePrice;
+
+    @Transient
+    private Double totalWholesalePrice;
 
     @Column(name = "delivery_price", nullable = false)
     private Double deliveryPrice;

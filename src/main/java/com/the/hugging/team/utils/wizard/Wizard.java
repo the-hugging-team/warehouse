@@ -30,7 +30,7 @@ public class Wizard implements Listener<WizardEvent> {
         for (WizardStep wizardStep : steps) {
             wizardStep.initStep(childAnchor, currentWindow, stepBox, currentStep);
         }
-        //TODO: Set up HBox
+
         AnchorPane.setTopAnchor(stepBox, 0.0);
         AnchorPane.setLeftAnchor(stepBox, 0.0);
         AnchorPane.setRightAnchor(stepBox, 0.0);

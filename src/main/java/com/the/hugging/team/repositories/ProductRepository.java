@@ -101,5 +101,22 @@ public class ProductRepository implements ObjectRepository<Product> {
         }
         return products;
     }
+
+    public List<Product> getByProductCategoryType(String productCategoryTypeSlug) {
+        List<Product> products = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            products.addAll(
+                entityManager.createQuery("SELECT t FROM Product t WHERE t.productCategory.slug = :productCategoryTypeSlug", Product.class)
+                    .setParameter("productCategoryTypeSlug", productCategoryTypeSlug)
+                    .getResultList()
+            );
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get products by productCategoryType error: " + e.getMessage());
+        }
+        return products;
+    }
 }
 
