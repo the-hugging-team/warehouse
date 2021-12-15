@@ -1,19 +1,18 @@
 package com.the.hugging.team.services;
 
-import com.the.hugging.team.entities.Address;
 import com.the.hugging.team.entities.Company;
 import com.the.hugging.team.repositories.CompanyRepository;
 
 import java.util.List;
 
-public class CompaniesService {
+public class CompanyService {
 
-    private static CompaniesService INSTANCE = null;
+    private static CompanyService INSTANCE = null;
     private final CompanyRepository companyRepository = CompanyRepository.getInstance();
 
-    public static CompaniesService getInstance() {
+    public static CompanyService getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new CompaniesService();
+            INSTANCE = new CompanyService();
         }
 
         return INSTANCE;

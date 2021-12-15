@@ -18,7 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class UsersController extends WindowHandler {
+public class UserController extends WindowHandler {
 
     private final UserService userService = UserService.getInstance();
     private final Session session = Session.getInstance();

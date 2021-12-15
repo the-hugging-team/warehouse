@@ -2,7 +2,7 @@ package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.User;
-import com.the.hugging.team.services.CashRegistersService;
+import com.the.hugging.team.services.CashRegisterService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.TableResizer;
@@ -19,9 +19,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class CashRegistersController extends WindowHandler {
+public class CashRegisterController extends WindowHandler {
 
-    private final CashRegistersService cashRegistersService = CashRegistersService.getInstance();
+    private final CashRegisterService cashRegistersService = CashRegisterService.getInstance();
     private final Session session = Session.getInstance();
     private final User user = session.getUser();
 

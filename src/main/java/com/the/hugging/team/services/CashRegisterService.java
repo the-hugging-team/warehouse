@@ -5,14 +5,14 @@ import com.the.hugging.team.repositories.CashRegisterRepository;
 
 import java.util.List;
 
-public class CashRegistersService {
+public class CashRegisterService {
 
-    private static CashRegistersService INSTANCE = null;
+    private static CashRegisterService INSTANCE = null;
     private final CashRegisterRepository cashRegisterRepository = CashRegisterRepository.getInstance();
 
-    public static CashRegistersService getInstance() {
+    public static CashRegisterService getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new CashRegistersService();
+            INSTANCE = new CashRegisterService();
         }
 
         return INSTANCE;

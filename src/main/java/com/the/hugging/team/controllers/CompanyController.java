@@ -1,7 +1,7 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Company;
-import com.the.hugging.team.services.CompaniesService;
+import com.the.hugging.team.services.CompanyService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,9 +16,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class CompaniesController extends DashboardTemplate {
+public class CompanyController extends DashboardTemplate {
 
-    private final CompaniesService companiesService = CompaniesService.getInstance();
+    private final CompanyService companiesService = CompanyService.getInstance();
     @FXML
     private TableView<Object> table;
     @FXML
