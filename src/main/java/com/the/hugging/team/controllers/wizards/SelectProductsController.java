@@ -4,6 +4,7 @@ import com.the.hugging.team.entities.Product;
 import com.the.hugging.team.entities.ProductCategory;
 import com.the.hugging.team.services.ProductCategoryService;
 import com.the.hugging.team.services.ProductService;
+import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import com.the.hugging.team.utils.WindowHandler;
 import javafx.beans.binding.Bindings;
@@ -22,8 +23,8 @@ import java.util.List;
 
 public class SelectProductsController extends WindowHandler {
 
-    private ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
-    private ProductService productService = ProductService.getInstance();
+    private final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
+    private final ProductService productService = ProductService.getInstance();
 
     @FXML
     private AnchorPane wizardStepPane;
@@ -134,8 +135,22 @@ public class SelectProductsController extends WindowHandler {
     }
 
     private void addToProductsTable() {
-        Product product = searchTable.getSelectionModel().getSelectedItem();
-        productsTable.getItems().add(product);
+        Product product = searchTable.getSelectionModel().getSelectedItem().clone();
+
+        Dialogs.singleTextInputDialog("0", "Enter quantity", "Quantity")
+                .ifPresent(quantity -> {
+                    product.setQuantity(Double.parseDouble(quantity));
+
+                    product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
+                    product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
+                    product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
+
+                    product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
+                    product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
+                    product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
+
+                    productsTable.getItems().add(product);
+                });
     }
 
     private void setupCategories() {
