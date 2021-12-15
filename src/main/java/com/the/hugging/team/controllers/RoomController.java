@@ -59,7 +59,7 @@ public class RoomController extends WindowHandler {
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setCustomColumns(table, new ArrayList<>(List.of(0)), new ArrayList<>(List.of(100)));
+        TableResizer.setCustomColumns(table, List.of(0), List.of(100));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() == 0) {

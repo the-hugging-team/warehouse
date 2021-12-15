@@ -20,7 +20,7 @@ public class CompanyController extends DashboardTemplate {
 
     private final CompanyService companiesService = CompanyService.getInstance();
     @FXML
-    private TableView<Object> table;
+    private TableView<Company> table;
     @FXML
     private TableColumn<Company, String> name;
     @FXML
@@ -88,7 +88,7 @@ public class CompanyController extends DashboardTemplate {
     }
 
     public void edit(ActionEvent e) {
-        Company company = (Company) table.getSelectionModel().getSelectedItem();
+        Company company = table.getSelectionModel().getSelectedItem();
 
         if (company == null) Dialogs.notSelectedWarning();
         else Dialogs.companyDialog(company, "Edit " + company.getName() + " company").ifPresent(editedCompany ->
@@ -99,7 +99,7 @@ public class CompanyController extends DashboardTemplate {
     }
 
     public void delete(ActionEvent e) {
-        Company company = (Company) table.getSelectionModel().getSelectedItem();
+        Company company = table.getSelectionModel().getSelectedItem();
 
         if (company == null) Dialogs.notSelectedWarning();
         else {

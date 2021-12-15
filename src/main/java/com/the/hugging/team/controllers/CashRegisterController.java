@@ -26,7 +26,7 @@ public class CashRegisterController extends WindowHandler {
     private final User user = session.getUser();
 
     @FXML
-    private TableView<Object> table;
+    private TableView<CashRegister> table;
     @FXML
     private TableColumn<CashRegister, String> userAssigned;
     @FXML
@@ -91,13 +91,13 @@ public class CashRegisterController extends WindowHandler {
     }
 
     public void showHistory(ActionEvent e) {
-        CashRegister cr = (CashRegister) table.getSelectionModel().getSelectedItem();
+        CashRegister cr = table.getSelectionModel().getSelectedItem();
         if (cr == null) Dialogs.notSelectedWarning();
         else Dialogs.cashRegisterHistoryDialog(cr);
     }
 
     public void delete(ActionEvent e) {
-        CashRegister cr = (CashRegister) table.getSelectionModel().getSelectedItem();
+        CashRegister cr = table.getSelectionModel().getSelectedItem();
 
         if (cr == null) Dialogs.notSelectedWarning();
         else {

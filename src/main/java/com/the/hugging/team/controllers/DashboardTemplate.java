@@ -132,7 +132,7 @@ public class DashboardTemplate extends WindowHandler {
         int manageButtonIndex = menu.getChildren().indexOf(manageButton.getParent());
         manageButton.getParent().getStyleClass().remove("menu-button-dropdown-active");
         ((FontAwesomeIconView) manageArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_DOWN);
-        menu.getChildren().remove(manageButtonIndex + 1, manageButtonIndex + 6);
+        menu.getChildren().remove(manageButtonIndex + 1, manageButtonIndex + 4);
     }
 
     public void usersClick(ActionEvent event) {
@@ -157,6 +157,8 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     public void sellClick(ActionEvent event) {
         selectButton(sellButton);
+
+        loadView("views/dashboard/wizards/sell.fxml");
     }
 
     @FXML

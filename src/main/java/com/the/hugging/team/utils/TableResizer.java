@@ -2,11 +2,11 @@ package com.the.hugging.team.utils;
 
 import javafx.scene.control.TableView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TableResizer {
 
-    public static void setDefault(TableView<Object> table) {
+    public static void setDefault(TableView<?> table) {
         int columnsCount = table.getColumns().size();
         table.widthProperty().addListener(
                 (observableValue, oldTableWidth, newTableWidth) ->
@@ -21,7 +21,7 @@ public class TableResizer {
                 });
     }
 
-    public static void setCustomColumns(TableView<Object> table, ArrayList<Integer> columnIndex, ArrayList<Integer> columnWidth) {
+    public static void setCustomColumns(TableView<?> table, List<Integer> columnIndex, List<Integer> columnWidth) {
         int totalColumnWidth = columnWidth.stream().mapToInt(a -> a).sum();
         for (int i = 0; i < columnIndex.size(); i++) {
             table.getColumns().get(columnIndex.get(i)).setPrefWidth(columnWidth.get(i));

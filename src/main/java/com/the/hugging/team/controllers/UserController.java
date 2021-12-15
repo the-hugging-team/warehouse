@@ -25,7 +25,7 @@ public class UserController extends WindowHandler {
     private final User user = session.getUser();
 
     @FXML
-    private TableView<Object> table;
+    private TableView<User> table;
 
     @FXML
     private TableColumn<User, String> firstName;
@@ -105,7 +105,7 @@ public class UserController extends WindowHandler {
 
     @FXML
     private void edit(ActionEvent event) {
-        User userSelected = (User) table.getSelectionModel().getSelectedItem();
+        User userSelected = table.getSelectionModel().getSelectedItem();
 
         if (userSelected == null) Dialogs.notSelectedWarning();
         else Dialogs.userDialog(userSelected, "Edit user").ifPresent(user ->
