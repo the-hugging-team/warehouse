@@ -85,18 +85,7 @@ public class Product implements Serializable, Cloneable {
     @Override
     public Product clone() {
         try {
-            Product product = (Product) super.clone();
-            product.setId(id);
-            product.setName(name);
-            product.setNomenclature(nomenclature);
-            product.setProductCategory(productCategory);
-            product.setQuantity(quantity);
-            product.setProductQuantityType(productQuantityType);
-            product.setRetailPrice(retailPrice);
-            product.setWholesalePrice(wholesalePrice);
-            product.setDeliveryPrice(deliveryPrice);
-            product.setShelf(shelf);
-            return product;
+            return (Product) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return null;
