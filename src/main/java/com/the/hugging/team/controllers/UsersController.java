@@ -107,7 +107,7 @@ public class UsersController extends WindowHandler {
     private void edit(ActionEvent event) {
         User userSelected = (User) table.getSelectionModel().getSelectedItem();
 
-        if (userSelected == null) Dialogs.NotSelectedWarning();
+        if (userSelected == null) Dialogs.notSelectedWarning();
         else Dialogs.userDialog(userSelected, "Edit user").ifPresent(user ->
         {
             userService.updateUser(user);

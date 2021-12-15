@@ -89,7 +89,7 @@ public class RoomController extends WindowHandler {
     public void edit(ActionEvent e) {
         Room room = (Room) table.getSelectionModel().getSelectedItem();
 
-        if (room == null) Dialogs.NotSelectedWarning();
+        if (room == null) Dialogs.notSelectedWarning();
         else Dialogs.singleTextInputDialog(room.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
         {
             storageService.setRoomName(room, name);
@@ -100,7 +100,7 @@ public class RoomController extends WindowHandler {
     public void delete(ActionEvent e) {
         Room room = (Room) table.getSelectionModel().getSelectedItem();
 
-        if (room == null) Dialogs.NotSelectedWarning();
+        if (room == null) Dialogs.notSelectedWarning();
         else {
             data.remove(room);
             table.getItems().setAll(filteredList);
@@ -111,7 +111,7 @@ public class RoomController extends WindowHandler {
     public void show(ActionEvent e) {
         Room room = (Room) table.getSelectionModel().getSelectedItem();
 
-        if (room == null) Dialogs.NotSelectedWarning();
+        if (room == null) Dialogs.notSelectedWarning();
         else {
             DashboardTemplate.getInstance().loadView("views/dashboard/cruds/shelves-crud.fxml");
             Session.getInstance().setSelectedRoom(room);

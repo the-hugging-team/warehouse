@@ -7,7 +7,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -19,13 +21,23 @@ public class Dialogs {
     private static final TransactionService transactionService = TransactionService.getInstance();
     private static final ProductService productService = ProductService.getInstance();
 
-    public static void NotSelectedWarning() {
+    public static void notSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         alert.setGraphic(null);
         alert.setTitle("Warning: Item not selected");
         alert.setHeaderText(null);
         alert.setContentText("Please select an item from the list!");
+        alert.showAndWait();
+    }
+
+    public static void warningDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        alert.setGraphic(null);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
@@ -119,6 +131,110 @@ public class Dialogs {
                 user.setUsername(username.getText());
                 user.setPassword(Hasher.hash(password.getText()));
                 return user;
+            }
+            return null;
+        });
+
+        return dialog.showAndWait();
+    }
+
+    public static Optional<Company> companyDialog(Company company, String title)
+    {
+        Dialog<Company> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle(title);
+        dialog.setHeaderText(null);
+
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField companyName = new TextField();
+        companyName.setPromptText("Name");
+
+        TextField companyAddress = new TextField();
+        companyAddress.setPromptText("Address");
+
+        TextField bulstat = new TextField();
+        bulstat.setPromptText("EIK");
+
+        TextField dds = new TextField();
+        dds.setPromptText("DDS number");
+
+        TextField mol = new TextField();
+        mol.setPromptText("MOL");
+
+        if (company.getName() != null) {
+            companyName.setText(company.getName());
+        }
+
+        if (company.getAddress() != null) {
+            companyAddress.setText(company.getAddress().getAddress());
+        }
+
+        if (company.getBulstat() != null) {
+            bulstat.setText(company.getBulstat());
+        }
+
+        if (company.getDdsNumber() != null) {
+            dds.setText(company.getDdsNumber());
+        }
+
+        if (company.getMol() != null) {
+            mol.setText(company.getMol());
+        }
+
+        grid.add(new Label("Company Name:"), 0, 0);
+        grid.add(companyName, 1, 0);
+
+        grid.add(new Label("Company Address:"), 0, 1);
+        grid.add(companyAddress, 1, 1);
+
+        grid.add(new Label("EIK(Bulstat):"), 0, 2);
+        grid.add(bulstat, 1, 2);
+
+        grid.add(new Label("DDS number:"), 0, 3);
+        grid.add(dds, 1, 3);
+
+        grid.add(new Label("MOL:"), 0, 4);
+        grid.add(mol, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        final Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    if (bulstat.getText().length() != 9 &&
+                            bulstat.getText().length() != 10 &&
+                            bulstat.getText().length() != 13)
+                    {
+                        Dialogs.warningDialog("Incorrect data", "Incorrect EIK format!");
+                        event.consume();
+                    }
+                    else if (dds.getText().length() != 11 &&
+                            dds.getText().length() != 12)
+                    {
+                        Dialogs.warningDialog("Incorrect data", "Incorrect DDS number format!");
+                        event.consume();
+                    }
+                }
+        );
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == ButtonType.OK) {
+                Address newAddress = new Address();
+                newAddress.setAddress(companyAddress.getText());
+                company.setName(companyName.getText());
+                company.setAddress(newAddress);
+                company.setBulstat(bulstat.getText());
+                company.setDdsNumber(dds.getText());
+                company.setMol(mol.getText());
+                return company;
             }
             return null;
         });

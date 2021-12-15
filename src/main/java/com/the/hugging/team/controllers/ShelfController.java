@@ -89,7 +89,7 @@ public class ShelfController extends WindowHandler {
     public void edit(ActionEvent e) {
         Shelf shelf = (Shelf) table.getSelectionModel().getSelectedItem();
 
-        if (shelf == null) Dialogs.NotSelectedWarning();
+        if (shelf == null) Dialogs.notSelectedWarning();
         else Dialogs.singleTextInputDialog(shelf.getName(), "Edit name", "Enter new name: ").ifPresent(name ->
         {
             storageService.setShelfName(shelf, name);
@@ -100,7 +100,7 @@ public class ShelfController extends WindowHandler {
     public void delete(ActionEvent e) {
         Shelf shelf = (Shelf) table.getSelectionModel().getSelectedItem();
 
-        if (shelf == null) Dialogs.NotSelectedWarning();
+        if (shelf == null) Dialogs.notSelectedWarning();
         else {
             data.remove(shelf);
             table.getItems().setAll(filteredList);
@@ -111,7 +111,7 @@ public class ShelfController extends WindowHandler {
     public void show(ActionEvent e) {
         Shelf shelf = (Shelf) table.getSelectionModel().getSelectedItem();
 
-        if (shelf == null) Dialogs.NotSelectedWarning();
+        if (shelf == null) Dialogs.notSelectedWarning();
         else {
             Dialogs.shelfItemsDialog(shelf);
         }

@@ -7,7 +7,6 @@
         <class>com.the.hugging.team.entities.Activity</class>
         <class>com.the.hugging.team.entities.ActivityType</class>
         <class>com.the.hugging.team.entities.CashRegister</class>
-        <class>com.the.hugging.team.entities.Client</class>
         <class>com.the.hugging.team.entities.Delivery</class>
         <class>com.the.hugging.team.entities.Invoice</class>
         <class>com.the.hugging.team.entities.Permission</class>
@@ -18,7 +17,6 @@
         <class>com.the.hugging.team.entities.Room</class>
         <class>com.the.hugging.team.entities.Sale</class>
         <class>com.the.hugging.team.entities.Shelf</class>
-        <class>com.the.hugging.team.entities.Supplier</class>
         <class>com.the.hugging.team.entities.TransactionType</class>
         <class>com.the.hugging.team.entities.Transaction</class>
         <class>com.the.hugging.team.entities.User</class>

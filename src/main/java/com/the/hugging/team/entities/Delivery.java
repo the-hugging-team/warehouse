@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Table(name = "deliveries", indexes = {
-        @Index(name = "fk_supplier_id_idx", columnList = "supplier_id"),
         @Index(name = "fk_created_by_idx", columnList = "created_by"),
         @Index(name = "fk_updated_by_idx", columnList = "updated_by")
 })
@@ -25,10 +24,6 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "supplier_id", nullable = false)
-    private Supplier supplier;
 
     @Column(name = "invoice_id", nullable = false)
     private Integer invoiceId;
@@ -57,6 +52,6 @@ public class Delivery {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, supplier, invoiceId, createdAt, updatedAt, createdBy, updatedBy);
+        return Objects.hash(id, invoiceId, createdAt, updatedAt, createdBy, updatedBy);
     }
 }

@@ -35,8 +35,6 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     private Button manageArrow;
     private Button usersButton;
-    private Button clientsButton;
-    private Button suppliersButton;
     private Button companiesButton;
     private Button cashRegistersButton;
     @FXML
@@ -79,25 +77,6 @@ public class DashboardTemplate extends WindowHandler {
         usersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
         usersButton.setOnAction(this::usersClick);
 
-
-        FontAwesomeIconView clientsIcon = new FontAwesomeIconView(FontAwesomeIcon.BRIEFCASE);
-        clientsIcon.setSize("12.0pt");
-        clientsIcon.getStyleClass().add("menu-icon");
-        clientsButton = new Button("Clients");
-        clientsButton.setGraphic(clientsIcon);
-        clientsButton.setGraphicTextGap(6);
-        clientsButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-        clientsButton.setOnAction(this::clientsClick);
-
-
-        FontAwesomeIconView suppliersIcon = new FontAwesomeIconView(FontAwesomeIcon.TRUCK);
-        suppliersIcon.setSize("12.0pt");
-        suppliersIcon.getStyleClass().add("menu-icon");
-        suppliersButton = new Button("Suppliers");
-        suppliersButton.setGraphic(suppliersIcon);
-        suppliersButton.setGraphicTextGap(6);
-        suppliersButton.getStyleClass().addAll("menu-button-dropdown-item", "font-regular");
-        suppliersButton.setOnAction(this::suppliersClick);
 
         FontAwesomeIconView companiesIcon = new FontAwesomeIconView(FontAwesomeIcon.TRUCK);
         companiesIcon.setSize("12.0pt");
@@ -145,10 +124,8 @@ public class DashboardTemplate extends WindowHandler {
         ((FontAwesomeIconView) manageArrow.getGraphic()).setIcon(FontAwesomeIcon.ANGLE_UP);
 
         menu.getChildren().add(manageButtonIndex + 1, usersButton);
-        menu.getChildren().add(manageButtonIndex + 2, clientsButton);
-        menu.getChildren().add(manageButtonIndex + 3, suppliersButton);
-        menu.getChildren().add(manageButtonIndex + 4, companiesButton);
-        menu.getChildren().add(manageButtonIndex + 5, cashRegistersButton);
+        menu.getChildren().add(manageButtonIndex + 2, companiesButton);
+        menu.getChildren().add(manageButtonIndex + 3, cashRegistersButton);
     }
 
     private void closeManageDropdown() {
@@ -164,22 +141,10 @@ public class DashboardTemplate extends WindowHandler {
         loadView("views/dashboard/cruds/users-crud.fxml");
     }
 
-    public void clientsClick(ActionEvent e) {
-        selectButton(clientsButton);
-
-        loadView("views/dashboard/cruds/clients-crud.fxml");
-    }
-
-    public void suppliersClick(ActionEvent e) {
-        selectButton(suppliersButton);
-
-        loadView("views/dashboard/cruds/suppliers-crud.fxml");
-    }
-
     public void companiesClick(ActionEvent e) {
         selectButton(companiesButton);
 
-        loadView("views/dashboard/cruds/wizard-test.fxml");
+        loadView("views/dashboard/cruds/companies-crud.fxml");
     }
 
     public void cashRegistersClick(ActionEvent e) {
@@ -248,11 +213,8 @@ public class DashboardTemplate extends WindowHandler {
         if (!user.can("permissions.users.index")) {
             menu.getChildren().remove(usersButton);
         }
-        if (!user.can("permissions.clients.index")) {
-            menu.getChildren().remove(clientsButton);
-        }
-        if (!user.can("permissions.suppliers.index")) {
-            menu.getChildren().remove(suppliersButton);
+        if (!user.can("permissions.companies.index")) {
+            menu.getChildren().remove(companiesButton);
         }
         if (!user.can("permissions.rooms.index")) {
             menu.getChildren().remove(storageButton);

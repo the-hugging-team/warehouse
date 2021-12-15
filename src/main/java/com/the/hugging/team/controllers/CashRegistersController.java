@@ -90,20 +90,16 @@ public class CashRegistersController extends WindowHandler {
         table.getItems().setAll(filteredList);
     }
 
-    public void operate(ActionEvent e) {
-
-    }
-
     public void showHistory(ActionEvent e) {
         CashRegister cr = (CashRegister) table.getSelectionModel().getSelectedItem();
-        if (cr == null) Dialogs.NotSelectedWarning();
+        if (cr == null) Dialogs.notSelectedWarning();
         else Dialogs.cashRegisterHistoryDialog(cr);
     }
 
     public void delete(ActionEvent e) {
         CashRegister cr = (CashRegister) table.getSelectionModel().getSelectedItem();
 
-        if (cr == null) Dialogs.NotSelectedWarning();
+        if (cr == null) Dialogs.notSelectedWarning();
         else {
             data.remove(cr);
             table.getItems().setAll(filteredList);

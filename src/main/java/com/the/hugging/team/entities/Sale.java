@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.Set;
 
 @Table(name = "sales", indexes = {
-        @Index(name = "fk_client_id_idx", columnList = "client_id"),
         @Index(name = "fk_cash_register_id_idx", columnList = "cash_register_id"),
         @Index(name = "fk_created_by_idx", columnList = "created_by")
 })
@@ -27,10 +26,6 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
 
     @Column(name = "invoice_id")
     private Integer invoiceId;
@@ -65,6 +60,6 @@ public class Sale {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, client, invoiceId, cashRegister, createdAt, createdBy, products);
+        return Objects.hash(id, invoiceId, cashRegister, createdAt, createdBy, products);
     }
 }
