@@ -7,6 +7,7 @@ import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import com.the.hugging.team.utils.WindowHandler;
+import com.the.hugging.team.utils.wizard.beans.SellBean;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,6 +26,7 @@ public class SelectProductsController extends WindowHandler {
 
     private final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
     private final ProductService productService = ProductService.getInstance();
+    private final SellBean sellBean = SellBean.getInstance();
 
     @FXML
     private AnchorPane wizardStepPane;
@@ -49,7 +51,6 @@ public class SelectProductsController extends WindowHandler {
     @FXML
     private TableColumn<Product, Double> searchWholesalePrice;
 
-    private ObservableList<Product> searchData;
     private FilteredList<Product> searchFilteredList;
 
     @FXML
@@ -74,6 +75,8 @@ public class SelectProductsController extends WindowHandler {
     private TableColumn<Product, Double> productsWholesaleDDS;
     @FXML
     private TableColumn<Product, Double> productsTotalWholesalePrice;
+
+    private ObservableList<Product> productsData;
 
     @FXML
     private void initialize() {
@@ -149,7 +152,8 @@ public class SelectProductsController extends WindowHandler {
                     product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
                     product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
 
-                    productsTable.getItems().add(product);
+                    productsData.add(product);
+                    productsTable.setItems(productsData);
                 });
     }
 
@@ -176,11 +180,18 @@ public class SelectProductsController extends WindowHandler {
     }
 
     private void setupProducts(ProductCategory productCategory) {
-        searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
+        ObservableList<Product> searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
 
         searchFilteredList = new FilteredList<>(searchData, p -> true);
 
         searchTable.setItems(searchFilteredList);
+
+        if (sellBean.getProductsData() != null) {
+            productsData = sellBean.getProductsData();
+        } else {
+            productsData = FXCollections.observableArrayList();
+            sellBean.setProductsData(productsData);
+        }
     }
 
     @FXML
