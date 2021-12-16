@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ProductCategoryService {
     private static ProductCategoryService INSTANCE;
-    private ProductCategoryRepository productCategoryRepository = ProductCategoryRepository.getInstance();
+    private final ProductCategoryRepository productCategoryRepository = ProductCategoryRepository.getInstance();
 
     public static ProductCategoryService getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new ProductCategoryService();
         }
         return INSTANCE;

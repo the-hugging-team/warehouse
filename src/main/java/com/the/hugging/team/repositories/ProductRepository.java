@@ -107,9 +107,9 @@ public class ProductRepository implements ObjectRepository<Product> {
         try {
             entityManager.getTransaction().begin();
             products.addAll(
-                entityManager.createQuery("SELECT t FROM Product t WHERE t.productCategory.slug = :productCategoryTypeSlug", Product.class)
-                    .setParameter("productCategoryTypeSlug", productCategoryTypeSlug)
-                    .getResultList()
+                    entityManager.createQuery("SELECT t FROM Product t WHERE t.productCategory.slug = :productCategoryTypeSlug", Product.class)
+                            .setParameter("productCategoryTypeSlug", productCategoryTypeSlug)
+                            .getResultList()
             );
             entityManager.getTransaction().commit();
         } catch (Exception e) {

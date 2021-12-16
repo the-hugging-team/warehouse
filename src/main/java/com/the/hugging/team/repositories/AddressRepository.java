@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class AddressRepository implements ObjectRepository<Address>{
+public class AddressRepository implements ObjectRepository<Address> {
 
     private final static Logger log = LogManager.getLogger(AddressRepository.class);
     private static AddressRepository INSTANCE = null;

@@ -1,0 +1,27 @@
+@import "font.css";
+
+.payform {
+    -fx-background-color: rgba(255, 183, 03, 0.4);
+    -fx-background-radius: 50px;
+}
+
+.labelpane {
+    -fx-border-width: 2px;
+    -fx-border-color: #219ebc;
+    -fx-border-radius: 30px;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+}
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+.separator {
+    -fx-background-color: #219ebc;
+    -fx-effect: null;
+}
