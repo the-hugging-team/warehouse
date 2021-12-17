@@ -9,65 +9,57 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="640.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.the.hugging.team.controllers.wizards.PayController">
-   <Pane layoutX="365.0" layoutY="130.0" prefHeight="380.0" prefWidth="370.0" styleClass="labelpane"
-         stylesheets="@../../../../assets/css/wizard-paystep.css">
-      <Button fx:id="paymentButton" layoutX="110.0" layoutY="300.0" mnemonicParsing="false" prefWidth="150.0"
-              style="-fx-background-color: #219ebc;" text="Finalize payment">
+<AnchorPane prefHeight="640.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.the.hugging.team.controllers.wizards.PayController">
+   <Pane layoutX="365.0" layoutY="130.0" prefHeight="380.0" prefWidth="370.0" styleClass="labelpane" stylesheets="@../../../../assets/css/wizard-paystep.css">
+      <Label layoutX="80.0" layoutY="50.0" styleClass="font-regular" text="PAYMENT INFORMATION">
          <font>
-            <Font size="14.0"/>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Pane layoutX="46.0" layoutY="100.0" prefHeight="35.0" prefWidth="280.0" styleClass="labelpane">
+         <Label layoutX="25.0" layoutY="9.0" prefHeight="20.0" prefWidth="73.0" styleClass="font-regular" text="Base price" textAlignment="CENTER">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+         <TextField fx:id="basePriceField" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0" prefWidth="140.0" text="249,99" />
+      </Pane>
+      <Button fx:id="paymentButton" layoutX="110.0" layoutY="300.0" mnemonicParsing="false" onAction="#paymentButtonClick" prefWidth="150.0" style="-fx-background-color: #219ebc;" text="Finalize payment">
+         <font>
+            <Font size="14.0" />
          </font>
          <styleClass>
-            <String fx:value="font-regular"/>
-            <String fx:value="button"/>
+            <String fx:value="font-regular" />
+            <String fx:value="button" />
          </styleClass>
       </Button>
       <Pane layoutX="45.0" layoutY="145.0" prefHeight="35.0" prefWidth="280.0" styleClass="labelpane">
          <Label layoutX="25.0" layoutY="9.0" styleClass="font-regular" text="DDS %" textAlignment="CENTER">
             <font>
-               <Font size="14.0"/>
+               <Font size="14.0" />
             </font>
          </Label>
-         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
-         <TextField fx:id="ddsPercentage" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0"
-                    prefWidth="140.0" text="20"/>
+         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+         <TextField fx:id="ddsPercentageField" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0" prefWidth="140.0" text="20" />
       </Pane>
       <Pane layoutX="45.0" layoutY="190.0" prefHeight="35.0" prefWidth="280.0" styleClass="labelpane">
          <Label layoutX="25.0" layoutY="9.0" styleClass="font-regular" text="DDS value" textAlignment="CENTER">
             <font>
-               <Font size="14.0"/>
+               <Font size="14.0" />
             </font>
          </Label>
-         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
-         <TextField fx:id="ddsValue" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0"
-                    prefWidth="140.0" text="47,99"/>
+         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+         <TextField fx:id="ddsValueField" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0" prefWidth="140.0" text="47,99" />
       </Pane>
       <Pane layoutX="45.0" layoutY="235.0" prefHeight="35.0" prefWidth="280.0" styleClass="labelpane">
          <Label layoutX="25.0" layoutY="9.0" styleClass="font-regular" text="Final price" textAlignment="CENTER">
             <font>
-               <Font size="14.0"/>
+               <Font size="14.0" />
             </font>
          </Label>
-         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
-         <TextField fx:id="finalPrice" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0"
-                    prefWidth="140.0" text="286,94"/>
-      </Pane>
-      <Label layoutX="80.0" layoutY="50.0" styleClass="font-regular" text="PAYMENT INFORMATION">
-         <font>
-            <Font size="18.0"/>
-         </font>
-      </Label>
-      <Pane layoutX="46.0" layoutY="100.0" prefHeight="35.0" prefWidth="280.0" styleClass="labelpane">
-         <Label layoutX="25.0" layoutY="9.0" prefHeight="20.0" prefWidth="73.0" styleClass="font-regular"
-                text="Base price" textAlignment="CENTER">
-            <font>
-               <Font size="14.0"/>
-            </font>
-         </Label>
-         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
-         <TextField fx:id="basePrice" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0"
-                    prefWidth="140.0" text="249,99"/>
+         <Separator layoutX="105.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+         <TextField fx:id="finalPriceField" editable="false" layoutX="120.0" layoutY="5.0" prefHeight="25.0" prefWidth="140.0" text="286,94" />
       </Pane>
    </Pane>
 </AnchorPane>

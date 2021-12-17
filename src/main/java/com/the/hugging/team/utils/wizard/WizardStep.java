@@ -15,10 +15,10 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
     private final Button stepLabelButton = new Button();
     private final Button stepNameButton = new Button();
     private final String fxmlPath;
+    private final EventSource eventSource = EventSource.getInstance();
     private AnchorPane anchor;
     private HBox stepHBox;
     private Window window;
-    private final EventSource eventSource = EventSource.getInstance();
 
     public WizardStep(int stepNumber, String stepName, String fxmlPath) {
         this.stepNumber = stepNumber;
