@@ -1,6 +1,8 @@
 package com.the.hugging.team.utils.wizard.beans;
 
+import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Company;
+import com.the.hugging.team.entities.Invoice;
 import com.the.hugging.team.entities.Product;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -15,6 +17,8 @@ public class SellBean {
     private Double productsDdsValue;
     private Double productsFinalPrice;
     private Company buyerCompany;
+    private Invoice invoice;
+    private CashRegister cashRegister;
 
     public static SellBean getInstance() {
         if (instance == null) {

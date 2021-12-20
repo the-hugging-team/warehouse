@@ -22,4 +22,10 @@ public class TransactionService {
     public List<Transaction> getTransactionsByCashRegister(CashRegister cr) {
         return transactionRepository.getByCashRegister(cr);
     }
+
+    public Transaction addTransaction(Transaction transaction)
+    {
+        transactionRepository.save(transaction);
+        return transaction;
+    }
 }

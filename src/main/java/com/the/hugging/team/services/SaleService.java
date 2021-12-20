@@ -1,5 +1,6 @@
 package com.the.hugging.team.services;
 
+import com.the.hugging.team.entities.Sale;
 import com.the.hugging.team.repositories.SaleRepository;
 
 public class SaleService {
@@ -12,5 +13,11 @@ public class SaleService {
         }
 
         return INSTANCE;
+    }
+
+    public Sale addSale(Sale sale)
+    {
+        saleRepository.save(sale);
+        return sale;
     }
 }

@@ -1,23 +1,28 @@
 package com.the.hugging.team.controllers.wizards;
 
-import com.the.hugging.team.entities.Product;
-import com.the.hugging.team.services.InvoiceService;
+import com.the.hugging.team.entities.*;
+import com.the.hugging.team.services.ProductService;
+import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.services.TransactionService;
+import com.the.hugging.team.services.TransactionTypeService;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.SellBean;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.sql.Timestamp;
+import java.util.HashSet;
+
 public class PayController extends WindowHandler {
+    private final SaleService saleService = SaleService.getInstance();
     private final TransactionService transactionService = TransactionService.getInstance();
-    private final InvoiceService invoiceService = InvoiceService.getInstance();
+    private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
+    private final ProductService productService = ProductService.getInstance();
+
     private final SellBean sellBean = SellBean.getInstance();
 
-    @FXML
-    private Button paymentButton;
     @FXML
     private TextField basePriceField;
     @FXML
@@ -28,6 +33,7 @@ public class PayController extends WindowHandler {
     private TextField finalPriceField;
 
     private ObservableList<Product> products;
+    private Integer dds;
     private Double basePrice;
     private Double ddsValue;
     private Double finalPrice;
@@ -41,12 +47,13 @@ public class PayController extends WindowHandler {
         else
             basePrice = products.stream().map(Product::getWholesalePrice).reduce(0.00, Double::sum);
 
-        ddsValue = basePrice * 0.2;
+        dds = 20;
+        ddsValue = basePrice * dds/100;
         finalPrice = basePrice + ddsValue;
 
         basePriceField.setText(basePrice.toString());
         if (sellBean.getBuyerCompany() == null)
-            ddsPercentageField.setText("20");
+            ddsPercentageField.setText(dds.toString());
         ddsValueField.setText(ddsValue.toString());
         finalPriceField.setText(finalPrice.toString());
 
@@ -57,6 +64,39 @@ public class PayController extends WindowHandler {
 
     @FXML
     public void paymentButtonClick(ActionEvent event) {
+        Sale sale = new Sale();
+        Transaction transaction = new Transaction();
+        Invoice currentInvoice = sellBean.getInvoice();
+        CashRegister currentCashRegister = sellBean.getCashRegister();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        User cashier = currentCashRegister.getUser();
 
+        if (currentInvoice != null)
+        {
+            currentInvoice.setTotalPrice(finalPrice);
+            sale.setInvoiceId(currentInvoice.getId()); //?
+        }
+        else
+        {
+            // set invoice to null
+        }
+        sale.setCashRegister(currentCashRegister);
+        sale.setCreatedAt(now);
+        sale.setCreatedBy(cashier);
+        sale.setProducts(new HashSet<>(sellBean.getProductsData()));
+
+        transaction.setCashRegister(sellBean.getCashRegister());
+        transaction.setTransactionType(transactionTypeService.getTransactionTypeBySlug("transaction_types.sell"));
+        transaction.setAmount(finalPrice);
+        transaction.setCreatedAt(now);
+        transaction.setCreatedBy(cashier);
+
+        // transaction_id in sale table?
+        // add sales view for admin?
+
+        saleService.addSale(sale);
+        transactionService.addTransaction(transaction);
+
+        // decrease product quantities in db
     }
 }
