@@ -118,5 +118,18 @@ public class ProductRepository implements ObjectRepository<Product> {
         }
         return products;
     }
+
+    public Product getProductById(int id) {
+        Product product = new Product();
+        try {
+            entityManager.getTransaction().begin();
+            product = entityManager.createQuery("SELECT t FROM Product t WHERE t.id = :id", Product.class).setParameter("id", id).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get product by id error: " + e.getMessage());
+        }
+        return product;
+    }
 }
 

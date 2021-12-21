@@ -16,8 +16,7 @@ public class TransactionTypeService {
         return INSTANCE;
     }
 
-    public TransactionType getTransactionTypeBySlug(String slug)
-    {
+    public TransactionType getTransactionTypeBySlug(String slug) {
         return transactionTypeRepository.getBySlug(slug).orElse(null);
     }
 }

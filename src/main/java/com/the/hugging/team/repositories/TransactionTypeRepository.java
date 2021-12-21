@@ -1,6 +1,5 @@
 package com.the.hugging.team.repositories;
 
-import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.TransactionType;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
@@ -89,8 +88,7 @@ public class TransactionTypeRepository implements ObjectRepository<TransactionTy
         return allTransactionTypes;
     }
 
-    public Optional<TransactionType> getBySlug(String slug)
-    {
+    public Optional<TransactionType> getBySlug(String slug) {
         TransactionType transactionType = null;
         try {
             entityManager.getTransaction().begin();

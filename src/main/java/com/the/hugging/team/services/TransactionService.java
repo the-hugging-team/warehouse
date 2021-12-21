@@ -23,8 +23,7 @@ public class TransactionService {
         return transactionRepository.getByCashRegister(cr);
     }
 
-    public Transaction addTransaction(Transaction transaction)
-    {
+    public Transaction addTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
         return transaction;
     }

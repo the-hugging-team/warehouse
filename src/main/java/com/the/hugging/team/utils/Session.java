@@ -1,5 +1,6 @@
 package com.the.hugging.team.utils;
 
+import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Room;
 import com.the.hugging.team.entities.User;
 
@@ -9,6 +10,7 @@ public final class Session {
 
     private User user;
     private Room selectedRoom;
+    private CashRegister selectedCashRegister;
 
     private Session() {
     }
@@ -34,6 +36,14 @@ public final class Session {
 
     public void setSelectedRoom(Room selectedRoom) {
         this.selectedRoom = selectedRoom;
+    }
+
+    public void setSelectedCashRegister(CashRegister selectedCashRegister) {
+        this.selectedCashRegister = selectedCashRegister;
+    }
+
+    public CashRegister getSelectedCashRegister() {
+        return selectedCashRegister;
     }
 
     public void cleanSession() {
