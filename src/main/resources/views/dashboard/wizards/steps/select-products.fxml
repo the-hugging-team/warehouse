@@ -2,40 +2,43 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="wizardStepPane" prefHeight="640.0" prefWidth="1080.0"
-            stylesheets="@../../../../assets/css/dashboard.css" xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="640.0" prefWidth="1080.0" stylesheets="@../../../../assets/css/dashboard.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.the.hugging.team.controllers.wizards.SelectProductsController">
-    <TextField fx:id="searchField" layoutX="14.0" layoutY="21.0" onAction="#search" prefHeight="30.0" prefWidth="250.0"
-               AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0"/>
-    <TableView fx:id="searchTable" layoutX="14.0" layoutY="60.0" prefHeight="285.0" prefWidth="1060.0"
-               AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
-        <columns>
-            <TableColumn fx:id="searchNomenclature" prefWidth="120.0" text="Nomenclature"/>
-            <TableColumn fx:id="searchName" prefWidth="75.0" text="Name"/>
-            <TableColumn fx:id="searchQuantity" prefWidth="75.0" text="Quantity"/>
-            <TableColumn fx:id="searchQuantityType" prefWidth="106.0" text="Quantity type"/>
-            <TableColumn fx:id="searchRetailPrice" prefWidth="106.0" text="Retail price"/>
-            <TableColumn fx:id="searchWholesalePrice" prefWidth="117.0" text="Wholesale price"/>
-        </columns>
-    </TableView>
-    <TableView fx:id="productsTable" layoutX="14.0" layoutY="341.0" prefHeight="285.0" prefWidth="1060.0"
-               AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-        <columns>
-            <TableColumn fx:id="productsNomenclature" prefWidth="90.0" text="Nomenclature"/>
-            <TableColumn fx:id="productsName" text="Name"/>
-            <TableColumn fx:id="productsQuantity" prefWidth="76.0" text="Quantity"/>
-            <TableColumn fx:id="productsQuantityType" prefWidth="102.0" text="QTY t."/>
-            <TableColumn fx:id="productsRetailPrice" prefWidth="99.0" text="Retail price"/>
-            <TableColumn fx:id="productsRetailDDS" prefWidth="95.0" text="Retail DDS"/>
-            <TableColumn fx:id="productsTotalRetailPrice" prefWidth="144.0" text="Total retail price"/>
-            <TableColumn fx:id="productsWholesalePrice" prefWidth="108.0" text="Wholesale price"/>
-            <TableColumn fx:id="productsWholesaleDDS" prefWidth="118.0" text="Wholesale DDS"/>
-            <TableColumn fx:id="productsTotalWholesalePrice" prefWidth="155.0" text="Total wholesale price"/>
-        </columns>
-    </TableView>
-    <Button layoutX="292.0" layoutY="21.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="60.0"
-            style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="10.0"/>
-    <ChoiceBox fx:id="productCategories" layoutX="512.0" layoutY="13.0" prefHeight="30.0" prefWidth="150.0"
-               AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="10.0"/>
+    <AnchorPane fx:id="wizardStepPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TextField fx:id="searchField" onAction="#search" prefHeight="30.0" prefWidth="250.0"
+                   AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0"/>
+        <TableView fx:id="searchTable" prefHeight="285.0" prefWidth="1060.0" AnchorPane.leftAnchor="10.0"
+                   AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+            <columns>
+                <TableColumn fx:id="searchNomenclature" prefWidth="120.0" text="Nomenclature"/>
+                <TableColumn fx:id="searchName" prefWidth="75.0" text="Name"/>
+                <TableColumn fx:id="searchQuantity" prefWidth="75.0" text="Quantity"/>
+                <TableColumn fx:id="searchQuantityType" prefWidth="106.0" text="Quantity type"/>
+                <TableColumn fx:id="searchRetailPrice" prefWidth="106.0" text="Retail price"/>
+                <TableColumn fx:id="searchWholesalePrice" prefWidth="117.0" text="Wholesale price"/>
+            </columns>
+        </TableView>
+        <TableView fx:id="productsTable" prefHeight="285.0" prefWidth="1060.0" AnchorPane.bottomAnchor="10.0"
+                   AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <columns>
+                <TableColumn fx:id="productsNomenclature" prefWidth="90.0" text="Nomenclature"/>
+                <TableColumn fx:id="productsName" text="Name"/>
+                <TableColumn fx:id="productsQuantity" prefWidth="76.0" text="Quantity"/>
+                <TableColumn fx:id="productsQuantityType" prefWidth="102.0" text="QTY t."/>
+                <TableColumn fx:id="productsRetailPrice" prefWidth="99.0" text="Retail price"/>
+                <TableColumn fx:id="productsRetailDDS" prefWidth="95.0" text="Retail DDS"/>
+                <TableColumn fx:id="productsTotalRetailPrice" prefWidth="144.0" text="Total retail price"/>
+                <TableColumn fx:id="productsWholesalePrice" prefWidth="108.0" text="Wholesale price"/>
+                <TableColumn fx:id="productsWholesaleDDS" prefWidth="118.0" text="Wholesale DDS"/>
+                <TableColumn fx:id="productsTotalWholesalePrice" prefWidth="155.0" text="Total wholesale price"/>
+            </columns>
+        </TableView>
+        <Button mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="60.0"
+                style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="270.0"
+                AnchorPane.topAnchor="10.0"/>
+        <ChoiceBox fx:id="productCategories" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="340.0"
+                   AnchorPane.topAnchor="10.0"/>
+    </AnchorPane>
 </AnchorPane>

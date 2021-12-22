@@ -3,9 +3,6 @@ package com.the.hugging.team.controllers.wizards;
 import com.the.hugging.team.entities.Product;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
-import com.the.hugging.team.services.TransactionService;
-import com.the.hugging.team.services.TransactionTypeService;
-import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.SellBean;
 import javafx.collections.ObservableList;
@@ -60,7 +57,7 @@ public class PayController extends WindowHandler {
 
     @FXML
     public void paymentButtonClick(ActionEvent event) {
-        saleService.addSaleByBean(sellBean, finalPrice);
-        productService.updateProductsBySellBean(sellBean);
+        saleService.addSaleFromBean(sellBean, finalPrice);
+        productService.updateProductsFromSellBean(sellBean);
     }
 }

@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SelectProductsController extends WindowHandler {
 
@@ -51,6 +52,7 @@ public class SelectProductsController extends WindowHandler {
     @FXML
     private TableColumn<Product, Double> searchWholesalePrice;
 
+    private ObservableList<Product> searchData;
     private FilteredList<Product> searchFilteredList;
 
     @FXML
@@ -127,6 +129,31 @@ public class SelectProductsController extends WindowHandler {
         productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalWholesalePrice()).asObject());
 
         TableResizer.setCustomColumns(productsTable, List.of(0, 1, 2, 3, 9), List.of(100, 150, 75, 55, 150));
+        productsTable.setRowFactory(tv -> {
+            final TableRow<Product> row = new TableRow<>();
+            final ContextMenu rowMenu = getEditDeleteContextMenu();
+
+            row.contextMenuProperty().bind(
+                    Bindings.when(row.emptyProperty())
+                            .then((ContextMenu) null)
+                            .otherwise(rowMenu)
+            );
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    editProduct();
+                }
+            });
+
+            return row;
+        });
+
+        wizardStepPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            double newTableHeight = (newValue.doubleValue() - 70) / 2;
+            searchTable.setPrefHeight(newTableHeight);
+            productsTable.setPrefHeight(newTableHeight);
+            productsTable.setLayoutY((newValue.doubleValue() / 2) + 5);
+        });
     }
 
     private ContextMenu getAddContextMenu() {
@@ -137,24 +164,91 @@ public class SelectProductsController extends WindowHandler {
         return rowMenu;
     }
 
+    private ContextMenu getEditDeleteContextMenu() {
+        final ContextMenu rowMenu = new ContextMenu();
+        final MenuItem edit = new MenuItem("Edit");
+        final MenuItem delete = new MenuItem("Delete");
+        edit.setOnAction(event -> editProduct());
+        delete.setOnAction(event -> deleteProduct());
+        rowMenu.getItems().addAll(edit, delete);
+        return rowMenu;
+    }
+
     private void addToProductsTable() {
-        Product product = searchTable.getSelectionModel().getSelectedItem().clone();
+        Product oldProduct = searchTable.getSelectionModel().getSelectedItem();
+        Product product = productsData.stream().filter(p -> Objects.equals(p.getId(), oldProduct.getId())).findFirst().orElse(oldProduct.clone());
+        boolean isNew = productsData.stream().noneMatch(p -> Objects.equals(p.getId(), product.getId()));
+        Double oldQuantity = oldProduct.getQuantity();
 
         Dialogs.singleTextInputDialog("0", "Enter quantity", "Quantity")
                 .ifPresent(quantity -> {
-                    product.setQuantity(Double.parseDouble(quantity));
+                    if (!quantity.isEmpty() && Double.parseDouble(quantity) > 0 && Double.parseDouble(quantity) <= oldQuantity) {
+                        if (isNew) {
+                            product.setQuantity(Double.parseDouble(quantity));
+                        } else {
+                            product.setQuantity(product.getQuantity() + Double.parseDouble(quantity));
+                        }
 
-                    product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
-                    product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
-                    product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
+                        product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
+                        product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
+                        product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
 
-                    product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
-                    product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
-                    product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
+                        product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
+                        product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
+                        product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
 
-                    productsData.add(product);
-                    productsTable.setItems(productsData);
+                        if (isNew) {
+                            productsData.add(product);
+                            productsTable.setItems(productsData);
+                        } else {
+                            productsTable.refresh();
+                        }
+
+                        oldProduct.setQuantity(oldQuantity - Double.parseDouble(quantity));
+                        searchTable.refresh();
+                    } else {
+                        Dialogs.warningDialog("Invalid quantity", "Quantity must be greater than 0 and less than or equal to " + oldQuantity);
+                    }
                 });
+    }
+
+    private void editProduct() {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+        Product oldProduct = searchData.stream().filter(p -> Objects.equals(p.getId(), product.getId())).findFirst().orElse(null);
+        Double oldQuantity = product.getQuantity();
+
+        Dialogs.singleTextInputDialog(product.getQuantity().toString(), "Enter quantity", "Quantity")
+                .ifPresent(quantity -> {
+                    if (!quantity.isEmpty() && Double.parseDouble(quantity) > 0 && Double.parseDouble(quantity) <= Objects.requireNonNull(oldProduct).getQuantity()) {
+                        product.setQuantity(Double.parseDouble(quantity));
+
+                        product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
+                        product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
+                        product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
+
+                        product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
+                        product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
+                        product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
+
+                        productsTable.refresh();
+
+                        oldProduct.setQuantity(oldProduct.getQuantity() + (oldQuantity - Double.parseDouble(quantity)));
+                        searchTable.refresh();
+                    } else {
+                        Dialogs.warningDialog("Invalid quantity", "Quantity must be greater than 0 and less than or equal to " + Objects.requireNonNull(oldProduct).getQuantity());
+                    }
+                });
+    }
+
+    private void deleteProduct() {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+        Product oldProduct = searchData.stream().filter(p -> Objects.equals(p.getId(), product.getId())).findFirst().orElse(null);
+
+        Objects.requireNonNull(oldProduct).setQuantity(oldProduct.getQuantity() + product.getQuantity());
+        searchTable.refresh();
+
+        productsData.remove(product);
+        productsTable.setItems(productsData);
     }
 
     private void setupCategories() {
@@ -180,7 +274,11 @@ public class SelectProductsController extends WindowHandler {
     }
 
     private void setupProducts(ProductCategory productCategory) {
-        ObservableList<Product> searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
+        if (sellBean.getSearchData() != null) {
+            searchData = sellBean.getSearchData();
+        } else {
+            searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
+        }
 
         searchFilteredList = new FilteredList<>(searchData, p -> true);
 
@@ -206,4 +304,6 @@ public class SelectProductsController extends WindowHandler {
             );
         }
     }
+
+
 }

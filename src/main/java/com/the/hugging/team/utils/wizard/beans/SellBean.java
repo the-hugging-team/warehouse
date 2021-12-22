@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class SellBean {
     private static SellBean instance;
+    private ObservableList<Product> searchData;
     private ObservableList<Product> productsData;
     private Double productsPrice;
     private Double productsDdsValue;

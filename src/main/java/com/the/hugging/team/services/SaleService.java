@@ -29,7 +29,7 @@ public class SaleService {
         return sale;
     }
 
-    public Sale addSaleByBean(SellBean sellBean, Double finalPrice) {
+    public Sale addSaleFromBean(SellBean sellBean, Double finalPrice) {
         Sale sale = new Sale();
         Transaction transaction = new Transaction();
         Invoice currentInvoice = sellBean.getInvoice();
@@ -39,8 +39,9 @@ public class SaleService {
 
         if (currentInvoice != null) {
             currentInvoice.setTotalPrice(finalPrice);
-            sale.setInvoice(currentInvoice);
-        } else sale.setInvoice(null);
+        }
+
+        sale.setInvoice(currentInvoice);
 
         sale.setCashRegister(currentCashRegister);
         sale.setCreatedAt(now);
