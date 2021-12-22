@@ -16,11 +16,11 @@ import javafx.scene.layout.Pane;
 
 
 public class LoginController extends WindowHandler {
-
     private final UserService userService = UserService.getInstance();
     private final String invalidDataMessage = "Invalid username or password";
     private final Label invalidDataLabel = new Label(invalidDataMessage);
     Session session = Session.getInstance();
+
     @FXML
     private AnchorPane anchor;
     @FXML

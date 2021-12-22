@@ -3,15 +3,14 @@ package com.the.hugging.team.controllers.wizards;
 import com.the.hugging.team.entities.Product;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
-import com.the.hugging.team.services.TransactionService;
-import com.the.hugging.team.services.TransactionTypeService;
-import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.SellBean;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
@@ -27,15 +26,24 @@ public class PayController extends WindowHandler {
     private TextField ddsValueField;
     @FXML
     private TextField finalPriceField;
+    @FXML
+    private AnchorPane payAnchor;
+    @FXML
+    private Pane paymentInformationPane;
 
     private ObservableList<Product> products;
-    private Integer dds;
-    private Double basePrice;
-    private Double ddsValue;
-    private Double finalPrice;
+    private Integer dds = 0;
+    private Double basePrice = 0.0;
+    private Double ddsValue = 0.0;
+    private Double finalPrice = 0.0;
 
     @FXML
     private void initialize() {
+        payAnchor.widthProperty().addListener(
+                (observableValue, oldAnchorWidth, newAnchorWidth) -> paymentInformationPane.setLayoutX((newAnchorWidth.doubleValue() / 2) - (paymentInformationPane.getPrefWidth() / 2)));
+        payAnchor.heightProperty().addListener(
+                (observableValue, oldAnchorHeight, newAnchorHeight) -> paymentInformationPane.setLayoutY((newAnchorHeight.doubleValue() / 2) - (paymentInformationPane.getPrefHeight() / 2)));
+
         products = sellBean.getProductsData();
 
         if (sellBean.getBuyerCompany() == null)
