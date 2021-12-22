@@ -58,6 +58,6 @@ public class PayController extends WindowHandler {
     @FXML
     public void paymentButtonClick(ActionEvent event) {
         saleService.addSaleFromBean(sellBean, finalPrice);
-        productService.updateProductsFromSellBean(sellBean);
+        productService.updateProductsFromSellBean(sellBean.getSearchData());
     }
 }

@@ -49,14 +49,9 @@ public class Sale implements Serializable {
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sales_has_products",
-            joinColumns = {@JoinColumn(name = "sale_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")}
-    )
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private Set<Product> products = new HashSet<>();
+    private Set<SaleProduct> saleProducts = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -68,6 +63,6 @@ public class Sale implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, invoice, cashRegister, createdAt, createdBy, transaction, products);
+        return Objects.hash(id, invoice, cashRegister, createdAt, createdBy, transaction, saleProducts);
     }
 }

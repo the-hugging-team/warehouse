@@ -3,6 +3,7 @@ package com.the.hugging.team.utils;
 import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Room;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.services.CashRegisterService;
 
 public final class Session {
 
@@ -10,7 +11,7 @@ public final class Session {
 
     private User user;
     private Room selectedRoom;
-    private CashRegister selectedCashRegister;
+    private CashRegister selectedCashRegister = CashRegisterService.getInstance().getAllCashRegisters().get(0);
 
     private Session() {
     }
@@ -38,12 +39,12 @@ public final class Session {
         this.selectedRoom = selectedRoom;
     }
 
-    public void setSelectedCashRegister(CashRegister selectedCashRegister) {
-        this.selectedCashRegister = selectedCashRegister;
-    }
-
     public CashRegister getSelectedCashRegister() {
         return selectedCashRegister;
+    }
+
+    public void setSelectedCashRegister(CashRegister selectedCashRegister) {
+        this.selectedCashRegister = selectedCashRegister;
     }
 
     public void cleanSession() {

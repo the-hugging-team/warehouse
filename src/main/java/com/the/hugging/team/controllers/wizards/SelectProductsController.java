@@ -278,6 +278,7 @@ public class SelectProductsController extends WindowHandler {
             searchData = sellBean.getSearchData();
         } else {
             searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
+            sellBean.setSearchData(searchData);
         }
 
         searchFilteredList = new FilteredList<>(searchData, p -> true);
@@ -290,6 +291,9 @@ public class SelectProductsController extends WindowHandler {
             productsData = FXCollections.observableArrayList();
             sellBean.setProductsData(productsData);
         }
+
+        productsTable.refresh();
+        searchTable.refresh();
     }
 
     @FXML

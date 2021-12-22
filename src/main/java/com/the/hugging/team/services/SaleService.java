@@ -1,16 +1,18 @@
 package com.the.hugging.team.services;
 
 import com.the.hugging.team.entities.*;
+import com.the.hugging.team.repositories.ProductRepository;
 import com.the.hugging.team.repositories.SaleRepository;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.wizard.beans.SellBean;
+import javafx.collections.ObservableList;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 
 public class SaleService {
     private static SaleService INSTANCE = null;
     private final SaleRepository saleRepository = SaleRepository.getInstance();
+    private final ProductRepository productRepository = ProductRepository.getInstance();
 
     private final TransactionService transactionService = TransactionService.getInstance();
     private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
@@ -29,7 +31,7 @@ public class SaleService {
         return sale;
     }
 
-    public Sale addSaleFromBean(SellBean sellBean, Double finalPrice) {
+    public void addSaleFromBean(SellBean sellBean, Double finalPrice) {
         Sale sale = new Sale();
         Transaction transaction = new Transaction();
         Invoice currentInvoice = sellBean.getInvoice();
@@ -46,7 +48,6 @@ public class SaleService {
         sale.setCashRegister(currentCashRegister);
         sale.setCreatedAt(now);
         sale.setCreatedBy(cashier);
-        sale.setProducts(new HashSet<>(sellBean.getProductsData()));
 
         transaction.setCashRegister(currentCashRegister);
         transaction.setTransactionType(transactionTypeService.getTransactionTypeBySlug(TransactionType.SELL));
@@ -57,6 +58,20 @@ public class SaleService {
         transactionService.addTransaction(transaction);
         sale.setTransaction(transaction);
 
-        return addSale(sale);
+        addSale(sale);
+
+        attachProductsToSale(sellBean.getProductsData(), sale);
+    }
+
+    public void attachProductsToSale(ObservableList<Product> products, Sale sale) {
+        for (Product product : products) {
+            SaleProduct saleProduct = new SaleProduct();
+            saleProduct.setProduct(product);
+            saleProduct.setSale(sale);
+            saleProduct.setQuantity(product.getQuantity());
+            saleProduct.setProductQuantityType(product.getProductQuantityType());
+
+            saleRepository.saveSaleProduct(saleProduct);
+        }
     }
 }

@@ -3,7 +3,7 @@ package com.the.hugging.team.services;
 import com.the.hugging.team.entities.Product;
 import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.repositories.ProductRepository;
-import com.the.hugging.team.utils.wizard.beans.SellBean;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ public class ProductService {
         return productRepository.getByProductCategoryType(productCategoryTypeSlug);
     }
 
-    public void updateProductsFromSellBean(SellBean sellBean) {
-        for (Product beanProduct : sellBean.getSearchData()) {
+    public void updateProductsFromSellBean(ObservableList<Product> products) {
+        for (Product beanProduct : products) {
             productRepository.update(beanProduct);
         }
     }
