@@ -14,11 +14,11 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
     private final Button fillerButton = new Button();
     private final Button stepLabelButton = new Button();
     private final Button stepNameButton = new Button();
-    private String fxmlPath;
+    private final String fxmlPath;
+    private final EventSource eventSource = EventSource.getInstance();
     private AnchorPane anchor;
     private HBox stepHBox;
     private Window window;
-    private EventSource eventSource = EventSource.getInstance();
 
     public WizardStep(int stepNumber, String stepName, String fxmlPath) {
         this.stepNumber = stepNumber;
@@ -26,7 +26,7 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
         this.fxmlPath = fxmlPath;
     }
 
-    public void initStep(AnchorPane anchor, Window current, HBox parent, int currentStep) {
+    public void initStep(AnchorPane anchor, Window current, HBox parent) {
         this.anchor = anchor;
         this.window = current;
         this.stepHBox = new HBox();
@@ -89,17 +89,13 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
 
     @Override
     public void handle(StepEvent event) {
-        System.out.println("WizardStep: " + event.getStepNumber());
         stepHBox.getStyleClass().removeAll("previousStep", "currentStep", "nextStep");
         if (event.getStepNumber() == stepNumber) {
-            System.out.println("currentStep");
             stepHBox.getStyleClass().add("currentStep");
             loadStep(anchor, window);
         } else if (event.getStepNumber() > stepNumber) {
-            System.out.println("previousStep");
             stepHBox.getStyleClass().add("previousStep");
         } else if (event.getStepNumber() < stepNumber) {
-            System.out.println("nextStep");
             stepHBox.getStyleClass().add("nextStep");
         }
     }

@@ -87,5 +87,18 @@ public class TransactionTypeRepository implements ObjectRepository<TransactionTy
         }
         return allTransactionTypes;
     }
+
+    public Optional<TransactionType> getBySlug(String slug) {
+        TransactionType transactionType = null;
+        try {
+            entityManager.getTransaction().begin();
+            transactionType = entityManager.createQuery("SELECT t FROM TransactionType t where t.slug = :slug", TransactionType.class).setParameter("slug", slug).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get transactionType by slug error: " + e.getMessage());
+        }
+        return Optional.of(transactionType);
+    }
 }
 
