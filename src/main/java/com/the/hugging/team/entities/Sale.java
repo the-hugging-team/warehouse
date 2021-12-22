@@ -45,7 +45,7 @@ public class Sale implements Serializable {
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
-    @ManyToOne(optional = false)
+    @OneToOne
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 

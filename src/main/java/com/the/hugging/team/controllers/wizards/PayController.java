@@ -15,12 +15,9 @@ import javafx.scene.control.TextField;
 
 public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
-    private final TransactionService transactionService = TransactionService.getInstance();
-    private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
     private final ProductService productService = ProductService.getInstance();
 
     private final SellBean sellBean = SellBean.getInstance();
-    private final Session session = Session.getInstance();
 
     @FXML
     private TextField basePriceField;

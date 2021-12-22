@@ -11,6 +11,7 @@ import java.util.HashSet;
 public class SaleService {
     private static SaleService INSTANCE = null;
     private final SaleRepository saleRepository = SaleRepository.getInstance();
+
     private final TransactionService transactionService = TransactionService.getInstance();
     private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
     private final Session session = Session.getInstance();
@@ -34,7 +35,7 @@ public class SaleService {
         Invoice currentInvoice = sellBean.getInvoice();
         CashRegister currentCashRegister = session.getSelectedCashRegister();
         Timestamp now = new Timestamp(System.currentTimeMillis());
-        User cashier = currentCashRegister.getUser();
+        User cashier = session.getUser();
 
         if (currentInvoice != null) {
             currentInvoice.setTotalPrice(finalPrice);
@@ -52,8 +53,8 @@ public class SaleService {
         transaction.setCreatedAt(now);
         transaction.setCreatedBy(cashier);
 
-        sale.setTransaction(transaction);
         transactionService.addTransaction(transaction);
+        sale.setTransaction(transaction);
 
         return addSale(sale);
     }
