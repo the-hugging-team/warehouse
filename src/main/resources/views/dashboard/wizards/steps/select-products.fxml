@@ -2,15 +2,16 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="640.0" prefWidth="1080.0" stylesheets="@../../../../assets/css/dashboard.css"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="640.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.the.hugging.team.controllers.wizards.SelectProductsController">
-    <AnchorPane fx:id="wizardStepPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+    <AnchorPane fx:id="wizardStepPane" prefHeight="200.0" prefWidth="200.0"
+                stylesheets="@../../../../assets/css/wizard.css" AnchorPane.bottomAnchor="0.0"
                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <TextField fx:id="searchField" onAction="#search" prefHeight="30.0" prefWidth="250.0"
+        <TextField fx:id="searchField" onAction="#search" prefHeight="30.0" prefWidth="250.0" styleClass="font-regular"
                    AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0"/>
-        <TableView fx:id="searchTable" prefHeight="285.0" prefWidth="1060.0" AnchorPane.leftAnchor="10.0"
-                   AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+        <TableView fx:id="searchTable" prefHeight="285.0" prefWidth="1060.0" styleClass="font-regular"
+                   AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
             <columns>
                 <TableColumn fx:id="searchNomenclature" prefWidth="120.0" text="Nomenclature"/>
                 <TableColumn fx:id="searchName" prefWidth="75.0" text="Name"/>
@@ -20,8 +21,8 @@
                 <TableColumn fx:id="searchWholesalePrice" prefWidth="117.0" text="Wholesale price"/>
             </columns>
         </TableView>
-        <TableView fx:id="productsTable" prefHeight="285.0" prefWidth="1060.0" AnchorPane.bottomAnchor="10.0"
-                   AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <TableView fx:id="productsTable" prefHeight="285.0" prefWidth="1060.0" styleClass="font-regular"
+                   AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <columns>
                 <TableColumn fx:id="productsNomenclature" prefWidth="90.0" text="Nomenclature"/>
                 <TableColumn fx:id="productsName" text="Name"/>
@@ -36,10 +37,12 @@
             </columns>
         </TableView>
         <Button mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="60.0"
-                style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="10.0"/>
-        <ChoiceBox fx:id="productCategories" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="340.0"
-                   AnchorPane.topAnchor="10.0"/>
+                style="-fx-border-radius: 10;" styleClass="font-regular" text="Search" AnchorPane.leftAnchor="270.0"
+                AnchorPane.topAnchor="10.0"/>
+        <ChoiceBox fx:id="productCategories" prefHeight="30.0" prefWidth="150.0" styleClass="font-regular"
+                   AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="10.0"/>
         <Button layoutX="1018.0" layoutY="10.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="30.0"
-                text="Next step" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
+                prefWidth="100.0" styleClass="font-regular" text="Next step" AnchorPane.rightAnchor="10.0"
+                AnchorPane.topAnchor="10.0"/>
     </AnchorPane>
 </AnchorPane>

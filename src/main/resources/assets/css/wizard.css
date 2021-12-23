@@ -1,3 +1,5 @@
+@import "font.css";
+
 .stepLabel {
     -fx-border-radius: 40px;
     -fx-border-width: 3px;
@@ -29,3 +31,23 @@
     -fx-border-color: #cfcfcf;
 }
 
+.payForm {
+    -fx-background-color: rgba(255, 183, 03, 0.4);
+    -fx-background-radius: 50px;
+}
+
+.labelPane {
+    -fx-border-width: 2px;
+    -fx-border-color: #219ebc;
+    -fx-border-radius: 30px;
+}
+
+.labelPane .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+.separator {
+    -fx-background-color: #219ebc;
+    -fx-effect: null;
+}
