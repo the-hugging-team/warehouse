@@ -21,7 +21,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Product implements Serializable {
+public class Product implements Serializable, Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -47,8 +47,20 @@ public class Product implements Serializable {
     @Column(name = "retail_price", nullable = false)
     private Double retailPrice;
 
+    @Transient
+    private Double ddsRetailPrice;
+
+    @Transient
+    private Double totalRetailPrice;
+
     @Column(name = "wholesale_price", nullable = false)
     private Double wholesalePrice;
+
+    @Transient
+    private Double ddsWholesalePrice;
+
+    @Transient
+    private Double totalWholesalePrice;
 
     @Column(name = "delivery_price", nullable = false)
     private Double deliveryPrice;
@@ -68,5 +80,15 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, nomenclature, productCategory, quantity, productQuantityType, retailPrice, wholesalePrice, deliveryPrice, shelf);
+    }
+
+    @Override
+    public Product clone() {
+        try {
+            return (Product) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

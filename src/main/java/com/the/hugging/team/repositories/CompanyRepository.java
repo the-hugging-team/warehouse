@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class CompanyRepository implements ObjectRepository<Company>{
+public class CompanyRepository implements ObjectRepository<Company> {
     private final static Logger log = LogManager.getLogger(CompanyRepository.class);
     private static CompanyRepository INSTANCE = null;
     private final EntityManager entityManager = Connection.getEntityManager();

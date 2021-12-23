@@ -20,6 +20,7 @@
         <class>com.the.hugging.team.entities.TransactionType</class>
         <class>com.the.hugging.team.entities.Transaction</class>
         <class>com.the.hugging.team.entities.User</class>
+        <class>com.the.hugging.team.entities.SaleProduct</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cella"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>

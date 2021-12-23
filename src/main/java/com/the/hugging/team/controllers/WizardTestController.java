@@ -18,7 +18,7 @@ public class WizardTestController extends DashboardTemplate {
     @Override
     public void initialize() {
         WizardStep step1 = new WizardStep(1, "Step 1 content", "views/dashboard/cruds/users-crud.fxml");
-        WizardStep step2 = new WizardStep(2, "Step 2 content", "views/dashboard/cruds/cash-registers-crud.fxml");
+        WizardStep step2 = new WizardStep(2, "Step 2 content", "views/dashboard/cruds/pay.fxml");
         WizardStep step3 = new WizardStep(3, "Step 3 content", "views/dashboard/cruds/users-crud.fxml");
 
 

@@ -1,6 +1,7 @@
 package com.the.hugging.team.repositories;
 
 import com.the.hugging.team.entities.Sale;
+import com.the.hugging.team.entities.SaleProduct;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,6 +87,17 @@ public class SaleRepository implements ObjectRepository<Sale> {
             log.error("Get all sales error: " + e.getMessage());
         }
         return allSales;
+    }
+
+    public void saveSaleProduct(SaleProduct saleProduct) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(saleProduct);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("SaleProduct save error: " + e.getMessage());
+        }
     }
 }
 

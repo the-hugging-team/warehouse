@@ -7,12 +7,12 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 
 public class Wizard implements Listener<WizardEvent> {
-    private List<WizardStep> steps;
-    private int currentStep;
-    private AnchorPane mainAnchor;
-    private AnchorPane childAnchor;
-    private Window currentWindow;
-    private EventSource eventSource = EventSource.getInstance();
+    private final List<WizardStep> steps;
+    private final int currentStep;
+    private final AnchorPane mainAnchor;
+    private final AnchorPane childAnchor;
+    private final Window currentWindow;
+    private final EventSource eventSource = EventSource.getInstance();
 
     public Wizard(AnchorPane anchor, List<WizardStep> steps, Window currentWindow) {
         this.steps = steps;
@@ -28,9 +28,9 @@ public class Wizard implements Listener<WizardEvent> {
     public void setUpWizard() {
         HBox stepBox = new HBox();
         for (WizardStep wizardStep : steps) {
-            wizardStep.initStep(childAnchor, currentWindow, stepBox, currentStep);
+            wizardStep.initStep(childAnchor, currentWindow, stepBox);
         }
-        //TODO: Set up HBox
+
         AnchorPane.setTopAnchor(stepBox, 0.0);
         AnchorPane.setLeftAnchor(stepBox, 0.0);
         AnchorPane.setRightAnchor(stepBox, 0.0);

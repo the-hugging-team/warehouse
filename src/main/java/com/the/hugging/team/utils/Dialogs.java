@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -138,8 +137,7 @@ public class Dialogs {
         return dialog.showAndWait();
     }
 
-    public static Optional<Company> companyDialog(Company company, String title)
-    {
+    public static Optional<Company> companyDialog(Company company, String title) {
         Dialog<Company> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setGraphic(null);
@@ -211,14 +209,11 @@ public class Dialogs {
                 event -> {
                     if (bulstat.getText().length() != 9 &&
                             bulstat.getText().length() != 10 &&
-                            bulstat.getText().length() != 13)
-                    {
+                            bulstat.getText().length() != 13) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect EIK format!");
                         event.consume();
-                    }
-                    else if (dds.getText().length() != 11 &&
-                            dds.getText().length() != 12)
-                    {
+                    } else if (dds.getText().length() != 11 &&
+                            dds.getText().length() != 12) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect DDS number format!");
                         event.consume();
                     }

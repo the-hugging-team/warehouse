@@ -14,11 +14,11 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
     private final Button fillerButton = new Button();
     private final Button stepLabelButton = new Button();
     private final Button stepNameButton = new Button();
-    private String fxmlPath;
+    private final String fxmlPath;
+    private final EventSource eventSource = EventSource.getInstance();
     private AnchorPane anchor;
     private HBox stepHBox;
     private Window window;
-    private EventSource eventSource = EventSource.getInstance();
 
     public WizardStep(int stepNumber, String stepName, String fxmlPath) {
         this.stepNumber = stepNumber;
@@ -26,34 +26,34 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
         this.fxmlPath = fxmlPath;
     }
 
-    public void initStep(AnchorPane anchor, Window current, HBox parent, int currentStep) {
+    public void initStep(AnchorPane anchor, Window current, HBox parent) {
         this.anchor = anchor;
         this.window = current;
         this.stepHBox = new HBox();
-        showStep(parent, currentStep);
+        showStep(parent);
         setButtonClick();
 
         eventSource.addListener(EventType.STEP_EVENT_TYPE, this);
     }
 
-    public void showStep(HBox parent, int currentStep) {
-        HBox stepHBox = renderStep(currentStep);
+    public void showStep(HBox parent) {
+        renderStep();
         parent.getChildren().add(stepHBox);
         HBox.setHgrow(stepHBox, Priority.ALWAYS);
     }
 
-    private HBox renderStep(int currentStep) {
+    private void renderStep() {
 
         stepLabelButton.setText(stepNumber + "");
         stepNameButton.setText(stepName);
 
         //TODO: Style Buttons and set appropriate FXML to load when clicked
-        stepLabelButton.setPrefHeight(80);
-        stepLabelButton.setPrefWidth(80);
-        stepLabelButton.setMinHeight(80);
-        stepLabelButton.setMinWidth(80);
-        stepLabelButton.setMaxHeight(80);
-        stepLabelButton.setMaxWidth(80);
+        stepLabelButton.setPrefHeight(70);
+        stepLabelButton.setPrefWidth(70);
+        stepLabelButton.setMinHeight(70);
+        stepLabelButton.setMinWidth(70);
+        stepLabelButton.setMaxHeight(70);
+        stepLabelButton.setMaxWidth(70);
         stepLabelButton.setTextAlignment(TextAlignment.CENTER);
         stepLabelButton.setAlignment(Pos.CENTER);
         stepLabelButton.getStyleClass().add("stepLabel");
@@ -74,7 +74,6 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
         HBox.setHgrow(stepLabelButton, Priority.NEVER);
         HBox.setHgrow(stepNameButton, Priority.ALWAYS);
         stepHBox.alignmentProperty().setValue(Pos.CENTER);
-        return stepHBox;
     }
 
     public void loadStep(AnchorPane anchor, Window current) {
@@ -90,17 +89,13 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
 
     @Override
     public void handle(StepEvent event) {
-        System.out.println("WizardStep: " + event.getStepNumber());
         stepHBox.getStyleClass().removeAll("previousStep", "currentStep", "nextStep");
         if (event.getStepNumber() == stepNumber) {
-            System.out.println("currentStep");
             stepHBox.getStyleClass().add("currentStep");
             loadStep(anchor, window);
         } else if (event.getStepNumber() > stepNumber) {
-            System.out.println("previousStep");
             stepHBox.getStyleClass().add("previousStep");
         } else if (event.getStepNumber() < stepNumber) {
-            System.out.println("nextStep");
             stepHBox.getStyleClass().add("nextStep");
         }
     }

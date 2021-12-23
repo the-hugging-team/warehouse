@@ -76,10 +76,10 @@ public class UserController extends WindowHandler {
         table.getItems().setAll(filteredList);
         TableResizer.setDefault(table);
 
-        if (!user.can("permissions.clients.create")) {
+        if (!user.can("permissions.users.create")) {
             sideBox.getChildren().remove(createButton);
         }
-        if (!user.can("permissions.clients.edit")) {
+        if (!user.can("permissions.users.edit")) {
             sideBox.getChildren().remove(editButton);
         }
     }
