@@ -8,6 +8,9 @@ import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.SellBean;
+import com.the.hugging.team.utils.wizard.events.EventSource;
+import com.the.hugging.team.utils.wizard.events.EventType;
+import com.the.hugging.team.utils.wizard.events.NextStepEvent;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,6 +31,7 @@ public class SelectProductsController extends WindowHandler {
     private final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
     private final ProductService productService = ProductService.getInstance();
     private final SellBean sellBean = SellBean.getInstance();
+    private final EventSource eventSource = EventSource.getInstance();
 
     @FXML
     private AnchorPane wizardStepPane;
@@ -84,6 +88,24 @@ public class SelectProductsController extends WindowHandler {
     private void initialize() {
         setupTables();
         setupCategories();
+    }
+
+    @FXML
+    public void search(ActionEvent e) {
+        String searchText = searchField.getText();
+        if (searchText.isEmpty()) {
+            searchFilteredList.setPredicate(p -> true);
+        } else {
+            searchFilteredList.setPredicate(p ->
+                    p.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                            p.getNomenclature().toLowerCase().contains(searchText.toLowerCase())
+            );
+        }
+    }
+
+    @FXML
+    public void nextStep(ActionEvent e) {
+        eventSource.fire(EventType.NEXT_STEP_EVENT_TYPE, new NextStepEvent());
     }
 
     private void setupTables() {
@@ -295,19 +317,4 @@ public class SelectProductsController extends WindowHandler {
         productsTable.refresh();
         searchTable.refresh();
     }
-
-    @FXML
-    public void search(ActionEvent e) {
-        String searchText = searchField.getText();
-        if (searchText.isEmpty()) {
-            searchFilteredList.setPredicate(p -> true);
-        } else {
-            searchFilteredList.setPredicate(p ->
-                    p.getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                            p.getNomenclature().toLowerCase().contains(searchText.toLowerCase())
-            );
-        }
-    }
-
-
 }

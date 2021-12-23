@@ -36,9 +36,10 @@
             </columns>
         </TableView>
         <Button mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="60.0"
-                style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="270.0"
-                AnchorPane.topAnchor="10.0"/>
+                style="-fx-border-radius: 10;" text="Search" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="10.0"/>
         <ChoiceBox fx:id="productCategories" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="340.0"
                    AnchorPane.topAnchor="10.0"/>
+        <Button layoutX="1018.0" layoutY="10.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="30.0"
+                text="Next step" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
     </AnchorPane>
 </AnchorPane>
