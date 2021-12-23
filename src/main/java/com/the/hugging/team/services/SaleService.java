@@ -1,7 +1,7 @@
 package com.the.hugging.team.services;
 
 import com.the.hugging.team.entities.*;
-import com.the.hugging.team.repositories.ProductRepository;
+import com.the.hugging.team.repositories.CashRegisterRepository;
 import com.the.hugging.team.repositories.SaleRepository;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.wizard.beans.SellBean;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class SaleService {
     private static SaleService INSTANCE = null;
     private final SaleRepository saleRepository = SaleRepository.getInstance();
-    private final ProductRepository productRepository = ProductRepository.getInstance();
+    private final CashRegisterRepository cashRegisterRepository = CashRegisterRepository.getInstance();
 
     private final TransactionService transactionService = TransactionService.getInstance();
     private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
@@ -61,9 +61,11 @@ public class SaleService {
         addSale(sale);
 
         attachProductsToSale(sellBean.getProductsData(), sale);
+
+        updateCashRegister(currentCashRegister, finalPrice);
     }
 
-    public void attachProductsToSale(ObservableList<Product> products, Sale sale) {
+    private void attachProductsToSale(ObservableList<Product> products, Sale sale) {
         for (Product product : products) {
             SaleProduct saleProduct = new SaleProduct();
             saleProduct.setProduct(product);
@@ -73,5 +75,10 @@ public class SaleService {
 
             saleRepository.saveSaleProduct(saleProduct);
         }
+    }
+
+    private void updateCashRegister(CashRegister cashRegister, Double finalPrice) {
+        cashRegister.setBalance(cashRegister.getBalance() + finalPrice);
+        cashRegisterRepository.update(cashRegister);
     }
 }
