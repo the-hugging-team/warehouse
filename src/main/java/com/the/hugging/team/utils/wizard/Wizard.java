@@ -46,6 +46,7 @@ public class Wizard implements Listener {
 
         eventSource.addListener(EventType.SET_CURRENT_STEP_EVENT_TYPE, this);
         eventSource.addListener(EventType.NEXT_STEP_EVENT_TYPE, this);
+        eventSource.addListener(EventType.PREVIOUS_STEP_EVENT_TYPE, this);
         eventSource.fire(EventType.CHANGE_STEP_EVENT_TYPE, new ChangeStepEvent(currentStep));
     }
 
@@ -56,7 +57,10 @@ public class Wizard implements Listener {
             currentStep = changeStepEvent.currentStep;
         } else if (event.getEventType() == EventType.NEXT_STEP_EVENT_TYPE) {
             currentStep += 1;
+        } else if (event.getEventType() == EventType.PREVIOUS_STEP_EVENT_TYPE) {
+            currentStep -= 1;
         }
+
         eventSource.fire(EventType.CHANGE_STEP_EVENT_TYPE, new ChangeStepEvent(currentStep));
     }
 }
