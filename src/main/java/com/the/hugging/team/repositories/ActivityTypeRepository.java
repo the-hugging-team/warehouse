@@ -88,5 +88,19 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
         }
         return allActivityTypes;
     }
+
+    public Optional<ActivityType> getBySlug(String slug)
+    {
+        ActivityType activityType = null;
+        try {
+            entityManager.getTransaction().begin();
+            activityType = entityManager.createQuery("SELECT t FROM ActivityType t where t.slug = :slug", ActivityType.class).setParameter("slug", slug).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get Activity Type by slug error: " + e.getMessage());
+        }
+        return Optional.of(activityType);
+    }
 }
 

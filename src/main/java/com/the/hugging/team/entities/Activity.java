@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class Activity {
     private User user;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private Timestamp createdAt;
 
     @Override
     public boolean equals(Object o) {

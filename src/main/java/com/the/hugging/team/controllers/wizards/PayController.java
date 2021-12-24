@@ -1,6 +1,8 @@
 package com.the.hugging.team.controllers.wizards;
 
 import com.the.hugging.team.entities.Product;
+import com.the.hugging.team.services.ActivityService;
+import com.the.hugging.team.services.ActivityTypeService;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.utils.WindowHandler;
@@ -15,6 +17,8 @@ import javafx.scene.layout.Pane;
 public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
     private final ProductService productService = ProductService.getInstance();
+    private final ActivityService activityService = ActivityService.getInstance();
+    private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
 
     private final SellBean sellBean = SellBean.getInstance();
 
@@ -70,5 +74,6 @@ public class PayController extends WindowHandler {
     public void paymentButtonClick(ActionEvent event) {
         saleService.addSaleFromBean(sellBean, finalPrice);
         productService.updateProductsFromSellBean(sellBean.getSearchData());
+        activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.sale"));
     }
 }

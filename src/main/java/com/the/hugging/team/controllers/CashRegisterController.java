@@ -2,6 +2,8 @@ package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.services.ActivityService;
+import com.the.hugging.team.services.ActivityTypeService;
 import com.the.hugging.team.services.CashRegisterService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
@@ -24,6 +26,8 @@ public class CashRegisterController extends WindowHandler {
     private final CashRegisterService cashRegistersService = CashRegisterService.getInstance();
     private final Session session = Session.getInstance();
     private final User user = session.getUser();
+    private final ActivityService activityService = ActivityService.getInstance();
+    private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
 
     @FXML
     private TableView<CashRegister> table;
@@ -88,6 +92,7 @@ public class CashRegisterController extends WindowHandler {
     public void create(ActionEvent e) {
         data.add(cashRegistersService.addCashRegister());
         table.getItems().setAll(filteredList);
+        activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.cash-registers.create"));
     }
 
     public void showSaleHistory(ActionEvent e) {
@@ -104,6 +109,7 @@ public class CashRegisterController extends WindowHandler {
             data.remove(cr);
             table.getItems().setAll(filteredList);
             cashRegistersService.deleteCashRegister(cr);
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.cash-registers.delete"));
         }
     }
 
