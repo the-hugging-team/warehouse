@@ -1,6 +1,7 @@
 package com.the.hugging.team.utils;
 
 import com.the.hugging.team.entities.*;
+import com.the.hugging.team.services.ActivityService;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class Dialogs {
     private static final SaleService saleService = SaleService.getInstance();
     private static final ProductService productService = ProductService.getInstance();
+    private static final ActivityService activityService = ActivityService.getInstance();
 
     public static void notSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -324,7 +326,47 @@ public class Dialogs {
 
     public static void userActivitiesDialog(User user)
     {
+        Dialog<Activity> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle("Activities of " + user.getFirstName() + ' ' + user.getLastName());
+        dialog.setResizable(false);
 
+        ObservableList<Activity> data = FXCollections.observableArrayList(activityService.getActivitiesByUser(user));
+
+        if (data.size() == 0) {
+            dialog.setHeaderText("Nothing to show");
+            dialog.getDialogPane().setPrefWidth(500);
+        } else {
+            dialog.setHeaderText(null);
+            dialog.getDialogPane().setPrefSize(500, 600);
+
+            FilteredList<Activity> filteredList = new FilteredList<>(data, p -> true);
+
+            TableView<Activity> table = new TableView<>();
+            TableColumn<Activity, String> name = new TableColumn<>();
+            TableColumn<Activity, String> time = new TableColumn<>();
+
+            name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActivityType().getName()));
+            name.setText("Activity");
+
+            time.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedAt().toString()));
+            time.setText("Time");
+
+            table.getColumns().addAll(name, time);
+            table.setEditable(false);
+            table.getItems().setAll(filteredList);
+            int columns = table.getColumns().size();
+            for (int i = 0; i < columns; i++) {
+                table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);
+                table.getColumns().get(i).setReorderable(false);
+                table.getColumns().get(i).setResizable(false);
+            }
+
+            dialog.getDialogPane().setContent(table);
+        }
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        dialog.show();
     }
 
     public static void shelfItemsDialog(Shelf shelf) {
