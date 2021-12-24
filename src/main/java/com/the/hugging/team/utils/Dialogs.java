@@ -2,7 +2,7 @@ package com.the.hugging.team.utils;
 
 import com.the.hugging.team.entities.*;
 import com.the.hugging.team.services.ProductService;
-import com.the.hugging.team.services.TransactionService;
+import com.the.hugging.team.services.SaleService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,13 +11,14 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.util.Optional;
 
 public class Dialogs {
-    private static final TransactionService transactionService = TransactionService.getInstance();
+    private static final SaleService saleService = SaleService.getInstance();
     private static final ProductService productService = ProductService.getInstance();
 
     public static void notSelectedWarning() {
@@ -237,14 +238,14 @@ public class Dialogs {
         return dialog.showAndWait();
     }
 
-    public static void cashRegisterHistoryDialog(CashRegister cr) {
+    public static void cashRegisterSaleHistoryDialog(CashRegister cr) {
         Dialog<CashRegister> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setGraphic(null);
-        dialog.setTitle("Cash register " + cr.getId() + " history");
+        dialog.setTitle("Cash register " + cr.getId() + " sale history");
         dialog.setResizable(false);
 
-        ObservableList<Transaction> data = FXCollections.observableArrayList(transactionService.getTransactionsByCashRegister(cr));
+        ObservableList<Sale> data = FXCollections.observableArrayList(saleService.getSalesByCashRegister(cr));
 
         if (data.size() == 0) {
             dialog.setHeaderText("Nothing to show");
@@ -253,16 +254,16 @@ public class Dialogs {
             dialog.setHeaderText(null);
             dialog.getDialogPane().setPrefSize(500, 600);
 
-            FilteredList<Transaction> filteredList = new FilteredList<>(data, p -> true);
+            FilteredList<Sale> filteredList = new FilteredList<>(data, p -> true);
 
-            TableView<Transaction> table = new TableView<>();
-            TableColumn<Transaction, String> transaction = new TableColumn<>();
-            TableColumn<Transaction, String> operator = new TableColumn<>();
-            TableColumn<Transaction, String> time = new TableColumn<>();
+            TableView<Sale> table = new TableView<>();
+            TableColumn<Sale, String> transaction = new TableColumn<>();
+            TableColumn<Sale, String> operator = new TableColumn<>();
+            TableColumn<Sale, String> time = new TableColumn<>();
 
             transaction.setCellValueFactory(cellData ->
-                    new SimpleStringProperty((cellData.getValue().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
-                            + cellData.getValue().getAmount().toString()));
+                    new SimpleStringProperty((cellData.getValue().getTransaction().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
+                            + cellData.getValue().getTransaction().getAmount().toString()));
             transaction.setText("Transaction");
 
             operator.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedBy().getFirstName() + " " +
@@ -282,7 +283,40 @@ public class Dialogs {
                 table.getColumns().get(i).setResizable(false);
             }
 
+            table.setRowFactory(tv -> {
+                final TableRow<Sale> row = new TableRow<>();
+
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                        invoiceBySaleDialog(table.getSelectionModel().getSelectedItem().getInvoice());
+                    }
+                });
+
+                return row;
+            });
+
             dialog.getDialogPane().setContent(table);
+        }
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        dialog.show();
+    }
+
+    private static void invoiceBySaleDialog(Invoice invoice) {
+        Dialog<Invoice> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle("Invoice " + invoice.getId());
+        dialog.setResizable(false);
+
+        if (invoice == null) {
+            dialog.setHeaderText("There is no invoice for this sale");
+            dialog.getDialogPane().setPrefWidth(500);
+        } else {
+            AnchorPane windowAnchor = new AnchorPane();
+
+            //set up the anchor
+
+            dialog.getDialogPane().setContent(windowAnchor);
         }
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
         dialog.show();

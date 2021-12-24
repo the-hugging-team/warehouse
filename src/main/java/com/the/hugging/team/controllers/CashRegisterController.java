@@ -44,7 +44,7 @@ public class CashRegisterController extends WindowHandler {
     @FXML
     private Button operateButton;
     @FXML
-    private Button showHistoryButton;
+    private Button showSaleHistoryButton;
 
     private ObservableList<CashRegister> data;
     private FilteredList<CashRegister> filteredList;
@@ -90,10 +90,10 @@ public class CashRegisterController extends WindowHandler {
         table.getItems().setAll(filteredList);
     }
 
-    public void showHistory(ActionEvent e) {
+    public void showSaleHistory(ActionEvent e) {
         CashRegister cr = table.getSelectionModel().getSelectedItem();
         if (cr == null) Dialogs.notSelectedWarning();
-        else Dialogs.cashRegisterHistoryDialog(cr);
+        else Dialogs.cashRegisterSaleHistoryDialog(cr);
     }
 
     public void delete(ActionEvent e) {
@@ -118,7 +118,7 @@ public class CashRegisterController extends WindowHandler {
             sideBox.getChildren().remove(operateButton);
         }
         if (!user.can("permissions.transaction.index")) {
-            sideBox.getChildren().remove(showHistoryButton);
+            sideBox.getChildren().remove(showSaleHistoryButton);
         }
     }
 }

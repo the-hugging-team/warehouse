@@ -90,16 +90,16 @@ public class TransactionRepository implements ObjectRepository<Transaction> {
     }
 
     public List<Transaction> getByCashRegister(CashRegister cr) {
-        List<Transaction> cashRegisterSpecific = new LinkedList<>();
+        List<Transaction> cashRegisterSpecificTransactions = new LinkedList<>();
         try {
             entityManager.getTransaction().begin();
-            cashRegisterSpecific.addAll(entityManager.createQuery("SELECT t FROM Transaction t WHERE t.cashRegister = :cashRegister", Transaction.class).setParameter("cashRegister", cr).getResultList());
+            cashRegisterSpecificTransactions.addAll(entityManager.createQuery("SELECT t FROM Transaction t WHERE t.cashRegister = :cashRegister", Transaction.class).setParameter("cashRegister", cr).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.error("Get cash register specific transactions error: " + e.getMessage());
         }
-        return cashRegisterSpecific;
+        return cashRegisterSpecificTransactions;
     }
 }
 

@@ -1,5 +1,6 @@
 package com.the.hugging.team.repositories;
 
+import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Sale;
 import com.the.hugging.team.entities.SaleProduct;
 import com.the.hugging.team.utils.Connection;
@@ -98,6 +99,19 @@ public class SaleRepository implements ObjectRepository<Sale> {
             entityManager.getTransaction().rollback();
             log.error("SaleProduct save error: " + e.getMessage());
         }
+    }
+
+    public List<Sale> getByCashRegister(CashRegister cr) {
+        List<Sale> cashRegisterSpecificSales = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            cashRegisterSpecificSales.addAll(entityManager.createQuery("SELECT t FROM Sale t WHERE t.cashRegister = :cashRegister", Sale.class).setParameter("cashRegister", cr).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get cash register specific transactions error: " + e.getMessage());
+        }
+        return cashRegisterSpecificSales;
     }
 }
 

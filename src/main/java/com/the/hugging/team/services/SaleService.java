@@ -8,6 +8,7 @@ import com.the.hugging.team.utils.wizard.beans.SellBean;
 import javafx.collections.ObservableList;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class SaleService {
     private static SaleService INSTANCE = null;
@@ -80,5 +81,9 @@ public class SaleService {
     private void updateCashRegister(CashRegister cashRegister, Double finalPrice) {
         cashRegister.setBalance(cashRegister.getBalance() + finalPrice);
         cashRegisterRepository.update(cashRegister);
+    }
+
+    public List<Sale> getSalesByCashRegister(CashRegister cr) {
+        return saleRepository.getByCashRegister(cr);
     }
 }
