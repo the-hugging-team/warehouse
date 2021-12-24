@@ -61,6 +61,9 @@ public class UserController extends WindowHandler {
     @FXML
     private Button editButton;
 
+    @FXML
+    private Button showActivityHistoryButton;
+
     private ObservableList<User> data;
     private FilteredList<User> filteredList;
 
@@ -80,12 +83,7 @@ public class UserController extends WindowHandler {
         table.getItems().setAll(filteredList);
         TableResizer.setDefault(table);
 
-        if (!user.can("permissions.users.create")) {
-            sideBox.getChildren().remove(createButton);
-        }
-        if (!user.can("permissions.users.edit")) {
-            sideBox.getChildren().remove(editButton);
-        }
+        checkPermissions();
     }
 
     @FXML
@@ -119,5 +117,27 @@ public class UserController extends WindowHandler {
             table.refresh();
             activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.users.edit"));
         });
+    }
+
+    @FXML
+    private void showActivityHistory(ActionEvent event)
+    {
+        User userSelected = table.getSelectionModel().getSelectedItem();
+
+        if (userSelected == null) Dialogs.notSelectedWarning();
+        else Dialogs.userDialog(userSelected, "Edit user").ifPresent(user -> Dialogs.userActivitiesDialog(userSelected));
+    }
+
+    private void checkPermissions()
+    {
+        if (!user.can("permissions.users.create")) {
+            sideBox.getChildren().remove(createButton);
+        }
+        if (!user.can("permissions.users.edit")) {
+            sideBox.getChildren().remove(editButton);
+        }
+        if (!user.can("permissions.users.show-activity-history")) {
+            sideBox.getChildren().remove(showActivityHistoryButton);
+        }
     }
 }

@@ -322,6 +322,11 @@ public class Dialogs {
         dialog.show();
     }
 
+    public static void userActivitiesDialog(User user)
+    {
+
+    }
+
     public static void shelfItemsDialog(Shelf shelf) {
         Dialog<Shelf> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));

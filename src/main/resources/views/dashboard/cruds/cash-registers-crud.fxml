@@ -43,7 +43,7 @@
                 </styleClass>
             </Button>
             <Button fx:id="showSaleHistoryButton" mnemonicParsing="false" onAction="#showSaleHistory" prefHeight="50.0"
-                    prefWidth="151.0" text="Show Sale History">
+                    prefWidth="151.0" text="Show sale history">
                 <styleClass>
                     <String fx:value="crud-button"/>
                     <String fx:value="font-regular"/>
