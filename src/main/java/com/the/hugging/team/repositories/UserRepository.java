@@ -2,14 +2,11 @@ package com.the.hugging.team.repositories;
 
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.Connection;
-import com.the.hugging.team.utils.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -31,25 +28,6 @@ public class UserRepository implements ObjectRepository<User> {
     public void save(User obj) {
         try {
             entityManager.getTransaction().begin();
-            LocalDateTime now = LocalDateTime.now();
-            User loggedUser = Session.getInstance().getUser();
-
-            if (obj.getCreatedAt() == null) {
-                obj.setCreatedAt(Timestamp.valueOf(now));
-            }
-
-            if (obj.getUpdatedAt() == null) {
-                obj.setUpdatedAt(Timestamp.valueOf(now));
-            }
-
-            if (obj.getCreatedBy() == null) {
-                obj.setCreatedBy(loggedUser);
-            }
-
-            if (obj.getUpdatedBy() == null) {
-                obj.setUpdatedBy(loggedUser);
-            }
-
             entityManager.persist(obj);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
@@ -62,11 +40,6 @@ public class UserRepository implements ObjectRepository<User> {
     public void update(User obj) {
         try {
             entityManager.getTransaction().begin();
-            User loggedUser = Session.getInstance().getUser();
-
-            obj.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-            obj.setUpdatedBy(loggedUser);
-
             entityManager.merge(obj);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
