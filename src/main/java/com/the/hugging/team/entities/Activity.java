@@ -1,5 +1,6 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +37,18 @@ public class Activity {
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        User sessionUser = Session.getInstance().getUser();
+
+        if (createdAt == null)
+            createdAt = now;
+
+        if (user == null)
+            user = sessionUser;
+    }
 
     @Override
     public boolean equals(Object o) {

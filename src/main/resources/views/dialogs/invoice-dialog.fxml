@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="640.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane fx:id="invoiceAnchor" prefHeight="640.0" prefWidth="1080.0" stylesheets="@../../assets/css/wizard.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane fx:id="companyOnePane" layoutX="14.0" layoutY="40.0" prefHeight="305.0" prefWidth="525.0" styleClass="labelPane" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
+            <Pane layoutX="40.0" layoutY="40.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Name" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyOneName" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="85.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Address" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyOneAddress" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="130.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="DDS number" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyOneDDSNumber" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="175.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="EIK/BULSTAT" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyOneEIK" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="220.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="MOL" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyOneMOL" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+        </Pane>
+        <Pane fx:id="buyer" layoutX="10.0" layoutY="390.0" prefHeight="215.0" prefWidth="525.0" styleClass="labelPane" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="10.0">
+            <Label layoutX="40.0" layoutY="40.0" prefHeight="35.0" prefWidth="445.0" styleClass="font-regular" text="Buyer">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Pane layoutX="40.0" layoutY="95.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Date" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="buyerDate" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="140.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Name" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="buyerName" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+        </Pane>
+        <Pane fx:id="seller" layoutX="545.0" layoutY="390.0" prefHeight="215.0" prefWidth="525.0" styleClass="labelPane" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="10.0">
+            <Label layoutX="40.0" layoutY="40.0" prefHeight="35.0" prefWidth="445.0" styleClass="font-regular" text="Seller">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Pane layoutX="40.0" layoutY="95.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Name" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="sellerName" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+        </Pane>
+        <Pane fx:id="companyTwoPane" layoutX="545.0" layoutY="50.0" prefHeight="305.0" prefWidth="525.0" styleClass="labelPane" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+            <Pane layoutX="40.0" layoutY="40.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Name" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyTwoName" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="85.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="Address" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyTwoAddress" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="130.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="DDS number" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyTwoDDSNumber" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="175.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="EIK/BULSTAT" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyTwoEIK" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+            <Pane layoutX="40.0" layoutY="220.0" prefHeight="35.0" prefWidth="445.0" styleClass="labelPane">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular" text="MOL" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0" />
+                <TextField fx:id="companyTwoMOL" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="270.0" styleClass="font-regular" />
+            </Pane>
+        </Pane>
+    </AnchorPane>
+</AnchorPane>

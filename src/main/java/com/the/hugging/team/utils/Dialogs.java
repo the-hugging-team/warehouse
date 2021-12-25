@@ -1,5 +1,6 @@
 package com.the.hugging.team.utils;
 
+import com.the.hugging.team.controllers.dialogs.SaleInvoiceDialog;
 import com.the.hugging.team.entities.*;
 import com.the.hugging.team.services.ActivityService;
 import com.the.hugging.team.services.ProductService;
@@ -12,10 +13,10 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class Dialogs {
@@ -290,7 +291,11 @@ public class Dialogs {
 
                 row.setOnMouseClicked(event -> {
                     if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                        invoiceBySaleDialog(table.getSelectionModel().getSelectedItem().getInvoice());
+                        try {
+                            invoiceBySaleDialog(table.getSelectionModel().getSelectedItem());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
@@ -303,25 +308,21 @@ public class Dialogs {
         dialog.show();
     }
 
-    private static void invoiceBySaleDialog(Invoice invoice) {
+    private static void invoiceBySaleDialog(Sale sale) throws IOException {
         Dialog<Invoice> dialog = new Dialog<>();
-        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
-        dialog.setGraphic(null);
-        dialog.setTitle("Invoice " + invoice.getId());
-        dialog.setResizable(false);
 
-        if (invoice == null) {
+        if (sale == null) {
+            ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+            dialog.setGraphic(null);
+            dialog.setTitle("Invoice " + sale.getInvoice().getId());
+            dialog.setResizable(false);
             dialog.setHeaderText("There is no invoice for this sale");
             dialog.getDialogPane().setPrefWidth(500);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+            dialog.show();
         } else {
-            AnchorPane windowAnchor = new AnchorPane();
-
-            //set up the anchor
-
-            dialog.getDialogPane().setContent(windowAnchor);
+            SaleInvoiceDialog saleInvoiceDialog = new SaleInvoiceDialog(sale, dialog.getOwner());
         }
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
-        dialog.show();
     }
 
     public static void userActivitiesDialog(User user)

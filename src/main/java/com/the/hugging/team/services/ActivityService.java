@@ -26,8 +26,6 @@ public class ActivityService {
     {
         Activity activity = new Activity();
         activity.setActivityType(activityType);
-        activity.setUser(session.getUser());
-        activity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         activityRepository.save(activity);
     }
