@@ -1,5 +1,8 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.repositories.InvoiceRepository;
+import com.the.hugging.team.repositories.TransactionRepository;
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -52,6 +55,20 @@ public class Sale implements Serializable {
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<SaleProduct> saleProducts = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        createdBy = Session.getInstance().getUser();
+
+        if (invoice != null && invoice.getId() == null) {
+            InvoiceRepository.getInstance().save(invoice);
+        }
+
+        if (transaction != null && transaction.getId() == null) {
+            TransactionRepository.getInstance().save(transaction);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

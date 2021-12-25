@@ -1,5 +1,6 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.repositories.AddressRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,13 @@ public class Company implements Serializable {
 
     @Column(name = "mol", nullable = false)
     private String mol;
+
+    @PrePersist
+    public void prePersist() {
+        if (address != null && address.getId() == null) {
+            AddressRepository.getInstance().save(address);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

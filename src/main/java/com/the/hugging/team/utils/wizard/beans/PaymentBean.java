@@ -10,8 +10,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SellBean {
-    private static SellBean instance;
+public class PaymentBean {
+    public enum BeanType {
+        SELL,
+        DELIVERY,
+    }
+
+    private static PaymentBean instance;
     private ObservableList<Product> searchData;
     private ObservableList<Product> productsData;
     private Double productsPrice;
@@ -21,9 +26,11 @@ public class SellBean {
     private Invoice invoice;
     private CashRegister cashRegister;
 
-    public static SellBean getInstance() {
+    private BeanType beanType;
+
+    public static PaymentBean getInstance() {
         if (instance == null) {
-            instance = new SellBean();
+            instance = new PaymentBean();
         }
         return instance;
     }

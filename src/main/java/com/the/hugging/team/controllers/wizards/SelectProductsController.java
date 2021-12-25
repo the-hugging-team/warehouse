@@ -7,7 +7,7 @@ import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import com.the.hugging.team.utils.WindowHandler;
-import com.the.hugging.team.utils.wizard.beans.SellBean;
+import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import com.the.hugging.team.utils.wizard.events.EventSource;
 import com.the.hugging.team.utils.wizard.events.EventType;
 import com.the.hugging.team.utils.wizard.events.NextStepEvent;
@@ -30,7 +30,7 @@ public class SelectProductsController extends WindowHandler {
 
     private final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
     private final ProductService productService = ProductService.getInstance();
-    private final SellBean sellBean = SellBean.getInstance();
+    private final PaymentBean paymentBean = PaymentBean.getInstance();
     private final EventSource eventSource = EventSource.getInstance();
 
     @FXML
@@ -296,22 +296,22 @@ public class SelectProductsController extends WindowHandler {
     }
 
     private void setupProducts(ProductCategory productCategory) {
-        if (sellBean.getSearchData() != null) {
-            searchData = sellBean.getSearchData();
+        if (paymentBean.getSearchData() != null) {
+            searchData = paymentBean.getSearchData();
         } else {
             searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
-            sellBean.setSearchData(searchData);
+            paymentBean.setSearchData(searchData);
         }
 
         searchFilteredList = new FilteredList<>(searchData, p -> true);
 
         searchTable.setItems(searchFilteredList);
 
-        if (sellBean.getProductsData() != null) {
-            productsData = sellBean.getProductsData();
+        if (paymentBean.getProductsData() != null) {
+            productsData = paymentBean.getProductsData();
         } else {
             productsData = FXCollections.observableArrayList();
-            sellBean.setProductsData(productsData);
+            paymentBean.setProductsData(productsData);
         }
 
         productsTable.refresh();

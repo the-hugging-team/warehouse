@@ -4,7 +4,7 @@ import com.the.hugging.team.entities.Product;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.utils.WindowHandler;
-import com.the.hugging.team.utils.wizard.beans.SellBean;
+import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,7 @@ public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
     private final ProductService productService = ProductService.getInstance();
 
-    private final SellBean sellBean = SellBean.getInstance();
+    private final PaymentBean paymentBean = PaymentBean.getInstance();
 
     @FXML
     private Button paymentButton;
@@ -48,9 +48,9 @@ public class PayController extends WindowHandler {
         payAnchor.heightProperty().addListener(
                 (observableValue, oldAnchorHeight, newAnchorHeight) -> paymentInformationPane.setLayoutY((newAnchorHeight.doubleValue() / 2) - (paymentInformationPane.getPrefHeight() / 2)));
 
-        products = sellBean.getProductsData();
+        products = paymentBean.getProductsData();
 
-        if (sellBean.getBuyerCompany() == null)
+        if (paymentBean.getBuyerCompany() == null)
             basePrice = products.stream().map(Product::getRetailPrice).reduce(0.00, Double::sum);
         else
             basePrice = products.stream().map(Product::getWholesalePrice).reduce(0.00, Double::sum);
@@ -60,19 +60,23 @@ public class PayController extends WindowHandler {
         finalPrice = basePrice + ddsValue;
 
         basePriceField.setText(basePrice.toString());
-        if (sellBean.getBuyerCompany() == null)
+        if (paymentBean.getBuyerCompany() == null)
             ddsPercentageField.setText(dds.toString());
         ddsValueField.setText(ddsValue.toString());
         finalPriceField.setText(finalPrice.toString());
 
-        sellBean.setProductsPrice(basePrice);
-        sellBean.setProductsDdsValue(ddsValue);
-        sellBean.setProductsFinalPrice(finalPrice);
+        paymentBean.setProductsPrice(basePrice);
+        paymentBean.setProductsDdsValue(ddsValue);
+        paymentBean.setProductsFinalPrice(finalPrice);
     }
 
     @FXML
     public void paymentButtonClick(ActionEvent event) {
-        saleService.addSaleFromBean(sellBean, finalPrice);
-        productService.updateProductsFromSellBean(sellBean.getSearchData());
+        paymentBean.getInvoice().setBasePrice(basePrice);
+        paymentBean.getInvoice().setDds(ddsValue);
+        paymentBean.getInvoice().setTotalPrice(finalPrice);
+
+        saleService.addSaleFromBean(paymentBean, finalPrice);
+        productService.updateProductsFromSellBean(paymentBean.getSearchData());
     }
 }
