@@ -72,7 +72,7 @@ public class ProductRepository implements ObjectRepository<Product> {
             entityManager.getTransaction().rollback();
             log.error("Get product by Id error: " + e.getMessage());
         }
-        return Optional.of(product);
+        return Optional.ofNullable(product);
     }
 
     @Override

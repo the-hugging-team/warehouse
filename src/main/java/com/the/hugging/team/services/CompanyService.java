@@ -35,7 +35,7 @@ public class CompanyService {
         companyRepository.delete(company);
     }
 
-    public Company getCellaCompany(){
+    public Company getCellaCompany() {
         return companyRepository.getById(1).orElse(null);
     }
 }

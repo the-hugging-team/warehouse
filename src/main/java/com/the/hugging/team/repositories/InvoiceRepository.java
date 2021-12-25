@@ -72,7 +72,7 @@ public class InvoiceRepository implements ObjectRepository<Invoice> {
             entityManager.getTransaction().rollback();
             log.error("Get invoice by Id error: " + e.getMessage());
         }
-        return Optional.of(invoice);
+        return Optional.ofNullable(invoice);
     }
 
     @Override

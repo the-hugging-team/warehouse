@@ -99,7 +99,7 @@ public class UserRepository implements ObjectRepository<User> {
             entityManager.getTransaction().rollback();
             log.error("Get user by Id error: " + e.getMessage());
         }
-        return Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     @Override

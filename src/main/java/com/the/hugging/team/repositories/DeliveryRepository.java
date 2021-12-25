@@ -72,7 +72,7 @@ public class DeliveryRepository implements ObjectRepository<Delivery> {
             entityManager.getTransaction().rollback();
             log.error("Get delivery by Id error: " + e.getMessage());
         }
-        return Optional.of(delivery);
+        return Optional.ofNullable(delivery);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class TransactionRepository implements ObjectRepository<Transaction> {
             entityManager.getTransaction().rollback();
             log.error("Get transaction by Id error: " + e.getMessage());
         }
-        return Optional.of(transaction);
+        return Optional.ofNullable(transaction);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class AddressRepository implements ObjectRepository<Address> {
         return allAddresses;
     }
 
-    public Optional<Address> getByAddress(String addressString){
+    public Optional<Address> getByAddress(String addressString) {
         Address address = null;
         try {
             entityManager.getTransaction().begin();

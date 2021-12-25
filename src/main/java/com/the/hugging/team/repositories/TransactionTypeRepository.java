@@ -71,7 +71,7 @@ public class TransactionTypeRepository implements ObjectRepository<TransactionTy
             entityManager.getTransaction().rollback();
             log.error("Get transactionType by Id error: " + e.getMessage());
         }
-        return Optional.of(transactionType);
+        return Optional.ofNullable(transactionType);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class TransactionTypeRepository implements ObjectRepository<TransactionTy
             entityManager.getTransaction().rollback();
             log.error("Get transactionType by slug error: " + e.getMessage());
         }
-        return Optional.of(transactionType);
+        return Optional.ofNullable(transactionType);
     }
 }
 
