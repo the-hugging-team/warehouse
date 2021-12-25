@@ -22,4 +22,9 @@ public class ProductService {
     public List<Product> getProductsByShelf(Shelf shelf) {
         return productRepository.getByShelf(shelf);
     }
+    public List<Product> getAllProducts() {
+        return productRepository.getAll();
+    }
+
+    public void deleteProduct(Product product) { productRepository.delete(product); }
 }
