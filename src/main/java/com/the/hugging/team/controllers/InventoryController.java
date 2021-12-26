@@ -1,6 +1,5 @@
 package com.the.hugging.team.controllers;
 
-import com.the.hugging.team.entities.Company;
 import com.the.hugging.team.entities.Product;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.utils.Dialogs;
@@ -92,13 +91,24 @@ public class InventoryController extends DashboardTemplate {
     @FXML
     private void create(ActionEvent event)
     {
-
+        Dialogs.productDialog(new Product(), "Create product").ifPresent(product ->
+        {
+            data.add(productService.addProduct(product));
+            table.getItems().setAll(filteredList);
+        });
     }
 
     @FXML
     private void edit(ActionEvent event)
     {
+        Product product = table.getSelectionModel().getSelectedItem();
 
+        if (product == null) Dialogs.notSelectedWarning();
+        else Dialogs.productDialog(product, "Edit " + product.getName()).ifPresent(editedProduct ->
+        {
+            productService.updateProduct(editedProduct);
+            table.refresh();
+        });
     }
 
     @FXML

@@ -1,7 +1,9 @@
 package com.the.hugging.team.utils;
 
 import com.the.hugging.team.entities.*;
+import com.the.hugging.team.services.ProductQuantityTypeService;
 import com.the.hugging.team.services.ProductService;
+import com.the.hugging.team.services.StorageService;
 import com.the.hugging.team.services.TransactionService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -9,17 +11,19 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
-import java.util.Optional;
+import java.util.*;
 
 public class Dialogs {
     private static final TransactionService transactionService = TransactionService.getInstance();
     private static final ProductService productService = ProductService.getInstance();
+    private static final ProductQuantityTypeService productQuantityTypeService = ProductQuantityTypeService.getInstance();
+    private static final StorageService storageService = StorageService.getInstance();
 
     public static void notSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -80,7 +84,7 @@ public class Dialogs {
             lastName.setText(user.getLastName());
         }
 
-        ChoiceBox sex = new ChoiceBox(FXCollections.observableArrayList("Male", "Female"));
+        ChoiceBox<String> sex = new ChoiceBox<>(FXCollections.observableArrayList("Male", "Female"));
         sex.getSelectionModel().selectFirst();
 
         if (user.getSex() != null) {
@@ -235,6 +239,212 @@ public class Dialogs {
                 company.setDdsNumber(dds.getText());
                 company.setMol(mol.getText());
                 return company;
+            }
+            return null;
+        });
+
+        return dialog.showAndWait();
+    }
+
+    public static Optional<Product> productDialog(Product product, String title)
+    {
+        Dialog<Product> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle(title);
+        dialog.setHeaderText(null);
+
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField productName = new TextField();
+        productName.setPromptText("Name");
+        productName.setPrefWidth(250);
+
+        TextField nomenclature = new TextField();
+        nomenclature.setPromptText("Nomenclature");
+        nomenclature.setPrefWidth(250);
+
+        TextField quantityAmount = new TextField();
+        quantityAmount.setPromptText("Quantity amount");
+        quantityAmount.setPrefWidth(250);
+
+        TextField retailPrice = new TextField();
+        retailPrice.setPromptText("Retail price");
+        retailPrice.setPrefWidth(250);
+
+        TextField wholesalePrice = new TextField();
+        wholesalePrice.setPromptText("Wholesale price");
+        wholesalePrice.setPrefWidth(250);
+
+        TextField deliveryPrice = new TextField();
+        deliveryPrice.setPromptText("Delivery price");
+        deliveryPrice.setPrefWidth(250);
+
+        ChoiceBox<ProductQuantityType> quantityType = new ChoiceBox<>(FXCollections.observableArrayList(productQuantityTypeService.getAllProductQuantityTypes()));
+        StringConverter<ProductQuantityType> productQuantityTypeConverter = new StringConverter<>() {
+            @Override
+            public String toString(ProductQuantityType productQuantityType) {
+                return productQuantityType.getName();
+            }
+
+            @Override
+            public ProductQuantityType fromString(String s) {
+                return null;
+            }
+        };
+        quantityType.setConverter(productQuantityTypeConverter);
+        quantityType.getSelectionModel().selectFirst();
+
+        ChoiceBox<Shelf> shelf = new ChoiceBox<>(FXCollections.observableArrayList(storageService.getAllShelves()));
+        StringConverter<Shelf> shelfStringConverter = new StringConverter<>() {
+            @Override
+            public String toString(Shelf shelf) {
+                return shelf.getName();
+            }
+
+            @Override
+            public Shelf fromString(String s) {
+                return null;
+            }
+        };
+        shelf.setConverter(shelfStringConverter);
+        shelf.getSelectionModel().selectFirst();
+
+        if (product.getName() != null) {
+            productName.setText(product.getName());
+        }
+
+        if (product.getNomenclature() != null) {
+            nomenclature.setText(product.getNomenclature());
+        }
+
+        if (product.getQuantity() != null) {
+            quantityAmount.setText(product.getQuantity().toString());
+        }
+
+        if (product.getRetailPrice() != null) {
+            retailPrice.setText(product.getRetailPrice().toString());
+        }
+
+        if (product.getWholesalePrice() != null) {
+            wholesalePrice.setText(product.getWholesalePrice().toString());
+        }
+
+        if (product.getDeliveryPrice() != null) {
+            deliveryPrice.setText(product.getDeliveryPrice().toString());
+        }
+
+        if (product.getProductQuantityType() != null)
+        {
+            quantityType.getSelectionModel().select(product.getProductQuantityType());
+        }
+
+        if (product.getShelf() != null)
+        {
+            shelf.getSelectionModel().select(product.getShelf());
+        }
+
+        TextField newQuantityTypeName = new TextField();
+        newQuantityTypeName.setPromptText("New quantity type name");
+
+        Button newQuantityTypeButton = new Button("Create a new quantity type");
+        newQuantityTypeButton.setOnAction(event ->
+        {
+            grid.getChildren().remove(quantityType);
+            grid.getChildren().remove(newQuantityTypeButton);
+
+            grid.add(newQuantityTypeName, 1, 3);
+
+            Button goBack = new Button("Go back");
+            goBack.setOnAction(goBackEvent ->
+            {
+                grid.getChildren().remove(newQuantityTypeName);
+                grid.getChildren().remove(goBack);
+
+                newQuantityTypeName.setText(null); //!
+
+                grid.add(quantityType, 1, 3);
+                grid.add(newQuantityTypeButton, 2, 3);
+            });
+            grid.add(goBack, 2, 3);
+        });
+
+        TextField newShelfName = new TextField();
+        newShelfName.setPromptText("New shelf name");
+
+        Button newShelfButton = new Button("Create a new shelf");
+        newShelfButton.setOnAction(event -> {
+            grid.getChildren().remove(shelf);
+            grid.getChildren().remove(newShelfButton);
+
+            grid.add(newShelfName, 1, 7);
+
+            Button goBack = new Button("Go back");
+            goBack.setOnAction(goBackEvent ->
+            {
+                grid.getChildren().remove(newShelfName);
+                grid.getChildren().remove(goBack);
+
+                newShelfName.setText(null); //!
+
+                grid.add(shelf, 1, 7);
+                grid.add(newShelfButton, 2, 7);
+            });
+            grid.add(goBack, 2, 7);
+        });
+
+        grid.add(new Label("Product Name:"), 0, 0);
+        grid.add(productName, 1, 0);
+
+        grid.add(new Label("Nomenclature:"), 0, 1);
+        grid.add(nomenclature, 1, 1);
+
+        grid.add(new Label("Quantity amount:"), 0, 2);
+        grid.add(quantityAmount, 1, 2);
+
+        grid.add(new Label("Quantity type:"), 0, 3);
+        grid.add(quantityType, 1, 3);
+        grid.add(newQuantityTypeButton, 2, 3);
+
+        grid.add(new Label("Retail price:"), 0, 4);
+        grid.add(retailPrice, 1, 4);
+
+        grid.add(new Label("Wholesale price:"), 0, 5);
+        grid.add(wholesalePrice, 1, 5);
+
+        grid.add(new Label("Delivery price:"), 0, 6);
+        grid.add(deliveryPrice, 1, 6);
+
+        grid.add(new Label("Shelf:"), 0, 7);
+        grid.add(shelf, 1, 7);
+        grid.add(newShelfButton, 2, 7);
+
+        dialog.getDialogPane().setContent(grid);
+
+        final Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    // price and amount validations here
+                }
+        );
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == ButtonType.OK) {
+                //make product entity
+                if (newShelfName.getText() != null)
+                {
+                    // create the new shelf here
+                }
+                if (newQuantityTypeName.getText() != null)
+                {
+                    //create the new quantity type here
+                }
             }
             return null;
         });
