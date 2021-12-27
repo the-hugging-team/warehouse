@@ -1,10 +1,7 @@
 package com.the.hugging.team.utils;
 
 import com.the.hugging.team.entities.*;
-import com.the.hugging.team.services.ProductQuantityTypeService;
-import com.the.hugging.team.services.ProductService;
-import com.the.hugging.team.services.StorageService;
-import com.the.hugging.team.services.TransactionService;
+import com.the.hugging.team.services.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +21,7 @@ public class Dialogs {
     private static final ProductService productService = ProductService.getInstance();
     private static final ProductQuantityTypeService productQuantityTypeService = ProductQuantityTypeService.getInstance();
     private static final StorageService storageService = StorageService.getInstance();
+    private static final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
 
     public static void notSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -285,6 +283,21 @@ public class Dialogs {
         deliveryPrice.setPromptText("Delivery price");
         deliveryPrice.setPrefWidth(250);
 
+        ChoiceBox<ProductCategory> category = new ChoiceBox<>(FXCollections.observableArrayList(productCategoryService.getAllProductCategories()));
+        StringConverter<ProductCategory> categoryConverter = new StringConverter<>() {
+            @Override
+            public String toString(ProductCategory productCategory) {
+                return productCategory.getName();
+            }
+
+            @Override
+            public ProductCategory fromString(String s) {
+                return null;
+            }
+        };
+        category.setConverter(categoryConverter);
+        category.getSelectionModel().selectFirst();
+
         ChoiceBox<ProductQuantityType> quantityType = new ChoiceBox<>(FXCollections.observableArrayList(productQuantityTypeService.getAllProductQuantityTypes()));
         StringConverter<ProductQuantityType> productQuantityTypeConverter = new StringConverter<>() {
             @Override
@@ -323,6 +336,10 @@ public class Dialogs {
             nomenclature.setText(product.getNomenclature());
         }
 
+        if (product.getProductCategory() != null) {
+            category.getSelectionModel().select(product.getProductCategory());
+        }
+
         if (product.getQuantity() != null) {
             quantityAmount.setText(product.getQuantity().toString());
         }
@@ -358,7 +375,7 @@ public class Dialogs {
             grid.getChildren().remove(quantityType);
             grid.getChildren().remove(newQuantityTypeButton);
 
-            grid.add(newQuantityTypeName, 1, 3);
+            grid.add(newQuantityTypeName, 1, 4);
 
             Button goBack = new Button("Go back");
             goBack.setOnAction(goBackEvent ->
@@ -368,34 +385,34 @@ public class Dialogs {
 
                 newQuantityTypeName.setText(null); //!
 
-                grid.add(quantityType, 1, 3);
-                grid.add(newQuantityTypeButton, 2, 3);
+                grid.add(quantityType, 1, 4);
+                grid.add(newQuantityTypeButton, 2, 4);
             });
-            grid.add(goBack, 2, 3);
+            grid.add(goBack, 2, 4);
         });
 
-        TextField newShelfName = new TextField();
-        newShelfName.setPromptText("New shelf name");
+        TextField newCategoryName = new TextField();
+        newCategoryName.setPromptText("New category name");
 
-        Button newShelfButton = new Button("Create a new shelf");
-        newShelfButton.setOnAction(event -> {
-            grid.getChildren().remove(shelf);
-            grid.getChildren().remove(newShelfButton);
+        Button newCategoryButton = new Button("Create a new category");
+        newCategoryButton.setOnAction(event -> {
+            grid.getChildren().remove(category);
+            grid.getChildren().remove(newCategoryButton);
 
-            grid.add(newShelfName, 1, 7);
+            grid.add(newCategoryName, 1, 2);
 
             Button goBack = new Button("Go back");
             goBack.setOnAction(goBackEvent ->
             {
-                grid.getChildren().remove(newShelfName);
+                grid.getChildren().remove(newCategoryName);
                 grid.getChildren().remove(goBack);
 
-                newShelfName.setText(null); //!
+                newCategoryName.setText(null); //!
 
-                grid.add(shelf, 1, 7);
-                grid.add(newShelfButton, 2, 7);
+                grid.add(category, 1, 2);
+                grid.add(newCategoryButton, 2, 2);
             });
-            grid.add(goBack, 2, 7);
+            grid.add(goBack, 2, 2);
         });
 
         grid.add(new Label("Product Name:"), 0, 0);
@@ -404,25 +421,28 @@ public class Dialogs {
         grid.add(new Label("Nomenclature:"), 0, 1);
         grid.add(nomenclature, 1, 1);
 
-        grid.add(new Label("Quantity amount:"), 0, 2);
-        grid.add(quantityAmount, 1, 2);
+        grid.add(new Label("Category:"), 0, 2);
+        grid.add(category, 1, 2);
+        grid.add(newCategoryButton, 2, 2);
 
-        grid.add(new Label("Quantity type:"), 0, 3);
-        grid.add(quantityType, 1, 3);
-        grid.add(newQuantityTypeButton, 2, 3);
+        grid.add(new Label("Quantity amount:"), 0, 3);
+        grid.add(quantityAmount, 1, 3);
 
-        grid.add(new Label("Retail price:"), 0, 4);
-        grid.add(retailPrice, 1, 4);
+        grid.add(new Label("Quantity type:"), 0, 4);
+        grid.add(quantityType, 1, 4);
+        grid.add(newQuantityTypeButton, 2, 4);
 
-        grid.add(new Label("Wholesale price:"), 0, 5);
-        grid.add(wholesalePrice, 1, 5);
+        grid.add(new Label("Retail price:"), 0, 5);
+        grid.add(retailPrice, 1, 5);
 
-        grid.add(new Label("Delivery price:"), 0, 6);
-        grid.add(deliveryPrice, 1, 6);
+        grid.add(new Label("Wholesale price:"), 0, 6);
+        grid.add(wholesalePrice, 1, 6);
 
-        grid.add(new Label("Shelf:"), 0, 7);
-        grid.add(shelf, 1, 7);
-        grid.add(newShelfButton, 2, 7);
+        grid.add(new Label("Delivery price:"), 0, 7);
+        grid.add(deliveryPrice, 1, 7);
+
+        grid.add(new Label("Shelf:"), 0, 8);
+        grid.add(shelf, 1, 8);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -437,7 +457,7 @@ public class Dialogs {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 //make product entity
-                if (newShelfName.getText() != null)
+                if (newCategoryName.getText() != null)
                 {
                     // create the new shelf here
                 }
