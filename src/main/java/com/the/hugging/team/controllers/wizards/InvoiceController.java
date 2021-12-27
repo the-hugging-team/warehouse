@@ -162,89 +162,91 @@ public class InvoiceController extends WindowHandler {
     }
 
     private void saveInvoiceData() {
-        String errors = "";
+        if (paymentBean.getInvoice() != null) {
+            String errors = "";
 
-        if (companyOneName.getText() == null || companyOneName.getText().isEmpty()) {
-            errors += "Company one name is required\n";
-        } else {
-            companyOne.setName(companyOneName.getText());
+            if (companyOneName.getText() == null || companyOneName.getText().isEmpty()) {
+                errors += "Company one name is required\n";
+            } else {
+                companyOne.setName(companyOneName.getText());
+            }
+
+            if (companyOneAddress.getText() == null || companyOneAddress.getText().isEmpty()) {
+                errors += "Company one address is required\n";
+            } else {
+                companyOne.setAddress(invoiceService.getAddress(companyOneAddress.getText()));
+            }
+
+            if (companyOneDDSNumber.getText() == null || companyOneDDSNumber.getText().isEmpty()) {
+                errors += "Company one DDS number is required\n";
+            } else if (!companyOneDDSNumber.getText().matches("BG[0-9]{9}")) {
+                errors += "Company one DDS number is not valid\n";
+            } else {
+                companyOne.setDdsNumber(companyOneDDSNumber.getText());
+            }
+
+            if (companyOneEIK.getText() == null || companyOneEIK.getText().isEmpty()) {
+                errors += "Company one EIK is required\n";
+            } else if (!companyOneEIK.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
+                errors += "Company one EIK is not valid\n";
+            } else {
+                companyOne.setBulstat(companyOneEIK.getText());
+            }
+
+            if (companyOneMOL.getText() == null || companyOneMOL.getText().isEmpty()) {
+                errors += "Company one MOL is required\n";
+            } else {
+                companyOne.setMol(companyOneMOL.getText());
+            }
+
+
+            if (companyTwoName.getText() == null || companyTwoName.getText().isEmpty()) {
+                errors += "Company two name is required\n";
+            } else {
+                companyTwo.setName(companyTwoName.getText());
+            }
+
+            if (companyTwoAddress.getText() == null || companyTwoAddress.getText().isEmpty()) {
+                errors += "Company two address is required\n";
+            } else {
+                companyTwo.setAddress(invoiceService.getAddress(companyTwoAddress.getText()));
+            }
+
+            if (companyTwoDDSNumber.getText() == null || companyTwoDDSNumber.getText().isEmpty()) {
+                errors += "Company two DDS number is required\n";
+            } else if (!companyTwoDDSNumber.getText().matches("BG[0-9]{9}")) {
+                errors += "Company two DDS number is not valid\n";
+            } else {
+                companyTwo.setDdsNumber(companyTwoDDSNumber.getText());
+            }
+
+            if (companyTwoEIK.getText() == null || companyTwoEIK.getText().isEmpty()) {
+                errors += "Company two EIK is required\n";
+            } else if (!companyTwoEIK.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
+                errors += "Company two EIK is not valid\n";
+            } else {
+                companyTwo.setBulstat(companyTwoEIK.getText());
+            }
+
+            if (companyTwoMOL.getText() == null || companyTwoMOL.getText().isEmpty()) {
+                errors += "Company two MOL is required\n";
+            } else {
+                companyTwo.setMol(companyTwoMOL.getText());
+            }
+
+            if (!errors.isEmpty()) {
+                canChangeStep = false;
+                Dialogs.warningDialog("Error", errors);
+                return;
+            }
+
+            invoice.setCompanyOne(companyOne);
+            invoice.setCompanyTwo(companyTwo);
+            invoice.setBuyer(buyerName.getText());
+            invoice.setSeller(sellerName.getText());
+
+            paymentBean.setInvoice(invoice);
         }
-
-        if (companyOneAddress.getText() == null || companyOneAddress.getText().isEmpty()) {
-            errors += "Company one address is required\n";
-        } else {
-            companyOne.setAddress(invoiceService.getAddress(companyOneAddress.getText()));
-        }
-
-        if (companyOneDDSNumber.getText() == null || companyOneDDSNumber.getText().isEmpty()) {
-            errors += "Company one DDS number is required\n";
-        } else if (!companyOneDDSNumber.getText().matches("BG[0-9]{9}")) {
-            errors += "Company one DDS number is not valid\n";
-        } else {
-            companyOne.setDdsNumber(companyOneDDSNumber.getText());
-        }
-
-        if (companyOneEIK.getText() == null || companyOneEIK.getText().isEmpty()) {
-            errors += "Company one EIK is required\n";
-        } else if (!companyOneEIK.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
-            errors += "Company one EIK is not valid\n";
-        } else {
-            companyOne.setBulstat(companyOneEIK.getText());
-        }
-
-        if (companyOneMOL.getText() == null || companyOneMOL.getText().isEmpty()) {
-            errors += "Company one MOL is required\n";
-        } else {
-            companyOne.setMol(companyOneMOL.getText());
-        }
-
-
-        if (companyTwoName.getText() == null || companyTwoName.getText().isEmpty()) {
-            errors += "Company two name is required\n";
-        } else {
-            companyTwo.setName(companyTwoName.getText());
-        }
-
-        if (companyTwoAddress.getText() == null || companyTwoAddress.getText().isEmpty()) {
-            errors += "Company two address is required\n";
-        } else {
-            companyTwo.setAddress(invoiceService.getAddress(companyTwoAddress.getText()));
-        }
-
-        if (companyTwoDDSNumber.getText() == null || companyTwoDDSNumber.getText().isEmpty()) {
-            errors += "Company two DDS number is required\n";
-        } else if (!companyTwoDDSNumber.getText().matches("BG[0-9]{9}")) {
-            errors += "Company two DDS number is not valid\n";
-        } else {
-            companyTwo.setDdsNumber(companyTwoDDSNumber.getText());
-        }
-
-        if (companyTwoEIK.getText() == null || companyTwoEIK.getText().isEmpty()) {
-            errors += "Company two EIK is required\n";
-        } else if (!companyTwoEIK.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
-            errors += "Company two EIK is not valid\n";
-        } else {
-            companyTwo.setBulstat(companyTwoEIK.getText());
-        }
-
-        if (companyTwoMOL.getText() == null || companyTwoMOL.getText().isEmpty()) {
-            errors += "Company two MOL is required\n";
-        } else {
-            companyTwo.setMol(companyTwoMOL.getText());
-        }
-
-        if (!errors.isEmpty()) {
-            canChangeStep = false;
-            Dialogs.warningDialog("Error", errors);
-            return;
-        }
-
-        invoice.setCompanyOne(companyOne);
-        invoice.setCompanyTwo(companyTwo);
-        invoice.setBuyer(buyerName.getText());
-        invoice.setSeller(sellerName.getText());
-
-        paymentBean.setInvoice(invoice);
     }
 
     private void loadInvoiceData() {

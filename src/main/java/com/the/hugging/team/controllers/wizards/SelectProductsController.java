@@ -111,12 +111,7 @@ public class SelectProductsController extends WindowHandler {
     private void setupTables() {
         // Search table
 
-        searchNomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
-        searchName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        searchQuantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
-        searchQuantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
-        searchRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
-        searchWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
+        setupColumns(searchNomenclature, searchName, searchQuantity, searchQuantityType, searchRetailPrice, searchWholesalePrice);
 
         TableResizer.setDefault(searchTable);
         searchTable.setRowFactory(tv -> {
@@ -139,14 +134,9 @@ public class SelectProductsController extends WindowHandler {
         });
 
         // Products table
-        productsNomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
-        productsName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        productsQuantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
-        productsQuantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
-        productsRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
+        setupColumns(productsNomenclature, productsName, productsQuantity, productsQuantityType, productsRetailPrice, productsWholesalePrice);
         productsRetailDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsRetailPrice()).asObject());
         productsTotalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalRetailPrice()).asObject());
-        productsWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
         productsWholesaleDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsWholesalePrice()).asObject());
         productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalWholesalePrice()).asObject());
 
@@ -176,6 +166,15 @@ public class SelectProductsController extends WindowHandler {
             productsTable.setPrefHeight(newTableHeight);
             productsTable.setLayoutY((newValue.doubleValue() / 2) + 5);
         });
+    }
+
+    private void setupColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> retailPrice, TableColumn<Product, Double> wholesalePrice) {
+        nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
+        name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        quantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
+        quantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
+        retailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
+        wholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
     }
 
     private ContextMenu getAddContextMenu() {

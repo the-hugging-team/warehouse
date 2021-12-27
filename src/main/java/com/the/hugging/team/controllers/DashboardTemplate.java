@@ -4,6 +4,7 @@ import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
+import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
@@ -227,6 +228,8 @@ public class DashboardTemplate extends WindowHandler {
     }
 
     protected void loadView(String view) {
+        PaymentBean.clear();
+
         Window window = new Window(view);
         window.setAsAnchorPane(workspace, this.getWindow());
     }

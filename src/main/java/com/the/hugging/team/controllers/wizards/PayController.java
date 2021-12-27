@@ -5,6 +5,9 @@ import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
+import com.the.hugging.team.utils.wizard.events.EventSource;
+import com.the.hugging.team.utils.wizard.events.EventType;
+import com.the.hugging.team.utils.wizard.events.SetCurrentStepEvent;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +19,7 @@ import javafx.scene.layout.Pane;
 public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
     private final ProductService productService = ProductService.getInstance();
+    private final EventSource eventSource = EventSource.getInstance();
 
     private final PaymentBean paymentBean = PaymentBean.getInstance();
 
@@ -72,11 +76,16 @@ public class PayController extends WindowHandler {
 
     @FXML
     public void paymentButtonClick(ActionEvent event) {
-        paymentBean.getInvoice().setBasePrice(basePrice);
-        paymentBean.getInvoice().setDds(ddsValue);
-        paymentBean.getInvoice().setTotalPrice(finalPrice);
+        if (paymentBean.getInvoice() != null) {
+            paymentBean.getInvoice().setBasePrice(basePrice);
+            paymentBean.getInvoice().setDds(ddsValue);
+            paymentBean.getInvoice().setTotalPrice(finalPrice);
+        }
 
         saleService.addSaleFromBean(paymentBean, finalPrice);
         productService.updateProductsFromSellBean(paymentBean.getSearchData());
+
+        PaymentBean.clear();
+        eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));
     }
 }

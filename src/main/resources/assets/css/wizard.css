@@ -51,3 +51,14 @@
     -fx-background-color: #219ebc;
     -fx-effect: null;
 }
+
+.paymentButton {
+    -fx-background-color: #73bfdc;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-border-radius: 30px;
+}
+
+.paymentButton:hover {
+    -fx-background-color: #219ebc;
+}

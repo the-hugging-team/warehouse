@@ -111,6 +111,9 @@ public class ProductRepository implements ObjectRepository<Product> {
                             .setParameter("productCategoryTypeSlug", productCategoryTypeSlug)
                             .getResultList()
             );
+            for (Product product : products) {
+                entityManager.detach(product);
+            }
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
