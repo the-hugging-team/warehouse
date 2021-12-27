@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -447,24 +449,59 @@ public class Dialogs {
         dialog.getDialogPane().setContent(grid);
 
         final Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        okButton.addEventFilter(
-                ActionEvent.ACTION,
-                event -> {
-                    // price and amount validations here
-                }
-        );
+
+        okButton.addEventFilter(ActionEvent.ACTION, event -> {
+            try {
+                Double.parseDouble(quantityAmount.getText());
+                Double.parseDouble(retailPrice.getText());
+                Double.parseDouble(wholesalePrice.getText());
+                Double.parseDouble(deliveryPrice.getText());
+            }
+            catch (Exception e)
+            {
+                Dialogs.warningDialog("Incorrect data", "Incorrect data in the amount or price fields.");
+                event.consume();
+            }
+        });
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 //make product entity
+                double newAmount, newRetailPrice, newWholesalePrice, newDeliveryPrice;
+                newAmount = Double.parseDouble(quantityAmount.getText());
+                newRetailPrice = Double.parseDouble(retailPrice.getText());
+                newWholesalePrice = Double.parseDouble(wholesalePrice.getText());
+                newDeliveryPrice = Double.parseDouble(deliveryPrice.getText());
+
+                product.setName(productName.getText());
+                product.setNomenclature(nomenclature.getText());
+
                 if (newCategoryName.getText() != null)
                 {
-                    // create the new shelf here
+                    ProductCategory customCategory = new ProductCategory();
+                    customCategory.setName(newCategoryName.getText());
+                    customCategory.setSlug("product_categories." + newCategoryName.getText());
+                    product.setProductCategory(productCategoryService.addProductCategory(customCategory));
                 }
+                else product.setProductCategory(category.getSelectionModel().getSelectedItem());
+
+                product.setQuantity(newAmount);
+
                 if (newQuantityTypeName.getText() != null)
                 {
-                    //create the new quantity type here
+                    ProductQuantityType productQuantityType = new ProductQuantityType();
+                    productQuantityType.setName(newQuantityTypeName.getText());
+                    productQuantityType.setSlug("product_quantity_types." + newQuantityTypeName.getText());
+                    product.setProductQuantityType(productQuantityTypeService.addProductQuantityType(productQuantityType));
                 }
+                else product.setProductQuantityType(quantityType.getSelectionModel().getSelectedItem());
+
+                product.setRetailPrice(newRetailPrice);
+                product.setWholesalePrice(newWholesalePrice);
+                product.setDeliveryPrice(newDeliveryPrice);
+                product.setShelf(shelf.getSelectionModel().getSelectedItem());
+
+                return product;
             }
             return null;
         });

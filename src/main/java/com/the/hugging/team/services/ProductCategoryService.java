@@ -18,6 +18,12 @@ public class ProductCategoryService {
         return INSTANCE;
     }
 
+    public ProductCategory addProductCategory(ProductCategory productCategory)
+    {
+        productCategoryRepository.save(productCategory);
+        return productCategory;
+    }
+
     public List<ProductCategory> getAllProductCategories()
     {
         return productCategoryRepository.getAll();

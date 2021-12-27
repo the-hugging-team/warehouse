@@ -18,6 +18,12 @@ public class ProductQuantityTypeService {
         return INSTANCE;
     }
 
+    public ProductQuantityType addProductQuantityType(ProductQuantityType productQuantityType)
+    {
+        productQuantityTypeRepository.save(productQuantityType);
+        return productQuantityType;
+    }
+
     public List<ProductQuantityType> getAllProductQuantityTypes()
     {
         return productQuantityTypeRepository.getAll();
