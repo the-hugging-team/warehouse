@@ -1,9 +1,12 @@
 package com.the.hugging.team.controllers.dialogs;
 
+import com.the.hugging.team.entities.Company;
+import com.the.hugging.team.entities.Invoice;
 import com.the.hugging.team.entities.Sale;
 import com.the.hugging.team.entities.SaleProduct;
 import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.utils.TableResizer;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -19,7 +22,6 @@ import java.io.IOException;
 
 public class SaleInvoiceDialog extends Dialog<Sale> {
 
-    private final SaleService saleService = SaleService.getInstance();
     private Sale sale;
 
     @FXML
@@ -56,7 +58,7 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
     private TableView<SaleProduct> productTable;
 
     @FXML
-    private TableColumn<SaleProduct, String> id;
+    private TableColumn<SaleProduct, String> number;
 
     @FXML
     private TableColumn<SaleProduct, String> nomenclature;
@@ -66,6 +68,9 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
     @FXML
     private TableColumn<SaleProduct, String> quantityType;
+
+    @FXML
+    private TableColumn<SaleProduct, String> quantity;
 
     @FXML
     private TableColumn<SaleProduct, String> singlePrice;
@@ -127,7 +132,39 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
         filteredList = new FilteredList<>(data, p -> true);
 
+        number.setCellValueFactory(cellData -> new SimpleStringProperty((productTable.getItems().indexOf(cellData.getValue()) + 1) + ""));
+        nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getNomenclature()));
+        name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getName()));
+        quantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
+        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString()));
+        singlePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getWholesalePrice().toString()));
+        totalPrice.setCellValueFactory(cellData -> new SimpleStringProperty((cellData.getValue().getProduct().getWholesalePrice() * cellData.getValue().getQuantity()) + ""));
 
+        Invoice invoice = sale.getInvoice();
+
+        Company companyOne = invoice.getCompanyOne();
+        Company companyTwo = invoice.getCompanyTwo();
+
+        companyOneName.setText(companyOne.getName());
+        companyOneAddress.setText(companyOne.getAddress().getAddress());
+        companyOneDDSNumber.setText(companyOne.getDdsNumber());
+        companyOneEIK.setText(companyOne.getBulstat());
+        companyOneMOL.setText(companyOne.getMol());
+
+        companyTwoName.setText(companyTwo.getName());
+        companyTwoAddress.setText(companyTwo.getAddress().getAddress());
+        companyTwoDDSNumber.setText(companyTwo.getDdsNumber());
+        companyTwoEIK.setText(companyTwo.getBulstat());
+        companyTwoMOL.setText(companyTwo.getMol());
+
+        buyerDate.setText(sale.getCreatedAt().toString());
+        buyerName.setText(invoice.getBuyer());
+        sellerName.setText(invoice.getSeller());
+
+        basePrice.setText(invoice.getBasePrice().toString());
+        ddsPercentage.setText(((invoice.getTotalPrice() - invoice.getBasePrice())/invoice.getTotalPrice() * 100) + "");
+        ddsValue.setText(invoice.getDds().toString());
+        finalPrice.setText(invoice.getTotalPrice().toString());
 
         productTable.getItems().setAll(filteredList);
         TableResizer.setDefault(productTable);

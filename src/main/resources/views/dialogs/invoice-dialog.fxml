@@ -181,56 +181,53 @@
                 <TableColumn fx:id="nomenclature" prefWidth="75.0" text="Nomenclature"/>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name"/>
                 <TableColumn fx:id="quantityType" prefWidth="75.0" text="Quantity type"/>
+                <TableColumn fx:id="quantity" prefWidth="75.0" text="Quantity"/>
                 <TableColumn fx:id="singlePrice" prefWidth="75.0" text="Single price"/>
                 <TableColumn fx:id="totalPrice" prefWidth="75.0" text="Total price"/>
             </columns>
         </TableView>
         <Pane layoutX="690.0" layoutY="526.0" prefHeight="180.0" prefWidth="380.0" styleClass="labelPane">
             <Pane layoutX="15.0" layoutY="53.0" prefHeight="35.0" prefWidth="350.0" styleClass="labelPane">
-                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0"
-                       styleClass="font-regular" text="DDS %" textAlignment="CENTER">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular"
+                       text="DDS %" textAlignment="CENTER">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0"
-                           prefWidth="2.0"/>
-                <TextField fx:id="ddsPercentage" layoutX="150.0" layoutY="5.0" prefHeight="25.0"
-                           prefWidth="180.0" styleClass="font-regular"/>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
+                <TextField fx:id="ddsPercentage" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="180.0"
+                           styleClass="font-regular"/>
             </Pane>
             <Pane layoutX="15.0" layoutY="93.0" prefHeight="35.0" prefWidth="350.0" styleClass="labelPane">
-                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0"
-                       styleClass="font-regular" text="DDS Value" textAlignment="CENTER">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular"
+                       text="DDS Value" textAlignment="CENTER">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0"
-                           prefWidth="2.0"/>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
                 <TextField fx:id="ddsValue" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="180.0"
                            styleClass="font-regular"/>
             </Pane>
             <Pane layoutX="15.0" layoutY="133.0" prefHeight="35.0" prefWidth="350.0" styleClass="labelPane">
-                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0"
-                       styleClass="font-regular" text="Final price" textAlignment="CENTER">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular"
+                       text="Final price" textAlignment="CENTER">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0"
-                           prefWidth="2.0"/>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
                 <TextField fx:id="finalPrice" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="180.0"
                            styleClass="font-regular"/>
             </Pane>
             <Pane layoutX="15.0" layoutY="13.0" prefHeight="35.0" prefWidth="350.0" styleClass="labelPane">
-                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0"
-                       styleClass="font-regular" text="Base Price" textAlignment="CENTER">
+                <Label layoutX="25.0" layoutY="8.0" prefHeight="20.0" prefWidth="100.0" styleClass="font-regular"
+                       text="Base Price" textAlignment="CENTER">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0"
-                           prefWidth="2.0"/>
+                <Separator layoutX="130.0" layoutY="5.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="2.0"/>
                 <TextField fx:id="basePrice" layoutX="150.0" layoutY="5.0" prefHeight="25.0" prefWidth="180.0"
                            styleClass="font-regular"/>
             </Pane>
