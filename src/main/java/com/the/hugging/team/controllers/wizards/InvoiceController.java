@@ -4,6 +4,7 @@ import com.the.hugging.team.entities.Company;
 import com.the.hugging.team.entities.Invoice;
 import com.the.hugging.team.services.CompanyService;
 import com.the.hugging.team.services.InvoiceService;
+import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
@@ -28,6 +29,7 @@ public class InvoiceController extends WindowHandler {
 
     private Invoice invoice;
     private Company companyOne = null, companyTwo = null;
+    private boolean canChangeStep = true;
 
     @FXML
     private AnchorPane questionAnchor;
@@ -106,14 +108,18 @@ public class InvoiceController extends WindowHandler {
 
     @FXML
     public void nextStep() {
-        eventSource.fire(EventType.NEXT_STEP_EVENT_TYPE, new NextStepEvent());
         saveInvoiceData();
+        if (canChangeStep) {
+            eventSource.fire(EventType.NEXT_STEP_EVENT_TYPE, new NextStepEvent());
+        }
     }
 
     @FXML
     public void prevStep() {
-        eventSource.fire(EventType.PREVIOUS_STEP_EVENT_TYPE, new PreviousStepEvent());
         saveInvoiceData();
+        if (canChangeStep) {
+            eventSource.fire(EventType.PREVIOUS_STEP_EVENT_TYPE, new PreviousStepEvent());
+        }
     }
 
     @FXML
@@ -156,17 +162,82 @@ public class InvoiceController extends WindowHandler {
     }
 
     private void saveInvoiceData() {
-        companyOne.setName(companyOneName.getText());
-        companyOne.setAddress(invoiceService.getAddress(companyOneAddress.getText()));
-        companyOne.setDdsNumber(companyOneDDSNumber.getText());
-        companyOne.setBulstat(companyOneEIK.getText());
-        companyOne.setMol(companyOneMOL.getText());
+        String errors = "";
 
-        companyTwo.setName(companyTwoName.getText());
-        companyTwo.setAddress(invoiceService.getAddress(companyTwoAddress.getText()));
-        companyTwo.setDdsNumber(companyTwoDDSNumber.getText());
-        companyTwo.setBulstat(companyTwoEIK.getText());
-        companyTwo.setMol(companyTwoMOL.getText());
+        if (companyOneName.getText() == null || companyOneName.getText().isEmpty()) {
+            errors += "Company one name is required\n";
+        } else {
+            companyOne.setName(companyOneName.getText());
+        }
+
+        if (companyOneAddress.getText() == null || companyOneAddress.getText().isEmpty()) {
+            errors += "Company one address is required\n";
+        } else {
+            companyOne.setAddress(invoiceService.getAddress(companyOneAddress.getText()));
+        }
+
+        if (companyOneDDSNumber.getText() == null || companyOneDDSNumber.getText().isEmpty()) {
+            errors += "Company one DDS number is required\n";
+        } else if (!companyOneDDSNumber.getText().matches("BG[0-9]{9}")) {
+            errors += "Company one DDS number is not valid\n";
+        } else {
+            companyOne.setDdsNumber(companyOneDDSNumber.getText());
+        }
+
+        if (companyOneEIK.getText() == null || companyOneEIK.getText().isEmpty()) {
+            errors += "Company one EIK is required\n";
+        } else if (!companyOneEIK.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
+            errors += "Company one EIK is not valid\n";
+        } else {
+            companyOne.setBulstat(companyOneEIK.getText());
+        }
+
+        if (companyOneMOL.getText() == null || companyOneMOL.getText().isEmpty()) {
+            errors += "Company one MOL is required\n";
+        } else {
+            companyOne.setMol(companyOneMOL.getText());
+        }
+
+
+        if (companyTwoName.getText() == null || companyTwoName.getText().isEmpty()) {
+            errors += "Company two name is required\n";
+        } else {
+            companyTwo.setName(companyTwoName.getText());
+        }
+
+        if (companyTwoAddress.getText() == null || companyTwoAddress.getText().isEmpty()) {
+            errors += "Company two address is required\n";
+        } else {
+            companyTwo.setAddress(invoiceService.getAddress(companyTwoAddress.getText()));
+        }
+
+        if (companyTwoDDSNumber.getText() == null || companyTwoDDSNumber.getText().isEmpty()) {
+            errors += "Company two DDS number is required\n";
+        } else if (!companyTwoDDSNumber.getText().matches("BG[0-9]{9}")) {
+            errors += "Company two DDS number is not valid\n";
+        } else {
+            companyTwo.setDdsNumber(companyTwoDDSNumber.getText());
+        }
+
+        if (companyTwoEIK.getText() == null || companyTwoEIK.getText().isEmpty()) {
+            errors += "Company two EIK is required\n";
+        } else if (!companyTwoEIK.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
+            errors += "Company two EIK is not valid\n";
+        } else {
+            companyTwo.setBulstat(companyTwoEIK.getText());
+        }
+
+        if (companyTwoMOL.getText() == null || companyTwoMOL.getText().isEmpty()) {
+            errors += "Company two MOL is required\n";
+        } else {
+            companyTwo.setMol(companyTwoMOL.getText());
+        }
+
+        if (!errors.isEmpty()) {
+            canChangeStep = false;
+            Dialogs.warningDialog("Error", errors);
+            return;
+        }
 
         invoice.setCompanyOne(companyOne);
         invoice.setCompanyTwo(companyTwo);
