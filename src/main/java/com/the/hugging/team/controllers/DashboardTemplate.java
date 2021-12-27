@@ -165,6 +165,8 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     public void deliveriesClick(ActionEvent event) {
         selectButton(deliveriesButton);
+
+        loadView("views/dashboard/wizards/delivery.fxml");
     }
 
     @FXML
