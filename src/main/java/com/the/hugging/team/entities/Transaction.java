@@ -1,5 +1,6 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +44,12 @@ public class Transaction {
     @ManyToOne(optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        createdBy = Session.getInstance().getUser();
+    }
 
     @Override
     public boolean equals(Object o) {

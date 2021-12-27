@@ -71,7 +71,7 @@ public class RoomRepository implements ObjectRepository<Room> {
             entityManager.getTransaction().rollback();
             log.error("Get room by Id error: " + e.getMessage());
         }
-        return Optional.of(room);
+        return Optional.ofNullable(room);
     }
 
     @Override

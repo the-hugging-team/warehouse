@@ -31,13 +31,25 @@ public class Dialogs {
     }
 
     public static void warningDialog(String title, String content) {
+        showWarningDialog(title, content, true);
+    }
+
+    public static void warningDialog(String title, String content, boolean showAndWait) {
+        showWarningDialog(title, content, showAndWait);
+    }
+
+    private static void showWarningDialog(String title, String content, boolean showAndWait) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         alert.setGraphic(null);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait();
+        if (showAndWait) {
+            alert.showAndWait();
+        } else {
+            alert.show();
+        }
     }
 
     public static Optional<String> singleTextInputDialog(String message, String title, String content) {

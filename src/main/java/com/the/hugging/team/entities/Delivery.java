@@ -1,5 +1,7 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.repositories.InvoiceRepository;
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,8 +27,9 @@ public class Delivery {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "invoice_id", nullable = false)
-    private Integer invoiceId;
+    @OneToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    private Invoice invoice;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
@@ -42,6 +45,24 @@ public class Delivery {
     @JoinColumn(name = "updated_by", nullable = false)
     private User updatedBy;
 
+//    @OneToOne
+//    @JoinColumn(name = "transaction_id", nullable = false)
+//    private Transaction transaction;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        createdBy = Session.getInstance().getUser();
+
+        if (invoice != null && invoice.getId() == null) {
+            InvoiceRepository.getInstance().save(invoice);
+        }
+
+//        if (transaction != null && transaction.getId() == null) {
+//            TransactionRepository.getInstance().save(transaction);
+//        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,6 +73,6 @@ public class Delivery {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, invoiceId, createdAt, updatedAt, createdBy, updatedBy);
+        return Objects.hash(id, invoice, createdAt, updatedAt, createdBy, updatedBy);
     }
 }

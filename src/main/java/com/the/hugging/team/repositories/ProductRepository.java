@@ -72,7 +72,7 @@ public class ProductRepository implements ObjectRepository<Product> {
             entityManager.getTransaction().rollback();
             log.error("Get product by Id error: " + e.getMessage());
         }
-        return Optional.of(product);
+        return Optional.ofNullable(product);
     }
 
     @Override
@@ -111,6 +111,9 @@ public class ProductRepository implements ObjectRepository<Product> {
                             .setParameter("productCategoryTypeSlug", productCategoryTypeSlug)
                             .getResultList()
             );
+            for (Product product : products) {
+                entityManager.detach(product);
+            }
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

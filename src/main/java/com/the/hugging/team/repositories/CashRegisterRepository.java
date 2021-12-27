@@ -72,7 +72,7 @@ public class CashRegisterRepository implements ObjectRepository<CashRegister> {
             entityManager.getTransaction().rollback();
             log.error("Get cash register by Id error: " + e.getMessage());
         }
-        return Optional.of(cashRegister);
+        return Optional.ofNullable(cashRegister);
     }
 
     @Override
