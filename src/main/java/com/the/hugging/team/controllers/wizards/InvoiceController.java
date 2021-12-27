@@ -8,10 +8,8 @@ import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
-import com.the.hugging.team.utils.wizard.events.EventSource;
-import com.the.hugging.team.utils.wizard.events.EventType;
-import com.the.hugging.team.utils.wizard.events.NextStepEvent;
-import com.the.hugging.team.utils.wizard.events.PreviousStepEvent;
+import com.the.hugging.team.utils.wizard.events.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -20,7 +18,7 @@ import javafx.scene.layout.Pane;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-public class InvoiceController extends WindowHandler {
+public class InvoiceController extends WindowHandler implements Listener {
     private final EventSource eventSource = EventSource.getInstance();
     private final PaymentBean paymentBean = PaymentBean.getInstance();
     private final InvoiceService invoiceService = InvoiceService.getInstance();
@@ -104,6 +102,8 @@ public class InvoiceController extends WindowHandler {
                 (observableValue, oldAnchorWidth, newAnchorWidth) -> questionPane.setLayoutX((newAnchorWidth.doubleValue() / 2) - (questionPane.getPrefWidth() / 2)));
         questionAnchor.heightProperty().addListener(
                 (observableValue, oldAnchorHeight, newAnchorHeight) -> questionPane.setLayoutY((newAnchorHeight.doubleValue() / 2) - (questionPane.getPrefHeight() / 2)));
+
+        Platform.runLater(() -> eventSource.addListener(EventType.CHANGE_STEP_EVENT_TYPE, this));
     }
 
     @FXML
@@ -236,8 +236,10 @@ public class InvoiceController extends WindowHandler {
 
             if (!errors.isEmpty()) {
                 canChangeStep = false;
-                Dialogs.warningDialog("Error", errors);
+                Dialogs.warningDialog("Error", errors, false);
                 return;
+            } else {
+                canChangeStep = true;
             }
 
             invoice.setCompanyOne(companyOne);
@@ -265,6 +267,8 @@ public class InvoiceController extends WindowHandler {
         buyerName.setText(invoice.getBuyer());
         buyerDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(invoice.getCreatedAt()));
         sellerName.setText(invoice.getSeller());
+
+        paymentBean.setInvoice(invoice);
     }
 
     private void lockCompanyOne() {
@@ -286,5 +290,24 @@ public class InvoiceController extends WindowHandler {
         companyTwoMOL.setEditable(false);
 
         sellerName.setEditable(false);
+    }
+
+    @Override
+    public void handle(BaseEvent event) {
+        if (event.getEventType().equals(EventType.CHANGE_STEP_EVENT_TYPE)) {
+            int eventStep = ((ChangeStepEvent) event).getStepNumber();
+
+            if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL) && eventStep != 2) {
+                saveInvoiceData();
+                if (!canChangeStep) {
+                    eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(2));
+                }
+            } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY) && eventStep != 1) {
+                saveInvoiceData();
+                if (!canChangeStep) {
+                    eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));
+                }
+            }
+        }
     }
 }

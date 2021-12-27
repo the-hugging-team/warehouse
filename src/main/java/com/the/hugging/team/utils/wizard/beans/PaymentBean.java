@@ -33,6 +33,12 @@ public class PaymentBean {
         instance = null;
     }
 
+    public static void reset() {
+        BeanType beanType = instance.getBeanType();
+        instance = new PaymentBean();
+        instance.setBeanType(beanType);
+    }
+
     public enum BeanType {
         SELL,
         DELIVERY,

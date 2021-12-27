@@ -85,7 +85,7 @@ public class PayController extends WindowHandler {
         saleService.addSaleFromBean(paymentBean, finalPrice);
         productService.updateProductsFromSellBean(paymentBean.getSearchData());
 
-        PaymentBean.clear();
+        PaymentBean.reset();
         eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));
     }
 }

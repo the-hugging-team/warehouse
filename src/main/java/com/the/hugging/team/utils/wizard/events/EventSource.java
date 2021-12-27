@@ -17,7 +17,16 @@ public class EventSource {
     }
 
     public <E extends BaseEvent> void addListener(EventType<E> eventType, Listener listener) {
-        listeners(eventType).add(listener);
+        List<Listener> listeners = listeners(eventType);
+        String listenerName = listener.getClass().getName();
+
+        for (int i = 0; i < listeners.size(); i++) {
+            if(listeners.get(i).getClass().getName().equals(listenerName)) {
+                listeners.remove(i);
+            }
+        }
+
+        listeners.add(listener);
     }
 
     public <E extends BaseEvent> void fire(EventType<E> eventType, E event) {
