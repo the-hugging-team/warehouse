@@ -60,7 +60,7 @@ public class InventoryController extends DashboardTemplate {
         nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
         category.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductCategory().getName()));
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity() + ' ' + cellData.getValue().getProductQuantityType().getName()));
+        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString() + " " + cellData.getValue().getProductQuantityType().getName()));
         retailPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRetailPrice().toString()));
         wholesalePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getWholesalePrice().toString()));
         deliveryPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeliveryPrice().toString()));

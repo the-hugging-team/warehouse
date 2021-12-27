@@ -370,6 +370,7 @@ public class Dialogs {
 
         TextField newQuantityTypeName = new TextField();
         newQuantityTypeName.setPromptText("New quantity type name");
+        newQuantityTypeName.setText(null);
 
         Button newQuantityTypeButton = new Button("Create a new quantity type");
         newQuantityTypeButton.setOnAction(event ->
@@ -395,6 +396,7 @@ public class Dialogs {
 
         TextField newCategoryName = new TextField();
         newCategoryName.setPromptText("New category name");
+        newCategoryName.setText(null);
 
         Button newCategoryButton = new Button("Create a new category");
         newCategoryButton.setOnAction(event -> {
