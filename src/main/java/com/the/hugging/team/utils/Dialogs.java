@@ -1,25 +1,29 @@
 package com.the.hugging.team.utils;
 
 import com.the.hugging.team.entities.*;
-import com.the.hugging.team.services.ProductService;
-import com.the.hugging.team.services.TransactionService;
+import com.the.hugging.team.services.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
-import java.util.Optional;
+import java.util.*;
 
 public class Dialogs {
     private static final TransactionService transactionService = TransactionService.getInstance();
     private static final ProductService productService = ProductService.getInstance();
+    private static final ProductQuantityTypeService productQuantityTypeService = ProductQuantityTypeService.getInstance();
+    private static final StorageService storageService = StorageService.getInstance();
+    private static final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
 
     public static void notSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -80,7 +84,7 @@ public class Dialogs {
             lastName.setText(user.getLastName());
         }
 
-        ChoiceBox sex = new ChoiceBox(FXCollections.observableArrayList("Male", "Female"));
+        ChoiceBox<String> sex = new ChoiceBox<>(FXCollections.observableArrayList("Male", "Female"));
         sex.getSelectionModel().selectFirst();
 
         if (user.getSex() != null) {
@@ -235,6 +239,182 @@ public class Dialogs {
                 company.setDdsNumber(dds.getText());
                 company.setMol(mol.getText());
                 return company;
+            }
+            return null;
+        });
+
+        return dialog.showAndWait();
+    }
+
+    public static Optional<Product> productDialog(Product product, String title)
+    {
+        Dialog<Product> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle(title);
+        dialog.setHeaderText(null);
+
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField productName = new TextField();
+        productName.setPromptText("Name");
+        productName.setPrefWidth(250);
+
+        TextField nomenclature = new TextField();
+        nomenclature.setPromptText("Nomenclature");
+        nomenclature.setPrefWidth(250);
+
+        TextField quantityAmount = new TextField();
+        quantityAmount.setPromptText("Quantity amount");
+        quantityAmount.setPrefWidth(250);
+
+        TextField retailPrice = new TextField();
+        retailPrice.setPromptText("Retail price");
+        retailPrice.setPrefWidth(250);
+
+        TextField wholesalePrice = new TextField();
+        wholesalePrice.setPromptText("Wholesale price");
+        wholesalePrice.setPrefWidth(250);
+
+        TextField deliveryPrice = new TextField();
+        deliveryPrice.setPromptText("Delivery price");
+        deliveryPrice.setPrefWidth(250);
+
+        ChoiceBox<ProductCategory> category = new ChoiceBox<>(FXCollections.observableArrayList(productCategoryService.getAllProductCategories()));
+        StringConverter<ProductCategory> categoryConverter = new StringConverter<>() {
+            @Override
+            public String toString(ProductCategory productCategory) {
+                return productCategory.getName();
+            }
+
+            @Override
+            public ProductCategory fromString(String s) {
+                return null;
+            }
+        };
+        category.setConverter(categoryConverter);
+        category.getSelectionModel().selectFirst();
+
+        ChoiceBox<ProductQuantityType> quantityType = new ChoiceBox<>(FXCollections.observableArrayList(productQuantityTypeService.getAllProductQuantityTypes()));
+        StringConverter<ProductQuantityType> productQuantityTypeConverter = new StringConverter<>() {
+            @Override
+            public String toString(ProductQuantityType productQuantityType) {
+                return productQuantityType.getName();
+            }
+
+            @Override
+            public ProductQuantityType fromString(String s) {
+                return null;
+            }
+        };
+        quantityType.setConverter(productQuantityTypeConverter);
+        quantityType.getSelectionModel().selectFirst();
+
+        ChoiceBox<Shelf> shelf = new ChoiceBox<>(FXCollections.observableArrayList(storageService.getAllShelves()));
+        StringConverter<Shelf> shelfStringConverter = new StringConverter<>() {
+            @Override
+            public String toString(Shelf shelf) {
+                return shelf.getName();
+            }
+
+            @Override
+            public Shelf fromString(String s) {
+                return null;
+            }
+        };
+        shelf.setConverter(shelfStringConverter);
+        shelf.getSelectionModel().selectFirst();
+
+        if (product.getId() != null) {
+            productName.setText(product.getName());
+            nomenclature.setText(product.getNomenclature());
+            category.getSelectionModel().select(product.getProductCategory());
+            quantityAmount.setText(product.getQuantity().toString());
+            retailPrice.setText(product.getRetailPrice().toString());
+            wholesalePrice.setText(product.getWholesalePrice().toString());
+            deliveryPrice.setText(product.getDeliveryPrice().toString());
+            quantityType.getSelectionModel().select(product.getProductQuantityType());
+            shelf.getSelectionModel().select(product.getShelf());
+        }
+
+        TextField newQuantityTypeName = new TextField();
+        newQuantityTypeName.setPromptText("New quantity type name");
+        newQuantityTypeName.setText(null);
+
+        grid.add(new Label("Product Name:"), 0, 0);
+        grid.add(productName, 1, 0);
+
+        grid.add(new Label("Nomenclature:"), 0, 1);
+        grid.add(nomenclature, 1, 1);
+
+        grid.add(new Label("Category:"), 0, 2);
+        grid.add(category, 1, 2);
+
+        grid.add(new Label("Quantity amount:"), 0, 3);
+        grid.add(quantityAmount, 1, 3);
+
+        grid.add(new Label("Quantity type:"), 0, 4);
+        grid.add(quantityType, 1, 4);
+
+        grid.add(new Label("Retail price:"), 0, 5);
+        grid.add(retailPrice, 1, 5);
+
+        grid.add(new Label("Wholesale price:"), 0, 6);
+        grid.add(wholesalePrice, 1, 6);
+
+        grid.add(new Label("Delivery price:"), 0, 7);
+        grid.add(deliveryPrice, 1, 7);
+
+        grid.add(new Label("Shelf:"), 0, 8);
+        grid.add(shelf, 1, 8);
+
+        dialog.getDialogPane().setContent(grid);
+
+        final Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+
+        okButton.addEventFilter(ActionEvent.ACTION, event -> {
+            try {
+                Double.parseDouble(quantityAmount.getText());
+                Double.parseDouble(retailPrice.getText());
+                Double.parseDouble(wholesalePrice.getText());
+                Double.parseDouble(deliveryPrice.getText());
+            }
+            catch (Exception e)
+            {
+                Dialogs.warningDialog("Incorrect data", "Incorrect data in the amount or price fields.");
+                event.consume();
+            }
+        });
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == ButtonType.OK) {
+                //make product entity
+                double newAmount, newRetailPrice, newWholesalePrice, newDeliveryPrice;
+                newAmount = Double.parseDouble(quantityAmount.getText());
+                newRetailPrice = Double.parseDouble(retailPrice.getText());
+                newWholesalePrice = Double.parseDouble(wholesalePrice.getText());
+                newDeliveryPrice = Double.parseDouble(deliveryPrice.getText());
+
+                product.setName(productName.getText());
+                product.setNomenclature(nomenclature.getText());
+
+                product.setProductCategory(category.getSelectionModel().getSelectedItem());
+
+                product.setQuantity(newAmount);
+
+                product.setProductQuantityType(quantityType.getSelectionModel().getSelectedItem());
+
+                product.setRetailPrice(newRetailPrice);
+                product.setWholesalePrice(newWholesalePrice);
+                product.setDeliveryPrice(newDeliveryPrice);
+                product.setShelf(shelf.getSelectionModel().getSelectedItem());
+
+                return product;
             }
             return null;
         });
