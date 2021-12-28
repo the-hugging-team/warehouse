@@ -385,6 +385,8 @@ public class SelectProductsController extends WindowHandler {
             paymentBean.setProductsData(productsData);
         }
 
+        productsTable.setItems(productsData);
+
         productsTable.refresh();
         searchTable.refresh();
     }
