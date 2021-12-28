@@ -16,12 +16,16 @@ public class EventSource {
         return instance;
     }
 
+    public static void clear() {
+        instance = null;
+    }
+
     public <E extends BaseEvent> void addListener(EventType<E> eventType, Listener listener) {
         List<Listener> listeners = listeners(eventType);
         String listenerName = listener.getClass().getName();
 
         for (int i = 0; i < listeners.size(); i++) {
-            if(listeners.get(i).getClass().getName().equals(listenerName)) {
+            if (listeners.get(i).getClass().getName().equals(listenerName)) {
                 listeners.remove(i);
             }
         }

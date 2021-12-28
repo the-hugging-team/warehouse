@@ -27,7 +27,7 @@ public class InvoiceController extends WindowHandler implements Listener {
 
     private Invoice invoice;
     private Company companyOne = null, companyTwo = null;
-    private boolean canChangeStep = true;
+    private boolean canChangeStep = true, isSell, isDelivery;
 
     @FXML
     private AnchorPane questionAnchor;
@@ -81,7 +81,10 @@ public class InvoiceController extends WindowHandler implements Listener {
 
     @FXML
     private void initialize() {
-        if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL)) {
+        isSell = paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL);
+        isDelivery = paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY);
+
+        if (isSell) {
             if (paymentBean.getInvoice() == null) {
                 questionAnchor.setVisible(true);
                 invoiceAnchor.setVisible(false);
@@ -91,7 +94,7 @@ public class InvoiceController extends WindowHandler implements Listener {
                 initInvoice();
             }
             lockCompanyTwo();
-        } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY)) {
+        } else if (isDelivery) {
             questionAnchor.setVisible(false);
             invoiceAnchor.setVisible(true);
             initInvoice();
@@ -141,11 +144,11 @@ public class InvoiceController extends WindowHandler implements Listener {
 
             invoice.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-            if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL)) {
+            if (isSell) {
                 companyOne = new Company();
                 companyTwo = companyService.getCellaCompany();
                 invoice.setSeller(session.getUser().getFirstName() + " " + session.getUser().getLastName());
-            } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY)) {
+            } else if (isDelivery) {
                 companyOne = companyService.getCellaCompany();
                 companyTwo = new Company();
                 invoice.setBuyer(session.getUser().getFirstName() + " " + session.getUser().getLastName());
@@ -297,12 +300,12 @@ public class InvoiceController extends WindowHandler implements Listener {
         if (event.getEventType().equals(EventType.CHANGE_STEP_EVENT_TYPE)) {
             int eventStep = ((ChangeStepEvent) event).getStepNumber();
 
-            if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL) && eventStep != 2) {
+            if (isSell && eventStep != 2) {
                 saveInvoiceData();
                 if (!canChangeStep) {
                     eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(2));
                 }
-            } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY) && eventStep != 1) {
+            } else if (isDelivery && eventStep != 1) {
                 saveInvoiceData();
                 if (!canChangeStep) {
                     eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));

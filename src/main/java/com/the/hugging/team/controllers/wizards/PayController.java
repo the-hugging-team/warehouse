@@ -1,6 +1,7 @@
 package com.the.hugging.team.controllers.wizards;
 
 import com.the.hugging.team.entities.Product;
+import com.the.hugging.team.services.DeliveryService;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.utils.WindowHandler;
@@ -18,10 +19,12 @@ import javafx.scene.layout.Pane;
 
 public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
+    private final DeliveryService deliveryService = DeliveryService.getInstance();
     private final ProductService productService = ProductService.getInstance();
     private final EventSource eventSource = EventSource.getInstance();
 
     private final PaymentBean paymentBean = PaymentBean.getInstance();
+    private boolean isSell, isDelivery;
 
     @FXML
     private Button paymentButton;
@@ -47,6 +50,9 @@ public class PayController extends WindowHandler {
 
     @FXML
     private void initialize() {
+        isSell = paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL);
+        isDelivery = paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY);
+
         payAnchor.widthProperty().addListener(
                 (observableValue, oldAnchorWidth, newAnchorWidth) -> paymentInformationPane.setLayoutX((newAnchorWidth.doubleValue() / 2) - (paymentInformationPane.getPrefWidth() / 2)));
         payAnchor.heightProperty().addListener(
@@ -54,18 +60,31 @@ public class PayController extends WindowHandler {
 
         products = paymentBean.getProductsData();
 
-        if (paymentBean.getBuyerCompany() == null)
-            basePrice = products.stream().map(Product::getRetailPrice).reduce(0.00, Double::sum);
-        else
-            basePrice = products.stream().map(Product::getWholesalePrice).reduce(0.00, Double::sum);
+        if (isSell) {
+            if (paymentBean.getInvoice() == null) {
+                basePrice = products.stream().map(Product::getRetailPrice).reduce(0.00, Double::sum);
+            } else {
+                basePrice = products.stream().map(Product::getWholesalePrice).reduce(0.00, Double::sum);
+            }
+        } else if (isDelivery) {
+            basePrice = products.stream().map(Product::getDeliveryPrice).reduce(0.00, Double::sum);
+        }
 
-        if (basePrice > 0) dds = 20;
-        ddsValue = basePrice * dds / 100;
-        finalPrice = basePrice + ddsValue;
+        if (basePrice > 0) {
+            dds = 20;
+        }
+
+        if (isSell) {
+            ddsValue = basePrice * dds / 100;
+            finalPrice = basePrice + ddsValue;
+            ddsPercentageField.setText(dds.toString());
+        } else if (isDelivery) {
+            ddsValue = 0.0;
+            finalPrice = basePrice;
+            ddsPercentageField.setText("0");
+        }
 
         basePriceField.setText(basePrice.toString());
-        if (paymentBean.getBuyerCompany() == null)
-            ddsPercentageField.setText(dds.toString());
         ddsValueField.setText(ddsValue.toString());
         finalPriceField.setText(finalPrice.toString());
 
@@ -82,8 +101,13 @@ public class PayController extends WindowHandler {
             paymentBean.getInvoice().setTotalPrice(finalPrice);
         }
 
-        saleService.addSaleFromBean(paymentBean, finalPrice);
-        productService.updateProductsFromSellBean(paymentBean.getSearchData());
+        if (isSell) {
+            saleService.addSaleFromBean(paymentBean, finalPrice);
+            productService.updateProductsFromSellBean(paymentBean.getSearchData());
+        } else if (isDelivery) {
+            deliveryService.addDeliveryFromBean(paymentBean, finalPrice);
+            productService.updateProductsFromDeliveryBean(paymentBean.getProductsData());
+        }
 
         PaymentBean.reset();
         eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));

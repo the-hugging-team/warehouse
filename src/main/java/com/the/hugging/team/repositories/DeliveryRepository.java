@@ -1,6 +1,7 @@
 package com.the.hugging.team.repositories;
 
 import com.the.hugging.team.entities.Delivery;
+import com.the.hugging.team.entities.DeliveryProduct;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,6 +88,18 @@ public class DeliveryRepository implements ObjectRepository<Delivery> {
             log.error("Get all deliveries error: " + e.getMessage());
         }
         return allDeliveries;
+    }
+
+
+    public void saveDeliveryProduct(DeliveryProduct deliveryProduct) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(deliveryProduct);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("DeliveryProduct save error: " + e.getMessage());
+        }
     }
 }
 

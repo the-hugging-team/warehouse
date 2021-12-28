@@ -52,7 +52,7 @@ public class Sale implements Serializable {
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale")
     @ToString.Exclude
     private Set<SaleProduct> saleProducts = new HashSet<>();
 
