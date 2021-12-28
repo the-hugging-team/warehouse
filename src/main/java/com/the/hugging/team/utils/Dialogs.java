@@ -311,7 +311,7 @@ public class Dialogs {
     private static void invoiceBySaleDialog(Sale sale) throws IOException {
         Dialog<Invoice> dialog = new Dialog<>();
 
-        if (sale == null) {
+        if (sale.getInvoice() == null) {
             ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
             dialog.setGraphic(null);
             dialog.setTitle("Invoice " + sale.getInvoice().getId());
@@ -322,6 +322,7 @@ public class Dialogs {
             dialog.show();
         } else {
             SaleInvoiceDialog saleInvoiceDialog = new SaleInvoiceDialog(sale, dialog.getOwner());
+            saleInvoiceDialog.show();
         }
     }
 

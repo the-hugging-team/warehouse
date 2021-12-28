@@ -4,7 +4,6 @@ import com.the.hugging.team.entities.Company;
 import com.the.hugging.team.entities.Invoice;
 import com.the.hugging.team.entities.Sale;
 import com.the.hugging.team.entities.SaleProduct;
-import com.the.hugging.team.services.SaleService;
 import com.the.hugging.team.utils.TableResizer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -99,12 +98,11 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
     @FXML
     private TextField finalPrice;
 
-    private ObservableList<SaleProduct> data;
-    private FilteredList<SaleProduct> filteredList;
-
     public SaleInvoiceDialog(Sale sale, Window owner) {
+        this.sale = sale;
+
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("views/dialogs/invoice-dialog.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/dialogs/invoice-dialog.fxml"));
         loader.setController(this);
 
         DialogPane dialogPane = new DialogPane();
@@ -117,20 +115,20 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
 
-        ((Stage)dialogPane.getScene().getWindow()).getIcons().add(new Image(com.the.hugging.team.utils.Window.CELLABLUE_PATH));
+        getDialogPane().getButtonTypes().add(new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE));
+
+        ((Stage) getDialogPane().getScene().getWindow()).getIcons().add(new Image(com.the.hugging.team.utils.Window.CELLABLUE_PATH));
 
         setResizable(false);
         setTitle("Invoice " + sale.getInvoice().getId());
         setDialogPane(dialogPane);
         setGraphic(null);
-
-        this.sale = sale;
     }
 
     public void initialize() {
-        data = FXCollections.observableArrayList(sale.getSaleProducts());
+        ObservableList<SaleProduct> data = FXCollections.observableArrayList(sale.getSaleProducts());
 
-        filteredList = new FilteredList<>(data, p -> true);
+        FilteredList<SaleProduct> filteredList = new FilteredList<>(data, p -> true);
 
         number.setCellValueFactory(cellData -> new SimpleStringProperty((productTable.getItems().indexOf(cellData.getValue()) + 1) + ""));
         nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getNomenclature()));
@@ -139,6 +137,9 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString()));
         singlePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getWholesalePrice().toString()));
         totalPrice.setCellValueFactory(cellData -> new SimpleStringProperty((cellData.getValue().getProduct().getWholesalePrice() * cellData.getValue().getQuantity()) + ""));
+
+        productTable.getItems().setAll(filteredList);
+        TableResizer.setDefault(productTable);
 
         Invoice invoice = sale.getInvoice();
 
@@ -162,11 +163,8 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         sellerName.setText(invoice.getSeller());
 
         basePrice.setText(invoice.getBasePrice().toString());
-        ddsPercentage.setText(((invoice.getTotalPrice() - invoice.getBasePrice())/invoice.getTotalPrice() * 100) + "");
+        ddsPercentage.setText(100 / (invoice.getBasePrice() / invoice.getDds()) + "");
         ddsValue.setText(invoice.getDds().toString());
         finalPrice.setText(invoice.getTotalPrice().toString());
-
-        productTable.getItems().setAll(filteredList);
-        TableResizer.setDefault(productTable);
     }
 }
