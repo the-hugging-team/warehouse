@@ -84,7 +84,7 @@ public class InventoryController extends DashboardTemplate {
     {
         String search = searchField.getText();
 
-        filteredList.setPredicate(product -> product.getName().contains(search));
+        filteredList.setPredicate(product -> product.getName().contains(search) || product.getNomenclature().contains(search));
         table.getItems().setAll(filteredList);
     }
 

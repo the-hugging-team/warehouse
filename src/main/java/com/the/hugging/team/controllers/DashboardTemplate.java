@@ -157,6 +157,8 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     public void sellClick(ActionEvent event) {
         selectButton(sellButton);
+
+        loadView("views/dashboard/wizards/sell.fxml");
     }
 
     @FXML

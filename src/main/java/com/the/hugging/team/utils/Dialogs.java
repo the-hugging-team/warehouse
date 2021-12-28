@@ -330,94 +330,21 @@ public class Dialogs {
         shelf.setConverter(shelfStringConverter);
         shelf.getSelectionModel().selectFirst();
 
-        if (product.getName() != null) {
+        if (product.getId() != null) {
             productName.setText(product.getName());
-        }
-
-        if (product.getNomenclature() != null) {
             nomenclature.setText(product.getNomenclature());
-        }
-
-        if (product.getProductCategory() != null) {
             category.getSelectionModel().select(product.getProductCategory());
-        }
-
-        if (product.getQuantity() != null) {
             quantityAmount.setText(product.getQuantity().toString());
-        }
-
-        if (product.getRetailPrice() != null) {
             retailPrice.setText(product.getRetailPrice().toString());
-        }
-
-        if (product.getWholesalePrice() != null) {
             wholesalePrice.setText(product.getWholesalePrice().toString());
-        }
-
-        if (product.getDeliveryPrice() != null) {
             deliveryPrice.setText(product.getDeliveryPrice().toString());
-        }
-
-        if (product.getProductQuantityType() != null)
-        {
             quantityType.getSelectionModel().select(product.getProductQuantityType());
-        }
-
-        if (product.getShelf() != null)
-        {
             shelf.getSelectionModel().select(product.getShelf());
         }
 
         TextField newQuantityTypeName = new TextField();
         newQuantityTypeName.setPromptText("New quantity type name");
         newQuantityTypeName.setText(null);
-
-        Button newQuantityTypeButton = new Button("Create a new quantity type");
-        newQuantityTypeButton.setOnAction(event ->
-        {
-            grid.getChildren().remove(quantityType);
-            grid.getChildren().remove(newQuantityTypeButton);
-
-            grid.add(newQuantityTypeName, 1, 4);
-
-            Button goBack = new Button("Go back");
-            goBack.setOnAction(goBackEvent ->
-            {
-                grid.getChildren().remove(newQuantityTypeName);
-                grid.getChildren().remove(goBack);
-
-                newQuantityTypeName.setText(null); //!
-
-                grid.add(quantityType, 1, 4);
-                grid.add(newQuantityTypeButton, 2, 4);
-            });
-            grid.add(goBack, 2, 4);
-        });
-
-        TextField newCategoryName = new TextField();
-        newCategoryName.setPromptText("New category name");
-        newCategoryName.setText(null);
-
-        Button newCategoryButton = new Button("Create a new category");
-        newCategoryButton.setOnAction(event -> {
-            grid.getChildren().remove(category);
-            grid.getChildren().remove(newCategoryButton);
-
-            grid.add(newCategoryName, 1, 2);
-
-            Button goBack = new Button("Go back");
-            goBack.setOnAction(goBackEvent ->
-            {
-                grid.getChildren().remove(newCategoryName);
-                grid.getChildren().remove(goBack);
-
-                newCategoryName.setText(null); //!
-
-                grid.add(category, 1, 2);
-                grid.add(newCategoryButton, 2, 2);
-            });
-            grid.add(goBack, 2, 2);
-        });
 
         grid.add(new Label("Product Name:"), 0, 0);
         grid.add(productName, 1, 0);
@@ -427,14 +354,12 @@ public class Dialogs {
 
         grid.add(new Label("Category:"), 0, 2);
         grid.add(category, 1, 2);
-        grid.add(newCategoryButton, 2, 2);
 
         grid.add(new Label("Quantity amount:"), 0, 3);
         grid.add(quantityAmount, 1, 3);
 
         grid.add(new Label("Quantity type:"), 0, 4);
         grid.add(quantityType, 1, 4);
-        grid.add(newQuantityTypeButton, 2, 4);
 
         grid.add(new Label("Retail price:"), 0, 5);
         grid.add(retailPrice, 1, 5);
@@ -478,25 +403,11 @@ public class Dialogs {
                 product.setName(productName.getText());
                 product.setNomenclature(nomenclature.getText());
 
-                if (newCategoryName.getText() != null)
-                {
-                    ProductCategory customCategory = new ProductCategory();
-                    customCategory.setName(newCategoryName.getText());
-                    customCategory.setSlug("product_categories." + newCategoryName.getText());
-                    product.setProductCategory(productCategoryService.addProductCategory(customCategory));
-                }
-                else product.setProductCategory(category.getSelectionModel().getSelectedItem());
+                product.setProductCategory(category.getSelectionModel().getSelectedItem());
 
                 product.setQuantity(newAmount);
 
-                if (newQuantityTypeName.getText() != null)
-                {
-                    ProductQuantityType productQuantityType = new ProductQuantityType();
-                    productQuantityType.setName(newQuantityTypeName.getText());
-                    productQuantityType.setSlug("product_quantity_types." + newQuantityTypeName.getText());
-                    product.setProductQuantityType(productQuantityTypeService.addProductQuantityType(productQuantityType));
-                }
-                else product.setProductQuantityType(quantityType.getSelectionModel().getSelectedItem());
+                product.setProductQuantityType(quantityType.getSelectionModel().getSelectedItem());
 
                 product.setRetailPrice(newRetailPrice);
                 product.setWholesalePrice(newWholesalePrice);
