@@ -73,7 +73,7 @@ public class SaleRepository implements ObjectRepository<Sale> {
             entityManager.getTransaction().rollback();
             log.error("Get sale by Id error: " + e.getMessage());
         }
-        return Optional.of(sale);
+        return Optional.ofNullable(sale);
     }
 
     @Override

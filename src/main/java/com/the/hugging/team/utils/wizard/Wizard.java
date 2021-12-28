@@ -1,18 +1,19 @@
 package com.the.hugging.team.utils.wizard;
 
 import com.the.hugging.team.utils.Window;
+import com.the.hugging.team.utils.wizard.events.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-public class Wizard implements Listener<WizardEvent> {
+public class Wizard implements Listener {
     private final List<WizardStep> steps;
-    private final int currentStep;
     private final AnchorPane mainAnchor;
     private final AnchorPane childAnchor;
     private final Window currentWindow;
     private final EventSource eventSource = EventSource.getInstance();
+    private int currentStep;
 
     public Wizard(AnchorPane anchor, List<WizardStep> steps, Window currentWindow) {
         this.steps = steps;
@@ -43,14 +44,23 @@ public class Wizard implements Listener<WizardEvent> {
 
         mainAnchor.getChildren().addAll(stepBox, childAnchor);
 
-        eventSource.addListener(EventType.WIZARD_EVENT_EVENT_TYPE, this);
-        eventSource.fire(EventType.STEP_EVENT_TYPE, new StepEvent(currentStep));
+        eventSource.addListener(EventType.SET_CURRENT_STEP_EVENT_TYPE, this);
+        eventSource.addListener(EventType.NEXT_STEP_EVENT_TYPE, this);
+        eventSource.addListener(EventType.PREVIOUS_STEP_EVENT_TYPE, this);
+        eventSource.fire(EventType.CHANGE_STEP_EVENT_TYPE, new ChangeStepEvent(currentStep));
     }
 
     @Override
-    public void handle(WizardEvent event) {
-        System.out.println("Wizard Event: " + event.currentStep);
+    public void handle(BaseEvent event) {
+        if (event.getEventType() == EventType.SET_CURRENT_STEP_EVENT_TYPE) {
+            SetCurrentStepEvent changeStepEvent = (SetCurrentStepEvent) event;
+            currentStep = changeStepEvent.currentStep;
+        } else if (event.getEventType() == EventType.NEXT_STEP_EVENT_TYPE) {
+            currentStep += 1;
+        } else if (event.getEventType() == EventType.PREVIOUS_STEP_EVENT_TYPE) {
+            currentStep -= 1;
+        }
 
-        eventSource.fire(EventType.STEP_EVENT_TYPE, new StepEvent(event.currentStep));
+        eventSource.fire(EventType.CHANGE_STEP_EVENT_TYPE, new ChangeStepEvent(currentStep));
     }
 }

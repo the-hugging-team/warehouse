@@ -70,7 +70,7 @@ public class CompanyRepository implements ObjectRepository<Company> {
             entityManager.getTransaction().rollback();
             log.error("Get company by Id error: " + e.getMessage());
         }
-        return Optional.of(company);
+        return Optional.ofNullable(company);
     }
 
     @Override

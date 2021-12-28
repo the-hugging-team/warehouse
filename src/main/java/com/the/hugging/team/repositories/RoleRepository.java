@@ -71,7 +71,7 @@ public class RoleRepository implements ObjectRepository<Role> {
             entityManager.getTransaction().rollback();
             log.error("Get role by Id error: " + e.getMessage());
         }
-        return Optional.of(role);
+        return Optional.ofNullable(role);
     }
 
     public Optional<Role> getBySlug(String slug) {
@@ -84,7 +84,7 @@ public class RoleRepository implements ObjectRepository<Role> {
             entityManager.getTransaction().rollback();
             log.error("Get role by slug error: " + e.getMessage());
         }
-        return Optional.of(role);
+        return Optional.ofNullable(role);
     }
 
     @Override

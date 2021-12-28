@@ -1,5 +1,6 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -63,6 +64,34 @@ public class User implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "updated_by", nullable = false)
     private User updatedBy;
+
+    @PrePersist
+    public void prePersist() {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        User loggedUser = Session.getInstance().getUser();
+
+        if (createdAt == null) {
+            createdAt = now;
+        }
+
+        if (updatedAt == null) {
+            updatedAt = now;
+        }
+
+        if (createdBy == null) {
+            createdBy = loggedUser;
+        }
+
+        if (updatedBy == null) {
+            updatedBy = loggedUser;
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = new Timestamp(System.currentTimeMillis());
+        updatedBy = Session.getInstance().getUser();
+    }
 
     public String getSexFormatted() {
         if (this.sex == null) {

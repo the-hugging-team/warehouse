@@ -7,7 +7,10 @@ import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
 import com.the.hugging.team.utils.WindowHandler;
-import com.the.hugging.team.utils.wizard.beans.SellBean;
+import com.the.hugging.team.utils.wizard.beans.PaymentBean;
+import com.the.hugging.team.utils.wizard.events.EventSource;
+import com.the.hugging.team.utils.wizard.events.EventType;
+import com.the.hugging.team.utils.wizard.events.NextStepEvent;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,7 +30,8 @@ public class SelectProductsController extends WindowHandler {
 
     private final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
     private final ProductService productService = ProductService.getInstance();
-    private final SellBean sellBean = SellBean.getInstance();
+    private final PaymentBean paymentBean = PaymentBean.getInstance();
+    private final EventSource eventSource = EventSource.getInstance();
 
     @FXML
     private AnchorPane wizardStepPane;
@@ -39,44 +43,30 @@ public class SelectProductsController extends WindowHandler {
 
     @FXML
     private TableView<Product> searchTable;
-    @FXML
     private TableColumn<Product, String> searchNomenclature;
-    @FXML
     private TableColumn<Product, String> searchName;
-    @FXML
     private TableColumn<Product, Double> searchQuantity;
-    @FXML
     private TableColumn<Product, String> searchQuantityType;
-    @FXML
     private TableColumn<Product, Double> searchRetailPrice;
-    @FXML
     private TableColumn<Product, Double> searchWholesalePrice;
+    private TableColumn<Product, Double> searchDeliveryPrice;
 
     private ObservableList<Product> searchData;
     private FilteredList<Product> searchFilteredList;
 
     @FXML
     private TableView<Product> productsTable;
-    @FXML
     private TableColumn<Product, String> productsNomenclature;
-    @FXML
     private TableColumn<Product, String> productsName;
-    @FXML
     private TableColumn<Product, Double> productsQuantity;
-    @FXML
     private TableColumn<Product, String> productsQuantityType;
-    @FXML
     private TableColumn<Product, Double> productsRetailPrice;
-    @FXML
     private TableColumn<Product, Double> productsRetailDDS;
-    @FXML
     private TableColumn<Product, Double> productsTotalRetailPrice;
-    @FXML
     private TableColumn<Product, Double> productsWholesalePrice;
-    @FXML
     private TableColumn<Product, Double> productsWholesaleDDS;
-    @FXML
     private TableColumn<Product, Double> productsTotalWholesalePrice;
+    private TableColumn<Product, Double> productsDeliveryPrice;
 
     private ObservableList<Product> productsData;
 
@@ -86,15 +76,28 @@ public class SelectProductsController extends WindowHandler {
         setupCategories();
     }
 
+    @FXML
+    public void search(ActionEvent e) {
+        String searchText = searchField.getText();
+        if (searchText.isEmpty()) {
+            searchFilteredList.setPredicate(p -> true);
+        } else {
+            searchFilteredList.setPredicate(p ->
+                    p.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                            p.getNomenclature().toLowerCase().contains(searchText.toLowerCase())
+            );
+        }
+    }
+
+    @FXML
+    public void nextStep(ActionEvent e) {
+        eventSource.fire(EventType.NEXT_STEP_EVENT_TYPE, new NextStepEvent());
+    }
+
     private void setupTables() {
         // Search table
-
-        searchNomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
-        searchName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        searchQuantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
-        searchQuantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
-        searchRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
-        searchWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
+        createColumns();
+        setupColumns(searchNomenclature, searchName, searchQuantity, searchQuantityType, searchRetailPrice, searchWholesalePrice);
 
         TableResizer.setDefault(searchTable);
         searchTable.setRowFactory(tv -> {
@@ -117,18 +120,16 @@ public class SelectProductsController extends WindowHandler {
         });
 
         // Products table
-        productsNomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
-        productsName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        productsQuantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
-        productsQuantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
-        productsRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
-        productsRetailDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsRetailPrice()).asObject());
-        productsTotalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalRetailPrice()).asObject());
-        productsWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
-        productsWholesaleDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsWholesalePrice()).asObject());
-        productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalWholesalePrice()).asObject());
+        if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL)) {
+            createSellColumns();
+            setupSellColumns(productsNomenclature, productsName, productsQuantity, productsQuantityType, productsRetailPrice, productsRetailDDS, productsTotalRetailPrice, productsWholesalePrice, productsWholesaleDDS, productsTotalWholesalePrice);
+            TableResizer.setCustomColumns(productsTable, List.of(0, 1, 2, 3, 9), List.of(100, 150, 75, 55, 150));
+        } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY)) {
+            createDeliveryColumns();
+            setupDeliveryColumns(productsNomenclature, productsName, productsQuantity, productsQuantityType, productsDeliveryPrice);
+            TableResizer.setDefault(productsTable);
+        }
 
-        TableResizer.setCustomColumns(productsTable, List.of(0, 1, 2, 3, 9), List.of(100, 150, 75, 55, 150));
         productsTable.setRowFactory(tv -> {
             final TableRow<Product> row = new TableRow<>();
             final ContextMenu rowMenu = getEditDeleteContextMenu();
@@ -156,6 +157,87 @@ public class SelectProductsController extends WindowHandler {
         });
     }
 
+    private void setupCommonColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType) {
+        nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
+        name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        quantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
+        quantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
+    }
+
+    private void setupColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> retailPrice, TableColumn<Product, Double> wholesalePrice) {
+        setupCommonColumns(nomenclature, name, quantity, quantityType);
+
+
+        if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL)) {
+            retailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
+            wholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
+        } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY)) {
+            searchDeliveryPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDeliveryPrice()).asObject());
+        }
+
+    }
+
+    private void setupSellColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> retailPrice, TableColumn<Product, Double> retailPriceDDS, TableColumn<Product, Double> totalRetailPrice, TableColumn<Product, Double> wholesalePrice, TableColumn<Product, Double> wholesalePriceDDS, TableColumn<Product, Double> totalWholesalePrice) {
+        setupColumns(nomenclature, name, quantity, quantityType, retailPrice, wholesalePrice);
+
+        productsRetailDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsRetailPrice()).asObject());
+        productsTotalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalRetailPrice()).asObject());
+        productsWholesaleDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsWholesalePrice()).asObject());
+        productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalWholesalePrice()).asObject());
+    }
+
+    private void setupDeliveryColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> deliveryPrice) {
+        setupCommonColumns(nomenclature, name, quantity, quantityType);
+
+        deliveryPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDeliveryPrice()).asObject());
+    }
+
+    public void createColumns() {
+        searchTable.getColumns().clear();
+        searchNomenclature = new TableColumn<>("Nomenclature");
+        searchName = new TableColumn<>("Name");
+        searchQuantity = new TableColumn<>("Quantity");
+        searchQuantityType = new TableColumn<>("Quantity Type");
+
+        searchTable.getColumns().addAll(searchNomenclature, searchName, searchQuantity, searchQuantityType);
+
+        if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL)) {
+            searchRetailPrice = new TableColumn<>("Retail Price");
+            searchWholesalePrice = new TableColumn<>("Wholesale Price");
+
+            searchTable.getColumns().addAll(searchRetailPrice, searchWholesalePrice);
+        } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY)) {
+            searchDeliveryPrice = new TableColumn<>("Delivery Price");
+
+            searchTable.getColumns().add(searchDeliveryPrice);
+        }
+    }
+
+    private void createSellColumns() {
+        productsTable.getColumns().clear();
+        productsNomenclature = new TableColumn<>("Nomenclature");
+        productsName = new TableColumn<>("Name");
+        productsQuantity = new TableColumn<>("Quantity");
+        productsQuantityType = new TableColumn<>("Quantity Type");
+        productsRetailPrice = new TableColumn<>("Retail Price");
+        productsWholesalePrice = new TableColumn<>("Wholesale Price");
+        productsRetailDDS = new TableColumn<>("Retail DDS");
+        productsTotalRetailPrice = new TableColumn<>("Total Retail Price");
+        productsWholesaleDDS = new TableColumn<>("Wholesale DDS");
+        productsTotalWholesalePrice = new TableColumn<>("Total Wholesale Price");
+        productsTable.getColumns().addAll(productsNomenclature, productsName, productsQuantity, productsQuantityType, productsRetailPrice, productsRetailDDS, productsTotalRetailPrice, productsWholesalePrice, productsWholesaleDDS, productsTotalWholesalePrice);
+    }
+
+    private void createDeliveryColumns() {
+        productsTable.getColumns().clear();
+        productsNomenclature = new TableColumn<>("Nomenclature");
+        productsName = new TableColumn<>("Name");
+        productsQuantity = new TableColumn<>("Quantity");
+        productsQuantityType = new TableColumn<>("Quantity Type");
+        productsDeliveryPrice = new TableColumn<>("Delivery Price");
+        productsTable.getColumns().addAll(productsNomenclature, productsName, productsQuantity, productsQuantityType, productsDeliveryPrice);
+    }
+
     private ContextMenu getAddContextMenu() {
         final ContextMenu rowMenu = new ContextMenu();
         final MenuItem add = new MenuItem("Add");
@@ -180,22 +262,21 @@ public class SelectProductsController extends WindowHandler {
         boolean isNew = productsData.stream().noneMatch(p -> Objects.equals(p.getId(), product.getId()));
         Double oldQuantity = oldProduct.getQuantity();
 
+        boolean isSell = paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL);
+        boolean isDelivery = paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY);
+
         Dialogs.singleTextInputDialog("0", "Enter quantity", "Quantity")
                 .ifPresent(quantity -> {
-                    if (!quantity.isEmpty() && Double.parseDouble(quantity) > 0 && Double.parseDouble(quantity) <= oldQuantity) {
+                    if (!quantity.isEmpty() && Double.parseDouble(quantity) > 0 &&
+                            ((isSell && Double.parseDouble(quantity) <= oldQuantity) || isDelivery)
+                    ) {
                         if (isNew) {
                             product.setQuantity(Double.parseDouble(quantity));
                         } else {
                             product.setQuantity(product.getQuantity() + Double.parseDouble(quantity));
                         }
 
-                        product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
-                        product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
-                        product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
-
-                        product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
-                        product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
-                        product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
+                        calcProductPrices(product);
 
                         if (isNew) {
                             productsData.add(product);
@@ -204,12 +285,30 @@ public class SelectProductsController extends WindowHandler {
                             productsTable.refresh();
                         }
 
-                        oldProduct.setQuantity(oldQuantity - Double.parseDouble(quantity));
-                        searchTable.refresh();
+                        if (isSell) {
+                            oldProduct.setQuantity(oldQuantity - Double.parseDouble(quantity));
+                            searchTable.refresh();
+                        }
                     } else {
-                        Dialogs.warningDialog("Invalid quantity", "Quantity must be greater than 0 and less than or equal to " + oldQuantity);
+                        if (isSell) {
+                            Dialogs.warningDialog("Invalid quantity", "Quantity must be greater than 0 and less than or equal to " + oldQuantity);
+                        } else if (isDelivery) {
+                            Dialogs.warningDialog("Invalid quantity", "Quantity must be greater than 0");
+                        }
                     }
                 });
+    }
+
+    private void calcProductPrices(Product product) {
+        product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
+        product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
+        product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
+
+        product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
+        product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
+        product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
+
+        product.setDeliveryPrice(product.getDeliveryPrice() * product.getQuantity());
     }
 
     private void editProduct() {
@@ -222,13 +321,7 @@ public class SelectProductsController extends WindowHandler {
                     if (!quantity.isEmpty() && Double.parseDouble(quantity) > 0 && Double.parseDouble(quantity) <= Objects.requireNonNull(oldProduct).getQuantity()) {
                         product.setQuantity(Double.parseDouble(quantity));
 
-                        product.setRetailPrice(product.getRetailPrice() * product.getQuantity());
-                        product.setDdsRetailPrice(product.getRetailPrice() * 0.2);
-                        product.setTotalRetailPrice(product.getRetailPrice() + product.getDdsRetailPrice());
-
-                        product.setWholesalePrice(product.getWholesalePrice() * product.getQuantity());
-                        product.setDdsWholesalePrice(product.getWholesalePrice() * 0.2);
-                        product.setTotalWholesalePrice(product.getWholesalePrice() + product.getDdsWholesalePrice());
+                        calcProductPrices(product);
 
                         productsTable.refresh();
 
@@ -274,40 +367,27 @@ public class SelectProductsController extends WindowHandler {
     }
 
     private void setupProducts(ProductCategory productCategory) {
-        if (sellBean.getSearchData() != null) {
-            searchData = sellBean.getSearchData();
+        if (paymentBean.getSearchData() != null) {
+            searchData = paymentBean.getSearchData();
         } else {
             searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));
-            sellBean.setSearchData(searchData);
+            paymentBean.setSearchData(searchData);
         }
 
         searchFilteredList = new FilteredList<>(searchData, p -> true);
 
         searchTable.setItems(searchFilteredList);
 
-        if (sellBean.getProductsData() != null) {
-            productsData = sellBean.getProductsData();
+        if (paymentBean.getProductsData() != null) {
+            productsData = paymentBean.getProductsData();
         } else {
             productsData = FXCollections.observableArrayList();
-            sellBean.setProductsData(productsData);
+            paymentBean.setProductsData(productsData);
         }
+
+        productsTable.setItems(productsData);
 
         productsTable.refresh();
         searchTable.refresh();
     }
-
-    @FXML
-    public void search(ActionEvent e) {
-        String searchText = searchField.getText();
-        if (searchText.isEmpty()) {
-            searchFilteredList.setPredicate(p -> true);
-        } else {
-            searchFilteredList.setPredicate(p ->
-                    p.getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                            p.getNomenclature().toLowerCase().contains(searchText.toLowerCase())
-            );
-        }
-    }
-
-
 }

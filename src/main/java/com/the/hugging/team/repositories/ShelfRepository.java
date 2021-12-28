@@ -71,7 +71,7 @@ public class ShelfRepository implements ObjectRepository<Shelf> {
             entityManager.getTransaction().rollback();
             log.error("Get shelf by Id error: " + e.getMessage());
         }
-        return Optional.of(shelf);
+        return Optional.ofNullable(shelf);
     }
 
     @Override

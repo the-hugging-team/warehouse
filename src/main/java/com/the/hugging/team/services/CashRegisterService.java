@@ -32,4 +32,8 @@ public class CashRegisterService {
     public void deleteCashRegister(CashRegister cr) {
         cashRegisterRepository.delete(cr);
     }
+
+    public CashRegister getMainCashRegister() {
+        return cashRegisterRepository.getById(1).orElse(null);
+    }
 }

@@ -4,7 +4,7 @@ import com.the.hugging.team.entities.*;
 import com.the.hugging.team.repositories.CashRegisterRepository;
 import com.the.hugging.team.repositories.SaleRepository;
 import com.the.hugging.team.utils.Session;
-import com.the.hugging.team.utils.wizard.beans.SellBean;
+import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import javafx.collections.ObservableList;
 
 import java.sql.Timestamp;
@@ -15,7 +15,6 @@ public class SaleService {
     private final SaleRepository saleRepository = SaleRepository.getInstance();
     private final CashRegisterRepository cashRegisterRepository = CashRegisterRepository.getInstance();
 
-    private final TransactionService transactionService = TransactionService.getInstance();
     private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
     private final Session session = Session.getInstance();
 
@@ -32,36 +31,25 @@ public class SaleService {
         return sale;
     }
 
-    public void addSaleFromBean(SellBean sellBean, Double finalPrice) {
+    public void addSaleFromBean(PaymentBean paymentBean, Double finalPrice) {
         Sale sale = new Sale();
         Transaction transaction = new Transaction();
-        Invoice currentInvoice = sellBean.getInvoice();
+        Invoice currentInvoice = paymentBean.getInvoice();
         CashRegister currentCashRegister = session.getSelectedCashRegister();
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        User cashier = session.getUser();
-
-        if (currentInvoice != null) {
-            currentInvoice.setTotalPrice(finalPrice);
-        }
 
         sale.setInvoice(currentInvoice);
 
         sale.setCashRegister(currentCashRegister);
-        sale.setCreatedAt(now);
-        sale.setCreatedBy(cashier);
 
         transaction.setCashRegister(currentCashRegister);
         transaction.setTransactionType(transactionTypeService.getTransactionTypeBySlug(TransactionType.SELL));
         transaction.setAmount(finalPrice);
-        transaction.setCreatedAt(now);
-        transaction.setCreatedBy(cashier);
 
-        transactionService.addTransaction(transaction);
         sale.setTransaction(transaction);
 
         addSale(sale);
 
-        attachProductsToSale(sellBean.getProductsData(), sale);
+        attachProductsToSale(paymentBean.getProductsData(), sale);
 
         updateCashRegister(currentCashRegister, finalPrice);
     }

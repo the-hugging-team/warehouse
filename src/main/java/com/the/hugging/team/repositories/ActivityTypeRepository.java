@@ -72,7 +72,7 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
             entityManager.getTransaction().rollback();
             log.error("Get activity type by Id error: " + e.getMessage());
         }
-        return Optional.of(activityType);
+        return Optional.ofNullable(activityType);
     }
 
     @Override

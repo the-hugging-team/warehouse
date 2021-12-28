@@ -1,6 +1,7 @@
 package com.the.hugging.team.utils.wizard;
 
 import com.the.hugging.team.utils.Window;
+import com.the.hugging.team.utils.wizard.events.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -8,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.TextAlignment;
 
-public /*abstract*/ class WizardStep implements Listener<StepEvent> {
+public /*abstract*/ class WizardStep implements Listener {
     private final int stepNumber;
     private final String stepName;
     private final Button fillerButton = new Button();
@@ -33,7 +34,7 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
         showStep(parent);
         setButtonClick();
 
-        eventSource.addListener(EventType.STEP_EVENT_TYPE, this);
+        eventSource.addListener(EventType.CHANGE_STEP_EVENT_TYPE, this);
     }
 
     public void showStep(HBox parent) {
@@ -82,21 +83,25 @@ public /*abstract*/ class WizardStep implements Listener<StepEvent> {
     }
 
     public void setButtonClick() {
-        stepLabelButton.setOnAction(e -> eventSource.fire(EventType.WIZARD_EVENT_EVENT_TYPE, new WizardEvent(stepNumber)));
-        stepNameButton.setOnAction(e -> eventSource.fire(EventType.WIZARD_EVENT_EVENT_TYPE, new WizardEvent(stepNumber)));
-        fillerButton.setOnAction(e -> eventSource.fire(EventType.WIZARD_EVENT_EVENT_TYPE, new WizardEvent(stepNumber)));
+        stepLabelButton.setOnAction(e -> eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(stepNumber)));
+        stepNameButton.setOnAction(e -> eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(stepNumber)));
+        fillerButton.setOnAction(e -> eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(stepNumber)));
     }
 
     @Override
-    public void handle(StepEvent event) {
-        stepHBox.getStyleClass().removeAll("previousStep", "currentStep", "nextStep");
-        if (event.getStepNumber() == stepNumber) {
-            stepHBox.getStyleClass().add("currentStep");
-            loadStep(anchor, window);
-        } else if (event.getStepNumber() > stepNumber) {
-            stepHBox.getStyleClass().add("previousStep");
-        } else if (event.getStepNumber() < stepNumber) {
-            stepHBox.getStyleClass().add("nextStep");
+    public void handle(BaseEvent event) {
+        if (event.getEventType() == EventType.CHANGE_STEP_EVENT_TYPE) {
+            ChangeStepEvent changeStepEvent = (ChangeStepEvent) event;
+
+            stepHBox.getStyleClass().removeAll("previousStep", "currentStep", "nextStep");
+            if (changeStepEvent.getStepNumber() == stepNumber) {
+                stepHBox.getStyleClass().add("currentStep");
+                loadStep(anchor, window);
+            } else if (changeStepEvent.getStepNumber() > stepNumber) {
+                stepHBox.getStyleClass().add("previousStep");
+            } else if (changeStepEvent.getStepNumber() < stepNumber) {
+                stepHBox.getStyleClass().add("nextStep");
+            }
         }
     }
 }

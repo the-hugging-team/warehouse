@@ -34,4 +34,14 @@ public class ProductService {
         }
     }
 
+    public void updateProductsFromDeliveryBean(ObservableList<Product> products) {
+        for (Product beanProduct : products) {
+            Product dbProduct = productRepository.getById(beanProduct.getId()).orElse(null);
+            if (dbProduct != null) {
+                dbProduct.setQuantity(dbProduct.getQuantity() + beanProduct.getQuantity());
+                productRepository.update(dbProduct);
+            }
+        }
+    }
+
 }

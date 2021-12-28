@@ -71,7 +71,7 @@ public class ProductCategoryRepository implements ObjectRepository<ProductCatego
             entityManager.getTransaction().rollback();
             log.error("Get productCategory by Id error: " + e.getMessage());
         }
-        return Optional.of(productCategory);
+        return Optional.ofNullable(productCategory);
     }
 
     @Override

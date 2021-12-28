@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.util.List;
 
-public class SellController extends WindowHandler {
+public class DeliveryController extends WindowHandler {
 
     private Wizard wizard;
 
@@ -21,14 +21,14 @@ public class SellController extends WindowHandler {
 
     @FXML
     private void initialize() {
-        SelectProductStep selectProductStep = new SelectProductStep(1, "Select product", "views/dashboard/wizards/steps/select-products.fxml");
-        InvoiceStep invoiceStep = new InvoiceStep(2, "Invoice", "views/dashboard/wizards/steps/invoice.fxml");
+        InvoiceStep invoiceStep = new InvoiceStep(1, "Invoice", "views/dashboard/wizards/steps/invoice.fxml");
+        SelectProductStep selectProductStep = new SelectProductStep(2, "Select product", "views/dashboard/wizards/steps/select-products.fxml");
         PayStep payStep = new PayStep(3, "Finalize payment", "views/dashboard/wizards/steps/pay.fxml");
 
-        PaymentBean.getInstance().setBeanType(PaymentBean.BeanType.SELL);
+        PaymentBean.getInstance().setBeanType(PaymentBean.BeanType.DELIVERY);
 
         Platform.runLater(() -> {
-            wizard = new Wizard(wizardPane, List.of(selectProductStep, invoiceStep, payStep), this.getWindow());
+            wizard = new Wizard(wizardPane, List.of(invoiceStep, selectProductStep, payStep), this.getWindow());
             wizard.setUpWizard();
         });
     }
