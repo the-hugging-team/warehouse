@@ -1,20 +1,16 @@
 package com.the.hugging.team.services;
 
 import com.the.hugging.team.entities.*;
-import com.the.hugging.team.repositories.CashRegisterRepository;
 import com.the.hugging.team.repositories.DeliveryRepository;
-import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import javafx.collections.ObservableList;
 
 public class DeliveryService {
     private static DeliveryService INSTANCE = null;
     private final DeliveryRepository deliveryRepository = DeliveryRepository.getInstance();
-    private final CashRegisterRepository cashRegisterRepository = CashRegisterRepository.getInstance();
 
     private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
     private final CashRegisterService cashRegisterService = CashRegisterService.getInstance();
-    private final Session session = Session.getInstance();
 
     public static DeliveryService getInstance() {
         if (INSTANCE == null) {
@@ -47,7 +43,7 @@ public class DeliveryService {
 
         attachProductsToDelivery(paymentBean.getProductsData(), delivery);
 
-        updateCashRegister(mainCashRegister, finalPrice);
+        cashRegisterService.subBalanceFromCashRegister(mainCashRegister, finalPrice);
     }
 
     private void attachProductsToDelivery(ObservableList<Product> products, Delivery delivery) {
@@ -60,10 +56,5 @@ public class DeliveryService {
 
             deliveryRepository.saveDeliveryProduct(deliveryProduct);
         }
-    }
-
-    private void updateCashRegister(CashRegister cashRegister, Double finalPrice) {
-        cashRegister.setBalance(cashRegister.getBalance() - finalPrice);
-        cashRegisterRepository.update(cashRegister);
     }
 }

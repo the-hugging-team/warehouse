@@ -1,7 +1,6 @@
 package com.the.hugging.team.services;
 
 import com.the.hugging.team.entities.*;
-import com.the.hugging.team.repositories.CashRegisterRepository;
 import com.the.hugging.team.repositories.SaleRepository;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
@@ -12,7 +11,7 @@ import java.util.List;
 public class SaleService {
     private static SaleService INSTANCE = null;
     private final SaleRepository saleRepository = SaleRepository.getInstance();
-    private final CashRegisterRepository cashRegisterRepository = CashRegisterRepository.getInstance();
+    private final CashRegisterService cashRegisterService = CashRegisterService.getInstance();
 
     private final TransactionTypeService transactionTypeService = TransactionTypeService.getInstance();
     private final Session session = Session.getInstance();
@@ -50,7 +49,7 @@ public class SaleService {
 
         attachProductsToSale(paymentBean.getProductsData(), sale);
 
-        updateCashRegister(currentCashRegister, finalPrice);
+        cashRegisterService.addBalanceToCashRegister(currentCashRegister, finalPrice);
     }
 
     private void attachProductsToSale(ObservableList<Product> products, Sale sale) {
@@ -63,11 +62,6 @@ public class SaleService {
 
             saleRepository.saveSaleProduct(saleProduct);
         }
-    }
-
-    private void updateCashRegister(CashRegister cashRegister, Double finalPrice) {
-        cashRegister.setBalance(cashRegister.getBalance() + finalPrice);
-        cashRegisterRepository.update(cashRegister);
     }
 
     public List<Sale> getSalesByCashRegister(CashRegister cr) {

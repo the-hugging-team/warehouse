@@ -33,6 +33,16 @@ public class CashRegisterService {
         cashRegisterRepository.delete(cr);
     }
 
+    public void addBalanceToCashRegister(CashRegister cashRegister, Double finalPrice) {
+        cashRegister.setBalance(cashRegister.getBalance() + finalPrice);
+        cashRegisterRepository.update(cashRegister);
+    }
+
+    public void subBalanceFromCashRegister(CashRegister cashRegister, Double finalPrice) {
+        cashRegister.setBalance(cashRegister.getBalance() - finalPrice);
+        cashRegisterRepository.update(cashRegister);
+    }
+
     public CashRegister getMainCashRegister() {
         return cashRegisterRepository.getById(1).orElse(null);
     }
