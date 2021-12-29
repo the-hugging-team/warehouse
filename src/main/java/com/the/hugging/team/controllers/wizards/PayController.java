@@ -1,6 +1,8 @@
 package com.the.hugging.team.controllers.wizards;
 
 import com.the.hugging.team.entities.Product;
+import com.the.hugging.team.services.ActivityService;
+import com.the.hugging.team.services.ActivityTypeService;
 import com.the.hugging.team.services.DeliveryService;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.services.SaleService;
@@ -21,6 +23,8 @@ public class PayController extends WindowHandler {
     private final SaleService saleService = SaleService.getInstance();
     private final DeliveryService deliveryService = DeliveryService.getInstance();
     private final ProductService productService = ProductService.getInstance();
+    private final ActivityService activityService = ActivityService.getInstance();
+    private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
     private final EventSource eventSource = EventSource.getInstance();
 
     private final PaymentBean paymentBean = PaymentBean.getInstance();
@@ -108,7 +112,7 @@ public class PayController extends WindowHandler {
             deliveryService.addDeliveryFromBean(paymentBean, finalPrice);
             productService.updateProductsFromDeliveryBean(paymentBean.getProductsData());
         }
-
+        activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.sale"));
         PaymentBean.reset();
         eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));
     }

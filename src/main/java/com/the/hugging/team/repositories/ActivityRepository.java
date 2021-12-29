@@ -1,6 +1,7 @@
 package com.the.hugging.team.repositories;
 
 import com.the.hugging.team.entities.Activity;
+import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,6 +87,19 @@ public class ActivityRepository implements ObjectRepository<Activity> {
             log.error("Get all activities error: " + e.getMessage());
         }
         return allActivities;
+    }
+
+    public List<Activity> getByUser(User user) {
+        List<Activity> userSpecificActivities = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            userSpecificActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t WHERE t.user = :user", Activity.class).setParameter("user", user).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get user specific activities error: " + e.getMessage());
+        }
+        return userSpecificActivities;
     }
 }
 

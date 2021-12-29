@@ -7,6 +7,8 @@ import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public class SaleService {
     private static SaleService INSTANCE = null;
     private final SaleRepository saleRepository = SaleRepository.getInstance();
@@ -66,5 +68,9 @@ public class SaleService {
     private void updateCashRegister(CashRegister cashRegister, Double finalPrice) {
         cashRegister.setBalance(cashRegister.getBalance() + finalPrice);
         cashRegisterRepository.update(cashRegister);
+    }
+
+    public List<Sale> getSalesByCashRegister(CashRegister cr) {
+        return saleRepository.getByCashRegister(cr);
     }
 }
