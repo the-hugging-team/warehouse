@@ -92,7 +92,7 @@ public class CashRegisterController extends WindowHandler {
     public void create(ActionEvent e) {
         data.add(cashRegistersService.addCashRegister());
         table.getItems().setAll(filteredList);
-        activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.cash-registers.create"));
+        activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.cash-registers.create"));
     }
 
     public void showSaleHistory(ActionEvent e) {
@@ -109,7 +109,7 @@ public class CashRegisterController extends WindowHandler {
             data.remove(cr);
             table.getItems().setAll(filteredList);
             cashRegistersService.deleteCashRegister(cr);
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.cash-registers.delete"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.cash-registers.delete"));
         }
     }
 

@@ -89,7 +89,7 @@ public class CompanyController extends DashboardTemplate {
         {
             data.add(companiesService.addCompany(company));
             table.getItems().setAll(filteredList);
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.companies.create"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.companies.create"));
         });
     }
 
@@ -101,7 +101,7 @@ public class CompanyController extends DashboardTemplate {
         {
             companiesService.updateCompany(editedCompany);
             table.refresh();
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.companies.edit"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.companies.edit"));
         });
     }
 
@@ -113,7 +113,7 @@ public class CompanyController extends DashboardTemplate {
             data.remove(company);
             table.getItems().setAll(filteredList);
             companiesService.deleteCompany(company);
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.companies.delete"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.companies.delete"));
         }
     }
 

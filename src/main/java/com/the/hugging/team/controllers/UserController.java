@@ -102,7 +102,7 @@ public class UserController extends WindowHandler {
         {
             data.add(userService.addUser(user));
             table.getItems().setAll(filteredList);
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.users.create"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.users.create"));
         });
     }
 
@@ -115,7 +115,7 @@ public class UserController extends WindowHandler {
         {
             userService.updateUser(user);
             table.refresh();
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.users.edit"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.users.edit"));
         });
     }
 

@@ -104,11 +104,11 @@ public class PayController extends WindowHandler {
         if (isSell) {
             saleService.addSaleFromBean(paymentBean, finalPrice);
             productService.updateProductsFromSellBean(paymentBean.getSearchData());
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.sale"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.sale"));
         } else if (isDelivery) {
             deliveryService.addDeliveryFromBean(paymentBean, finalPrice);
             productService.updateProductsFromDeliveryBean(paymentBean.getProductsData());
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.delivery"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.delivery"));
         }
 
         PaymentBean.reset();
