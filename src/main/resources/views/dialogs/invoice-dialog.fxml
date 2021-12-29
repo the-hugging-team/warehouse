@@ -6,7 +6,7 @@
 <DialogPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
     <content>
         <AnchorPane fx:id="invoiceAnchor" prefHeight="640.0" prefWidth="1080.0"
-                    stylesheets="@../../assets/css/wizard-paystep.css" AnchorPane.bottomAnchor="0.0"
+                    stylesheets="@../../assets/css/wizard.css" AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Pane fx:id="companyOnePane" layoutX="15.0" layoutY="14.0" prefHeight="260.0" prefWidth="520.0"
                   styleClass="labelPane" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="14.0">

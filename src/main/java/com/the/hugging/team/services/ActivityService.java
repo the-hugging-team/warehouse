@@ -6,7 +6,6 @@ import com.the.hugging.team.entities.User;
 import com.the.hugging.team.repositories.ActivityRepository;
 import com.the.hugging.team.utils.Session;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class ActivityService {
@@ -26,6 +25,7 @@ public class ActivityService {
     {
         Activity activity = new Activity();
         activity.setActivityType(activityType);
+        activity.setUser(session.getUser());
 
         activityRepository.save(activity);
     }

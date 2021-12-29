@@ -1,8 +1,6 @@
 package com.the.hugging.team.repositories;
 
 import com.the.hugging.team.entities.Activity;
-import com.the.hugging.team.entities.CashRegister;
-import com.the.hugging.team.entities.Transaction;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;

@@ -269,8 +269,6 @@ public class Dialogs {
             dialog.setHeaderText(null);
             dialog.getDialogPane().setPrefSize(500, 600);
 
-            FilteredList<Sale> filteredList = new FilteredList<>(data, p -> true);
-
             TableView<Sale> table = new TableView<>();
             TableColumn<Sale, String> transaction = new TableColumn<>();
             TableColumn<Sale, String> operator = new TableColumn<>();
@@ -290,7 +288,7 @@ public class Dialogs {
 
             table.getColumns().addAll(transaction, time, operator);
             table.setEditable(false);
-            table.getItems().setAll(filteredList);
+            table.getItems().setAll(data);
             int columns = table.getColumns().size();
             for (int i = 0; i < columns; i++) {
                 table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);
@@ -355,8 +353,6 @@ public class Dialogs {
             dialog.setHeaderText(null);
             dialog.getDialogPane().setPrefSize(500, 600);
 
-            FilteredList<Activity> filteredList = new FilteredList<>(data, p -> true);
-
             TableView<Activity> table = new TableView<>();
             TableColumn<Activity, String> name = new TableColumn<>();
             TableColumn<Activity, String> time = new TableColumn<>();
@@ -369,7 +365,7 @@ public class Dialogs {
 
             table.getColumns().addAll(name, time);
             table.setEditable(false);
-            table.getItems().setAll(filteredList);
+            table.getItems().setAll(data);
             int columns = table.getColumns().size();
             for (int i = 0; i < columns; i++) {
                 table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);

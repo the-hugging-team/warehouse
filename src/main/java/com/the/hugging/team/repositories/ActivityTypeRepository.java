@@ -100,7 +100,7 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
             entityManager.getTransaction().rollback();
             log.error("Get Activity Type by slug error: " + e.getMessage());
         }
-        return Optional.of(activityType);
+        return Optional.ofNullable(activityType);
     }
 }
 

@@ -9,7 +9,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Objects;
 
 @Table(name = "activities", indexes = {
@@ -40,14 +39,11 @@ public class Activity {
 
     @PrePersist
     public void prePersist() {
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        User sessionUser = Session.getInstance().getUser();
-
         if (createdAt == null)
-            createdAt = now;
+            createdAt = new Timestamp(System.currentTimeMillis());
 
         if (user == null)
-            user = sessionUser;
+            user = Session.getInstance().getUser();
     }
 
     @Override

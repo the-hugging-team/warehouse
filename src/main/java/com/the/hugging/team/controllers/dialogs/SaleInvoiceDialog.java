@@ -115,8 +115,6 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
 
-        getDialogPane().getButtonTypes().add(new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE));
-
         ((Stage) getDialogPane().getScene().getWindow()).getIcons().add(new Image(com.the.hugging.team.utils.Window.CELLABLUE_PATH));
 
         setResizable(false);

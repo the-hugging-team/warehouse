@@ -125,7 +125,7 @@ public class UserController extends WindowHandler {
         User userSelected = table.getSelectionModel().getSelectedItem();
 
         if (userSelected == null) Dialogs.notSelectedWarning();
-        else Dialogs.userDialog(userSelected, "Edit user").ifPresent(user -> Dialogs.userActivitiesDialog(userSelected));
+        else Dialogs.userActivitiesDialog(userSelected);
     }
 
     private void checkPermissions()
