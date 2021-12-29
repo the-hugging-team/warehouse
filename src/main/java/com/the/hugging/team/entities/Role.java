@@ -44,6 +44,15 @@ public class Role implements Serializable {
     @ToString.Exclude
     private Set<Permission> permissions = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "role_has_notification_type",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "notification_type_id")}
+    )
+    @ToString.Exclude
+    private Set<NotificationType> notificationTypes = new HashSet<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -22,6 +22,9 @@
         <class>com.the.hugging.team.entities.User</class>
         <class>com.the.hugging.team.entities.SaleProduct</class>
         <class>com.the.hugging.team.entities.DeliveryProduct</class>
+        <class>com.the.hugging.team.entities.NotificationTemplate</class>
+        <class>com.the.hugging.team.entities.NotificationType</class>
+        <class>com.the.hugging.team.entities.Notification</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cella"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
