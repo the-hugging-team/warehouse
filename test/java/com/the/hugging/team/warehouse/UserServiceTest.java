@@ -47,4 +47,18 @@ public class UserServiceTest {
 
         Assertions.assertEquals(user, UserService.getInstance().getUser(2));
     }
+
+    @Test//TODO needs to be reworked
+    @DisplayName("Should add new user")
+    void shouldAddNewUser() {
+        User user = new User();
+        user.setFirstName("Admin");
+        user.setLastName("");
+        user.setUsername("admin");
+        user.setRole(admin);
+        user.setSex(1);
+        user.setId(1);
+
+        Assertions.assertEquals(user, UserService.getInstance().addUser(user));
+    }
 }

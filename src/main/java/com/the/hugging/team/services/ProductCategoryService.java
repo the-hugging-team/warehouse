@@ -13,10 +13,18 @@ public class ProductCategoryService {
         if (INSTANCE == null) {
             INSTANCE = new ProductCategoryService();
         }
+
         return INSTANCE;
     }
 
-    public List<ProductCategory> getAllProductCategories() {
+    public ProductCategory addProductCategory(ProductCategory productCategory)
+    {
+        productCategoryRepository.save(productCategory);
+        return productCategory;
+    }
+
+    public List<ProductCategory> getAllProductCategories()
+    {
         return productCategoryRepository.getAll();
     }
 }

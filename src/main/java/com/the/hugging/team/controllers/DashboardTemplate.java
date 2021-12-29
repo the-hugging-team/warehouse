@@ -180,11 +180,13 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     public void inventoryClick(ActionEvent event) {
         selectButton(inventoryButton);
+
+        loadView("views/dashboard/cruds/inventory-crud.fxml");
     }
 
     @FXML
     public void reportsClick(ActionEvent e) {
-
+        selectButton(reportsButton);
     }
 
     public void logout(ActionEvent e) {
@@ -227,6 +229,9 @@ public class DashboardTemplate extends WindowHandler {
         }
         if (!user.can("permissions.cash-registers.index")) {
             menu.getChildren().remove(cashRegistersButton);
+        }
+        if (!user.can("permissions.products.index")) {
+            menu.getChildren().remove(inventoryButton);
         }
     }
 

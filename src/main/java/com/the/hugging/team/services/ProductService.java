@@ -44,4 +44,20 @@ public class ProductService {
         }
     }
 
+    public List<Product> getAllProducts() {
+        return productRepository.getAll();
+    }
+
+    public Product addProduct(Product product) {
+        productRepository.save(product);
+        return product;
+    }
+
+    public void updateProduct(Product product) {
+        productRepository.update(product);
+    }
+
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
+    }
 }
