@@ -25,62 +25,30 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
     @FXML
     private TextField companyOneName;
-
-    @FXML
     private TextField companyOneAddress;
-
-    @FXML
     private TextField companyOneDDSNumber;
-
-    @FXML
     private TextField companyOneEIK;
-
-    @FXML
     private TextField companyOneMOL;
 
     @FXML
     private TextField companyTwoName;
-
-    @FXML
     private TextField companyTwoAddress;
-
-    @FXML
     private TextField companyTwoDDSNumber;
-
-    @FXML
     private TextField companyTwoEIK;
-
-    @FXML
     private TextField companyTwoMOL;
 
     @FXML
     private TableView<SaleProduct> productTable;
-
-    @FXML
     private TableColumn<SaleProduct, String> number;
-
-    @FXML
     private TableColumn<SaleProduct, String> nomenclature;
-
-    @FXML
     private TableColumn<SaleProduct, String> name;
-
-    @FXML
     private TableColumn<SaleProduct, String> quantityType;
-
-    @FXML
     private TableColumn<SaleProduct, String> quantity;
-
-    @FXML
     private TableColumn<SaleProduct, String> singlePrice;
-
-    @FXML
     private TableColumn<SaleProduct, String> totalPrice;
 
     @FXML
     private TextField buyerDate;
-
-    @FXML
     private TextField buyerName;
 
     @FXML
@@ -88,14 +56,8 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
     @FXML
     private TextField basePrice;
-
-    @FXML
     private TextField ddsPercentage;
-
-    @FXML
     private TextField ddsValue;
-
-    @FXML
     private TextField finalPrice;
 
     public SaleInvoiceDialog(Sale sale, Window owner) {
