@@ -60,10 +60,10 @@ public class InventoryController extends DashboardTemplate {
         nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
         category.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductCategory().getName()));
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString() + " " + cellData.getValue().getProductQuantityType().getName()));
-        retailPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRetailPrice().toString()));
-        wholesalePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getWholesalePrice().toString()));
-        deliveryPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeliveryPrice().toString()));
+        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getQuantity()) + " " + cellData.getValue().getProductQuantityType().getName()));
+        retailPrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getRetailPrice())));
+        wholesalePrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getWholesalePrice())));
+        deliveryPrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getDeliveryPrice())));
         shelf.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getShelf().getName()));
 
         table.getItems().setAll(filteredList);
