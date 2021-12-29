@@ -1,11 +1,7 @@
 package com.the.hugging.team.controllers.wizards;
 
 import com.the.hugging.team.entities.Product;
-import com.the.hugging.team.services.ActivityService;
-import com.the.hugging.team.services.ActivityTypeService;
-import com.the.hugging.team.services.DeliveryService;
-import com.the.hugging.team.services.ProductService;
-import com.the.hugging.team.services.SaleService;
+import com.the.hugging.team.services.*;
 import com.the.hugging.team.utils.WindowHandler;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import com.the.hugging.team.utils.wizard.events.EventSource;
@@ -108,11 +104,13 @@ public class PayController extends WindowHandler {
         if (isSell) {
             saleService.addSaleFromBean(paymentBean, finalPrice);
             productService.updateProductsFromSellBean(paymentBean.getSearchData());
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.sale"));
         } else if (isDelivery) {
             deliveryService.addDeliveryFromBean(paymentBean, finalPrice);
             productService.updateProductsFromDeliveryBean(paymentBean.getProductsData());
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.delivery"));
         }
-        activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.sale"));
+
         PaymentBean.reset();
         eventSource.fire(EventType.SET_CURRENT_STEP_EVENT_TYPE, new SetCurrentStepEvent(1));
     }
