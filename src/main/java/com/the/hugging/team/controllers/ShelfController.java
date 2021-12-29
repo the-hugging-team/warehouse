@@ -87,7 +87,7 @@ public class ShelfController extends WindowHandler {
         {
             data.add(storageService.addShelf(name, Session.getInstance().getSelectedRoom()));
             table.getItems().setAll(filteredList);
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.storage.create"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.storage.create"));
         });
     }
 
@@ -99,7 +99,7 @@ public class ShelfController extends WindowHandler {
         {
             storageService.setShelfName(shelf, name);
             table.refresh();
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.storage.edit"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.storage.edit"));
         });
     }
 
@@ -111,7 +111,7 @@ public class ShelfController extends WindowHandler {
             data.remove(shelf);
             table.getItems().setAll(filteredList);
             storageService.deleteShelf(shelf);
-            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activities.storage.delete"));
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.storage.delete"));
         }
     }
 
