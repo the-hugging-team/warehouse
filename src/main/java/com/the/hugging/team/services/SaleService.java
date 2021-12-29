@@ -7,7 +7,6 @@ import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.wizard.beans.PaymentBean;
 import javafx.collections.ObservableList;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class SaleService {
