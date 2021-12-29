@@ -227,13 +227,10 @@ public class Dialogs {
         okButton.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    if (bulstat.getText().length() != 9 &&
-                            bulstat.getText().length() != 10 &&
-                            bulstat.getText().length() != 13) {
+                    if (!bulstat.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect EIK format!");
                         event.consume();
-                    } else if (dds.getText().length() != 11 &&
-                            dds.getText().length() != 12) {
+                    } else if (!dds.getText().matches("BG[0-9]{9}")) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect DDS number format!");
                         event.consume();
                     }
