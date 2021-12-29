@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -55,6 +56,10 @@ public class Sale implements Serializable {
     @OneToMany(mappedBy = "sale")
     @ToString.Exclude
     private Set<SaleProduct> saleProducts = new HashSet<>();
+
+    public String getCreatedAtFormatted() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(createdAt);
+    }
 
     @PrePersist
     public void prePersist() {

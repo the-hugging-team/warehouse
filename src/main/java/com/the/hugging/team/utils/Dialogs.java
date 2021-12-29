@@ -349,10 +349,6 @@ public class Dialogs {
             shelf.getSelectionModel().select(product.getShelf());
         }
 
-        TextField newQuantityTypeName = new TextField();
-        newQuantityTypeName.setPromptText("New quantity type name");
-        newQuantityTypeName.setText(null);
-
         grid.add(new Label("Product Name:"), 0, 0);
         grid.add(productName, 1, 0);
 

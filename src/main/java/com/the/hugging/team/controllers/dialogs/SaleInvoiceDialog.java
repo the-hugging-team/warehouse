@@ -118,7 +118,7 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         companyTwoEIK.setText(companyTwo.getBulstat());
         companyTwoMOL.setText(companyTwo.getMol());
 
-        buyerDate.setText(sale.getCreatedAt().toString());
+        buyerDate.setText(sale.getCreatedAtFormatted());
         buyerName.setText(invoice.getBuyer());
         sellerName.setText(invoice.getSeller());
 
