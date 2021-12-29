@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
 
     @Override
     public List<Activity> getAll() {
-        List<Activity> allActivities = new LinkedList<>();
+        List<Activity> allActivities = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
@@ -90,7 +90,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
     }
 
     public List<Activity> getByUser(User user) {
-        List<Activity> userSpecificActivities = new LinkedList<>();
+        List<Activity> userSpecificActivities = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             userSpecificActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t WHERE t.user = :user", Activity.class).setParameter("user", user).getResultList());

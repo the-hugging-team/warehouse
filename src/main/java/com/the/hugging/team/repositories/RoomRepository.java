@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class RoomRepository implements ObjectRepository<Room> {
 
     @Override
     public List<Room> getAll() {
-        List<Room> allRooms = new LinkedList<>();
+        List<Room> allRooms = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allRooms.addAll(entityManager.createQuery("SELECT t FROM Room t", Room.class).getResultList());

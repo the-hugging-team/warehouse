@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +78,7 @@ public class SaleRepository implements ObjectRepository<Sale> {
 
     @Override
     public List<Sale> getAll() {
-        List<Sale> allSales = new LinkedList<>();
+        List<Sale> allSales = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allSales.addAll(entityManager.createQuery("SELECT t FROM Sale t", Sale.class).getResultList());
@@ -102,7 +102,7 @@ public class SaleRepository implements ObjectRepository<Sale> {
     }
 
     public List<Sale> getByCashRegister(CashRegister cr) {
-        List<Sale> cashRegisterSpecificSales = new LinkedList<>();
+        List<Sale> cashRegisterSpecificSales = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             cashRegisterSpecificSales.addAll(entityManager.createQuery("SELECT t FROM Sale t WHERE t.cashRegister = :cashRegister", Sale.class).setParameter("cashRegister", cr).getResultList());

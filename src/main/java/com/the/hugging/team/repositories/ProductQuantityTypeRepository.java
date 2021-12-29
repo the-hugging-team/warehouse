@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class ProductQuantityTypeRepository implements ObjectRepository<ProductQu
 
     @Override
     public List<ProductQuantityType> getAll() {
-        List<ProductQuantityType> allProductQuantityTypes = new LinkedList<>();
+        List<ProductQuantityType> allProductQuantityTypes = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allProductQuantityTypes.addAll(entityManager.createQuery("SELECT t FROM ProductQuantityType t", ProductQuantityType.class).getResultList());

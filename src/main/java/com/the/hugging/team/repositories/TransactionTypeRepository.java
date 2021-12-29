@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class TransactionTypeRepository implements ObjectRepository<TransactionTy
 
     @Override
     public List<TransactionType> getAll() {
-        List<TransactionType> allTransactionTypes = new LinkedList<>();
+        List<TransactionType> allTransactionTypes = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allTransactionTypes.addAll(entityManager.createQuery("SELECT t FROM TransactionType t", TransactionType.class).getResultList());

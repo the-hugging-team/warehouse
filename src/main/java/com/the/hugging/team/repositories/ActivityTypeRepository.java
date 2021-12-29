@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
 
     @Override
     public List<ActivityType> getAll() {
-        List<ActivityType> allActivityTypes = new LinkedList<>();
+        List<ActivityType> allActivityTypes = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allActivityTypes.addAll(entityManager.createQuery("SELECT t FROM ActivityType t", ActivityType.class).getResultList());

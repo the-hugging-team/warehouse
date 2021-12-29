@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class UserRepository implements ObjectRepository<User> {
 
     @Override
     public List<User> getAll() {
-        List<User> allUsers = new LinkedList<>();
+        List<User> allUsers = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allUsers.addAll(entityManager.createQuery("SELECT t FROM User t", User.class).getResultList());

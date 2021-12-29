@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class ProductCategoryRepository implements ObjectRepository<ProductCatego
 
     @Override
     public List<ProductCategory> getAll() {
-        List<ProductCategory> AllProductCategory = new LinkedList<>();
+        List<ProductCategory> AllProductCategory = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             AllProductCategory.addAll(entityManager.createQuery("SELECT t FROM ProductCategory t", ProductCategory.class).getResultList());
