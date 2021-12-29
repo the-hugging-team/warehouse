@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class CompanyRepository implements ObjectRepository<Company>{
+public class CompanyRepository implements ObjectRepository<Company> {
     private final static Logger log = LogManager.getLogger(CompanyRepository.class);
     private static CompanyRepository INSTANCE = null;
     private final EntityManager entityManager = Connection.getEntityManager();
@@ -70,7 +70,7 @@ public class CompanyRepository implements ObjectRepository<Company>{
             entityManager.getTransaction().rollback();
             log.error("Get company by Id error: " + e.getMessage());
         }
-        return Optional.of(company);
+        return Optional.ofNullable(company);
     }
 
     @Override

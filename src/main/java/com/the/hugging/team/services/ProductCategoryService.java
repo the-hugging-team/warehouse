@@ -6,9 +6,8 @@ import com.the.hugging.team.repositories.ProductCategoryRepository;
 import java.util.List;
 
 public class ProductCategoryService {
-
-    private static final ProductCategoryRepository productCategoryRepository = ProductCategoryRepository.getInstance();
-    private static ProductCategoryService INSTANCE = null;
+    private static ProductCategoryService INSTANCE;
+    private final ProductCategoryRepository productCategoryRepository = ProductCategoryRepository.getInstance();
 
     public static ProductCategoryService getInstance() {
         if (INSTANCE == null) {

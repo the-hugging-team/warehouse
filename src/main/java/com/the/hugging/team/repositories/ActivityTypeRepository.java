@@ -72,7 +72,7 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
             entityManager.getTransaction().rollback();
             log.error("Get activity type by Id error: " + e.getMessage());
         }
-        return Optional.of(activityType);
+        return Optional.ofNullable(activityType);
     }
 
     @Override
@@ -87,6 +87,20 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
             log.error("Get all activity types error: " + e.getMessage());
         }
         return allActivityTypes;
+    }
+
+    public Optional<ActivityType> getBySlug(String slug)
+    {
+        ActivityType activityType = null;
+        try {
+            entityManager.getTransaction().begin();
+            activityType = entityManager.createQuery("SELECT t FROM ActivityType t where t.slug = :slug", ActivityType.class).setParameter("slug", slug).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get Activity Type by slug error: " + e.getMessage());
+        }
+        return Optional.ofNullable(activityType);
     }
 }
 

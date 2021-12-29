@@ -71,7 +71,7 @@ public class PermissionRepository implements ObjectRepository<Permission> {
             entityManager.getTransaction().rollback();
             log.error("Get permission by Id error: " + e.getMessage());
         }
-        return Optional.of(permission);
+        return Optional.ofNullable(permission);
     }
 
     @Override

@@ -71,7 +71,7 @@ public class ProductQuantityTypeRepository implements ObjectRepository<ProductQu
             entityManager.getTransaction().rollback();
             log.error("Get productQuantityType by Id error: " + e.getMessage());
         }
-        return Optional.of(productQuantityType);
+        return Optional.ofNullable(productQuantityType);
     }
 
     @Override

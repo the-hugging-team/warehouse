@@ -1,6 +1,8 @@
 package com.the.hugging.team.repositories;
 
+import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Sale;
+import com.the.hugging.team.entities.SaleProduct;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -71,7 +73,7 @@ public class SaleRepository implements ObjectRepository<Sale> {
             entityManager.getTransaction().rollback();
             log.error("Get sale by Id error: " + e.getMessage());
         }
-        return Optional.of(sale);
+        return Optional.ofNullable(sale);
     }
 
     @Override
@@ -86,6 +88,30 @@ public class SaleRepository implements ObjectRepository<Sale> {
             log.error("Get all sales error: " + e.getMessage());
         }
         return allSales;
+    }
+
+    public void saveSaleProduct(SaleProduct saleProduct) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(saleProduct);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("SaleProduct save error: " + e.getMessage());
+        }
+    }
+
+    public List<Sale> getByCashRegister(CashRegister cr) {
+        List<Sale> cashRegisterSpecificSales = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            cashRegisterSpecificSales.addAll(entityManager.createQuery("SELECT t FROM Sale t WHERE t.cashRegister = :cashRegister", Sale.class).setParameter("cashRegister", cr).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get cash register specific transactions error: " + e.getMessage());
+        }
+        return cashRegisterSpecificSales;
     }
 }
 

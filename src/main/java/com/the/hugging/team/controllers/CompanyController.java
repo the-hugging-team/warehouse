@@ -1,6 +1,8 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Company;
+import com.the.hugging.team.services.ActivityService;
+import com.the.hugging.team.services.ActivityTypeService;
 import com.the.hugging.team.services.CompanyService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.TableResizer;
@@ -19,6 +21,9 @@ import javafx.scene.layout.VBox;
 public class CompanyController extends DashboardTemplate {
 
     private final CompanyService companiesService = CompanyService.getInstance();
+    private final ActivityService activityService = ActivityService.getInstance();
+    private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
+
     @FXML
     private TableView<Company> table;
     @FXML
@@ -84,6 +89,7 @@ public class CompanyController extends DashboardTemplate {
         {
             data.add(companiesService.addCompany(company));
             table.getItems().setAll(filteredList);
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.companies.create"));
         });
     }
 
@@ -95,6 +101,7 @@ public class CompanyController extends DashboardTemplate {
         {
             companiesService.updateCompany(editedCompany);
             table.refresh();
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.companies.edit"));
         });
     }
 
@@ -106,6 +113,7 @@ public class CompanyController extends DashboardTemplate {
             data.remove(company);
             table.getItems().setAll(filteredList);
             companiesService.deleteCompany(company);
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.companies.delete"));
         }
     }
 

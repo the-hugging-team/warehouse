@@ -1,5 +1,6 @@
 package com.the.hugging.team.utils;
 
+import com.the.hugging.team.controllers.dialogs.SaleInvoiceDialog;
 import com.the.hugging.team.entities.*;
 import com.the.hugging.team.services.*;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,8 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,14 +15,18 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 public class Dialogs {
-    private static final TransactionService transactionService = TransactionService.getInstance();
+    private static final SaleService saleService = SaleService.getInstance();
     private static final ProductService productService = ProductService.getInstance();
     private static final ProductQuantityTypeService productQuantityTypeService = ProductQuantityTypeService.getInstance();
     private static final StorageService storageService = StorageService.getInstance();
     private static final ProductCategoryService productCategoryService = ProductCategoryService.getInstance();
+    private static final ActivityService activityService = ActivityService.getInstance();
 
     public static void notSelectedWarning() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -36,13 +39,25 @@ public class Dialogs {
     }
 
     public static void warningDialog(String title, String content) {
+        showWarningDialog(title, content, true);
+    }
+
+    public static void warningDialog(String title, String content, boolean showAndWait) {
+        showWarningDialog(title, content, showAndWait);
+    }
+
+    private static void showWarningDialog(String title, String content, boolean showAndWait) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         alert.setGraphic(null);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait();
+        if (showAndWait) {
+            alert.showAndWait();
+        } else {
+            alert.show();
+        }
     }
 
     public static Optional<String> singleTextInputDialog(String message, String title, String content) {
@@ -142,8 +157,7 @@ public class Dialogs {
         return dialog.showAndWait();
     }
 
-    public static Optional<Company> companyDialog(Company company, String title)
-    {
+    public static Optional<Company> companyDialog(Company company, String title) {
         Dialog<Company> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setGraphic(null);
@@ -215,14 +229,11 @@ public class Dialogs {
                 event -> {
                     if (bulstat.getText().length() != 9 &&
                             bulstat.getText().length() != 10 &&
-                            bulstat.getText().length() != 13)
-                    {
+                            bulstat.getText().length() != 13) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect EIK format!");
                         event.consume();
-                    }
-                    else if (dds.getText().length() != 11 &&
-                            dds.getText().length() != 12)
-                    {
+                    } else if (dds.getText().length() != 11 &&
+                            dds.getText().length() != 12) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect DDS number format!");
                         event.consume();
                     }
@@ -246,8 +257,7 @@ public class Dialogs {
         return dialog.showAndWait();
     }
 
-    public static Optional<Product> productDialog(Product product, String title)
-    {
+    public static Optional<Product> productDialog(Product product, String title) {
         Dialog<Product> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setGraphic(null);
@@ -383,9 +393,7 @@ public class Dialogs {
                 Double.parseDouble(retailPrice.getText());
                 Double.parseDouble(wholesalePrice.getText());
                 Double.parseDouble(deliveryPrice.getText());
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Dialogs.warningDialog("Incorrect data", "Incorrect data in the amount or price fields.");
                 event.consume();
             }
@@ -422,14 +430,14 @@ public class Dialogs {
         return dialog.showAndWait();
     }
 
-    public static void cashRegisterHistoryDialog(CashRegister cr) {
+    public static void cashRegisterSaleHistoryDialog(CashRegister cr) {
         Dialog<CashRegister> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setGraphic(null);
-        dialog.setTitle("Cash register " + cr.getId() + " history");
+        dialog.setTitle("Cash register " + cr.getId() + " sale history");
         dialog.setResizable(false);
 
-        ObservableList<Transaction> data = FXCollections.observableArrayList(transactionService.getTransactionsByCashRegister(cr));
+        ObservableList<Sale> data = FXCollections.observableArrayList(saleService.getSalesByCashRegister(cr));
 
         if (data.size() == 0) {
             dialog.setHeaderText("Nothing to show");
@@ -438,16 +446,14 @@ public class Dialogs {
             dialog.setHeaderText(null);
             dialog.getDialogPane().setPrefSize(500, 600);
 
-            FilteredList<Transaction> filteredList = new FilteredList<>(data, p -> true);
-
-            TableView<Transaction> table = new TableView<>();
-            TableColumn<Transaction, String> transaction = new TableColumn<>();
-            TableColumn<Transaction, String> operator = new TableColumn<>();
-            TableColumn<Transaction, String> time = new TableColumn<>();
+            TableView<Sale> table = new TableView<>();
+            TableColumn<Sale, String> transaction = new TableColumn<>();
+            TableColumn<Sale, String> operator = new TableColumn<>();
+            TableColumn<Sale, String> time = new TableColumn<>();
 
             transaction.setCellValueFactory(cellData ->
-                    new SimpleStringProperty((cellData.getValue().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
-                            + cellData.getValue().getAmount().toString()));
+                    new SimpleStringProperty((cellData.getValue().getTransaction().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
+                            + cellData.getValue().getTransaction().getAmount().toString()));
             transaction.setText("Transaction");
 
             operator.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedBy().getFirstName() + " " +
@@ -459,7 +465,88 @@ public class Dialogs {
 
             table.getColumns().addAll(transaction, time, operator);
             table.setEditable(false);
-            table.getItems().setAll(filteredList);
+            table.getItems().setAll(data);
+            int columns = table.getColumns().size();
+            for (int i = 0; i < columns; i++) {
+                table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);
+                table.getColumns().get(i).setReorderable(false);
+                table.getColumns().get(i).setResizable(false);
+            }
+
+            table.setRowFactory(tv -> {
+                final TableRow<Sale> row = new TableRow<>();
+
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                        try {
+                            invoiceBySaleDialog(table.getSelectionModel().getSelectedItem());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                return row;
+            });
+
+            dialog.getDialogPane().setContent(table);
+        }
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        dialog.show();
+    }
+
+    private static void invoiceBySaleDialog(Sale sale) throws IOException {
+        Dialog<Invoice> dialog = new Dialog<>();
+
+        if (sale.getInvoice() == null) {
+            ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+            dialog.setGraphic(null);
+            dialog.setTitle("Invoice " + sale.getInvoice().getId());
+            dialog.setResizable(false);
+            dialog.setHeaderText("There is no invoice for this sale");
+            dialog.getDialogPane().setPrefWidth(500);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+            dialog.show();
+        } else {
+            SaleInvoiceDialog saleInvoiceDialog = new SaleInvoiceDialog(sale, dialog.getOwner());
+            saleInvoiceDialog.show();
+        }
+    }
+
+    public static void userActivitiesDialog(User user) {
+        Dialog<Activity> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle("Activities of " + user.getFirstName() + ' ' + user.getLastName());
+        dialog.setResizable(false);
+
+        Comparator<Activity> activityComparator = Comparator.comparing(Activity::getCreatedAt);
+
+        List<Activity> sortedActivities = activityService.getActivitiesByUser(user);
+        sortedActivities.sort(activityComparator.reversed());
+
+        ObservableList<Activity> data = FXCollections.observableArrayList(sortedActivities);
+
+        if (data.size() == 0) {
+            dialog.setHeaderText("Nothing to show");
+            dialog.getDialogPane().setPrefWidth(500);
+        } else {
+            dialog.setHeaderText(null);
+            dialog.getDialogPane().setPrefSize(500, 600);
+
+            TableView<Activity> table = new TableView<>();
+            TableColumn<Activity, String> name = new TableColumn<>();
+            TableColumn<Activity, String> time = new TableColumn<>();
+
+            name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActivityType().getName()));
+            name.setText("Activity");
+
+            time.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedAt().toString()));
+            time.setText("Time");
+
+            table.getColumns().addAll(name, time);
+            table.setEditable(false);
+            table.getItems().setAll(data);
             int columns = table.getColumns().size();
             for (int i = 0; i < columns; i++) {
                 table.getColumns().get(i).setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) / columns);

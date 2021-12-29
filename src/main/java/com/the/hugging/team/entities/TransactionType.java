@@ -18,6 +18,9 @@ import java.util.Objects;
 @ToString
 @Entity
 public class TransactionType implements Serializable {
+
+    public static final String SELL = "transaction_types.sell";
+    public static final String DELIVERY = "transaction_types.buy";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -72,7 +72,7 @@ public class ProductRepository implements ObjectRepository<Product> {
             entityManager.getTransaction().rollback();
             log.error("Get product by Id error: " + e.getMessage());
         }
-        return Optional.of(product);
+        return Optional.ofNullable(product);
     }
 
     @Override
@@ -100,6 +100,39 @@ public class ProductRepository implements ObjectRepository<Product> {
             log.error("Get products by shelf error: " + e.getMessage());
         }
         return products;
+    }
+
+    public List<Product> getByProductCategoryType(String productCategoryTypeSlug) {
+        List<Product> products = new LinkedList<>();
+        try {
+            entityManager.getTransaction().begin();
+            products.addAll(
+                    entityManager.createQuery("SELECT t FROM Product t WHERE t.productCategory.slug = :productCategoryTypeSlug", Product.class)
+                            .setParameter("productCategoryTypeSlug", productCategoryTypeSlug)
+                            .getResultList()
+            );
+            for (Product product : products) {
+                entityManager.detach(product);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get products by productCategoryType error: " + e.getMessage());
+        }
+        return products;
+    }
+
+    public Product getProductById(int id) {
+        Product product = new Product();
+        try {
+            entityManager.getTransaction().begin();
+            product = entityManager.createQuery("SELECT t FROM Product t WHERE t.id = :id", Product.class).setParameter("id", id).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get product by id error: " + e.getMessage());
+        }
+        return product;
     }
 }
 

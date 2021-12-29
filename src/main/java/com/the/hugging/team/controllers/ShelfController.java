@@ -2,6 +2,8 @@ package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.services.ActivityService;
+import com.the.hugging.team.services.ActivityTypeService;
 import com.the.hugging.team.services.StorageService;
 import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
@@ -19,7 +21,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("DuplicatedCode")
@@ -28,6 +29,9 @@ public class ShelfController extends WindowHandler {
     private final StorageService storageService = StorageService.getInstance();
     private final Session session = Session.getInstance();
     private final User user = session.getUser();
+    private final ActivityService activityService = ActivityService.getInstance();
+    private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
+
     @FXML
     private TableView<Object> table;
     @FXML
@@ -83,6 +87,7 @@ public class ShelfController extends WindowHandler {
         {
             data.add(storageService.addShelf(name, Session.getInstance().getSelectedRoom()));
             table.getItems().setAll(filteredList);
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.storage.create"));
         });
     }
 
@@ -94,6 +99,7 @@ public class ShelfController extends WindowHandler {
         {
             storageService.setShelfName(shelf, name);
             table.refresh();
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.storage.edit"));
         });
     }
 
@@ -105,6 +111,7 @@ public class ShelfController extends WindowHandler {
             data.remove(shelf);
             table.getItems().setAll(filteredList);
             storageService.deleteShelf(shelf);
+            activityService.addActivity(activityTypeService.getActivityTypeBySlug("activity-types.storage.delete"));
         }
     }
 

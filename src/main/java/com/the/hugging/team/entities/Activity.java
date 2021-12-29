@@ -1,5 +1,6 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Table(name = "activities", indexes = {
@@ -34,7 +35,16 @@ public class Activity {
     private User user;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private Timestamp createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null)
+            createdAt = new Timestamp(System.currentTimeMillis());
+
+        if (user == null)
+            user = Session.getInstance().getUser();
+    }
 
     @Override
     public boolean equals(Object o) {

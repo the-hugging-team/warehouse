@@ -1,5 +1,8 @@
 package com.the.hugging.team.entities;
 
+import com.the.hugging.team.repositories.InvoiceRepository;
+import com.the.hugging.team.repositories.TransactionRepository;
+import com.the.hugging.team.utils.Session;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,11 +11,12 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Table(name = "deliveries", indexes = {
-        @Index(name = "fk_created_by_idx", columnList = "created_by"),
-        @Index(name = "fk_updated_by_idx", columnList = "updated_by")
+        @Index(name = "fk_created_by_idx", columnList = "created_by")
 })
 @Getter
 @Setter
@@ -25,22 +29,37 @@ public class Delivery {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "invoice_id", nullable = false)
-    private Integer invoiceId;
+    @OneToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    private Invoice invoice;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
-    @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+    @OneToOne
+    @JoinColumn(name = "transaction_id", nullable = false)
+    private Transaction transaction;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "updated_by", nullable = false)
-    private User updatedBy;
+    @OneToMany(mappedBy = "delivery")
+    @ToString.Exclude
+    private Set<DeliveryProduct> deliveryProducts = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        createdBy = Session.getInstance().getUser();
+
+        if (invoice != null && invoice.getId() == null) {
+            InvoiceRepository.getInstance().save(invoice);
+        }
+
+        if (transaction != null && transaction.getId() == null) {
+            TransactionRepository.getInstance().save(transaction);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -52,6 +71,6 @@ public class Delivery {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, invoiceId, createdAt, updatedAt, createdBy, updatedBy);
+        return Objects.hash(id, invoice, createdAt, createdBy);
     }
 }

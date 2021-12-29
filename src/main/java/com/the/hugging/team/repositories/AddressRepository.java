@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class AddressRepository implements ObjectRepository<Address>{
+public class AddressRepository implements ObjectRepository<Address> {
 
     private final static Logger log = LogManager.getLogger(AddressRepository.class);
     private static AddressRepository INSTANCE = null;
@@ -71,7 +71,7 @@ public class AddressRepository implements ObjectRepository<Address>{
             entityManager.getTransaction().rollback();
             log.error("Get address by Id error: " + e.getMessage());
         }
-        return Optional.of(address);
+        return Optional.ofNullable(address);
     }
 
     @Override
@@ -86,5 +86,19 @@ public class AddressRepository implements ObjectRepository<Address>{
             log.error("Get all addresses error: " + e.getMessage());
         }
         return allAddresses;
+    }
+
+    public Optional<Address> getByAddress(String addressString) {
+        Address address = null;
+        try {
+            entityManager.getTransaction().begin();
+            address = entityManager.createQuery("SELECT t FROM Address t WHERE t.address = :addressString", Address.class).setParameter("addressString", addressString).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get address by address error: " + e.getMessage());
+        }
+
+        return Optional.ofNullable(address);
     }
 }
