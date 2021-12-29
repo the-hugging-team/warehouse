@@ -50,7 +50,7 @@ public class UserServiceTest {
 
     @Test//TODO needs to be reworked
     @DisplayName("Should add new user")
-    void shouldAddNewUser(){
+    void shouldAddNewUser() {
         User user = new User();
         user.setFirstName("Admin");
         user.setLastName("");
@@ -59,6 +59,6 @@ public class UserServiceTest {
         user.setSex(1);
         user.setId(1);
 
-        Assertions.assertEquals(user,UserService.getInstance().addUser(user));
+        Assertions.assertEquals(user, UserService.getInstance().addUser(user));
     }
 }
