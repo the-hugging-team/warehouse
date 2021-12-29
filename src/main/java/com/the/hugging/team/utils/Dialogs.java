@@ -17,7 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.List;
 
 public class Dialogs {
     private static final SaleService saleService = SaleService.getInstance();
@@ -344,7 +346,12 @@ public class Dialogs {
         dialog.setTitle("Activities of " + user.getFirstName() + ' ' + user.getLastName());
         dialog.setResizable(false);
 
-        ObservableList<Activity> data = FXCollections.observableArrayList(activityService.getActivitiesByUser(user));
+        Comparator<Activity> activityComparator = Comparator.comparing(Activity::getCreatedAt);
+
+        List<Activity> sortedActivities = activityService.getActivitiesByUser(user);
+        sortedActivities.sort(activityComparator.reversed());
+
+        ObservableList<Activity> data = FXCollections.observableArrayList(sortedActivities);
 
         if (data.size() == 0) {
             dialog.setHeaderText("Nothing to show");
