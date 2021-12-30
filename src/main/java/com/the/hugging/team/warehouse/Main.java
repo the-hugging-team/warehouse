@@ -24,6 +24,11 @@ public class Main extends Application {
 
     @Override
     public void stop() {
-        Connection.closeEMF();
+
+        try {
+            Connection.closeEMF();
+        } catch (Exception e) {
+            Log.info("Could not close EMF");
+        }
     }
 }

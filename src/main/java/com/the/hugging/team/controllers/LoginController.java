@@ -16,11 +16,9 @@ import javafx.scene.layout.Pane;
 
 
 public class LoginController extends WindowHandler {
-    private final UserService userService = UserService.getInstance();
-    private final String invalidDataMessage = "Invalid username or password";
-    private final Label invalidDataLabel = new Label(invalidDataMessage);
-    Session session = Session.getInstance();
-
+    private Session session;
+    private UserService userService;
+    private Label errorMessageLabel;
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -43,6 +41,21 @@ public class LoginController extends WindowHandler {
                 (observableValue, oldAnchorWidth, newAnchorWidth) -> formpane.setLayoutX((newAnchorWidth.doubleValue() / 2) - (backgroundpane.getPrefWidth() / 2)));
         anchor.heightProperty().addListener(
                 (observableValue, oldAnchorHeight, newAnchorHeight) -> formpane.setLayoutY((newAnchorHeight.doubleValue() / 2) - (backgroundpane.getPrefHeight() / 2)));
+
+        try {
+            userService = UserService.getInstance();
+            session = Session.getInstance();
+        } catch (Exception e) {
+            String noConnectionMessage = "Unable to connect to Database";
+            errorMessageLabel = new Label(noConnectionMessage);
+            formpane.getChildren().add(errorMessageLabel);
+            errorMessageLabel.getStyleClass().addAll("errorlabel", "font-extra-bold");
+            errorMessageLabel.setLayoutX(140);
+            errorMessageLabel.setLayoutY(150);
+            usernamefield.setDisable(true);
+            passwordfield.setDisable(true);
+            loginbutton.setDisable(true);
+        }
     }
 
     public void login(ActionEvent event) {
@@ -54,11 +67,13 @@ public class LoginController extends WindowHandler {
             dashboardWindow.setAsNextStage(event);
             dashboardWindow.showStage();
         } else {
-            if (!formpane.getChildren().contains(invalidDataLabel)) {
-                formpane.getChildren().add(invalidDataLabel);
-                invalidDataLabel.getStyleClass().addAll("errorlabel", "font-italic");
-                invalidDataLabel.setLayoutX(150);
-                invalidDataLabel.setLayoutY(150);
+            if (!formpane.getChildren().contains(errorMessageLabel)) {
+                String invalidDataMessage = "Invalid username or password";
+                errorMessageLabel = new Label(invalidDataMessage);
+                formpane.getChildren().add(errorMessageLabel);
+                errorMessageLabel.getStyleClass().addAll("errorlabel", "font-italic");
+                errorMessageLabel.setLayoutX(150);
+                errorMessageLabel.setLayoutY(150);
             }
         }
     }
