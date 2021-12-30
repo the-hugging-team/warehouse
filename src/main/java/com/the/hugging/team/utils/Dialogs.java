@@ -324,7 +324,22 @@ public class Dialogs {
         quantityType.setConverter(productQuantityTypeConverter);
         quantityType.getSelectionModel().selectFirst();
 
-        ChoiceBox<Shelf> shelf = new ChoiceBox<>(FXCollections.observableArrayList(storageService.getAllShelves()));
+        ChoiceBox<Room> room = new ChoiceBox<>(FXCollections.observableArrayList(storageService.getAllRooms()));
+        StringConverter<Room> roomStringConverter = new StringConverter<>() {
+            @Override
+            public String toString(Room room) {
+                return room.getName();
+            }
+
+            @Override
+            public Room fromString(String s) {
+                return null;
+            }
+        };
+        room.setConverter(roomStringConverter);
+        room.getSelectionModel().selectFirst();
+
+        ChoiceBox<Shelf> shelf = new ChoiceBox<>(FXCollections.observableArrayList(storageService.getShelvesByRoom(room.getSelectionModel().getSelectedItem())));
         StringConverter<Shelf> shelfStringConverter = new StringConverter<>() {
             @Override
             public String toString(Shelf shelf) {
@@ -336,8 +351,12 @@ public class Dialogs {
                 return null;
             }
         };
-        shelf.setConverter(shelfStringConverter);
-        shelf.getSelectionModel().selectFirst();
+
+        room.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (newValue != oldValue)
+                shelf.getItems().setAll(storageService.getShelvesByRoom(room.getSelectionModel().getSelectedItem()));
+        });
 
         if (product.getId() != null) {
             productName.setText(product.getName());
@@ -349,7 +368,11 @@ public class Dialogs {
             deliveryPrice.setText(product.getDeliveryPrice().toString());
             quantityType.getSelectionModel().select(product.getProductQuantityType());
             shelf.getSelectionModel().select(product.getShelf());
+            room.getSelectionModel().select(product.getShelf().getRoom());
         }
+
+        shelf.setConverter(shelfStringConverter);
+        shelf.getSelectionModel().selectFirst();
 
         grid.add(new Label("Product Name:"), 0, 0);
         grid.add(productName, 1, 0);
@@ -375,8 +398,11 @@ public class Dialogs {
         grid.add(new Label("Delivery price:"), 0, 7);
         grid.add(deliveryPrice, 1, 7);
 
-        grid.add(new Label("Shelf:"), 0, 8);
-        grid.add(shelf, 1, 8);
+        grid.add(new Label("Room:"), 0, 8);
+        grid.add(room, 1, 8);
+
+        grid.add(new Label("Shelf:"), 0, 9);
+        grid.add(shelf, 1, 9);
 
         dialog.getDialogPane().setContent(grid);
 
