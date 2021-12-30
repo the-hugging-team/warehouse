@@ -514,12 +514,7 @@ public class Dialogs {
         dialog.setTitle("Activities of " + user.getFirstName() + ' ' + user.getLastName());
         dialog.setResizable(false);
 
-        Comparator<Activity> activityComparator = Comparator.comparing(Activity::getCreatedAt);
-
-        List<Activity> sortedActivities = activityService.getActivitiesByUser(user);
-        sortedActivities.sort(activityComparator.reversed());
-
-        ObservableList<Activity> data = FXCollections.observableArrayList(sortedActivities);
+        ObservableList<Activity> data = FXCollections.observableArrayList(activityService.getActivitiesByUser(user));
 
         if (data.size() == 0) {
             dialog.setHeaderText("Nothing to show");

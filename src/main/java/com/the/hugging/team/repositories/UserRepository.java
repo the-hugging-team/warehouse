@@ -79,7 +79,7 @@ public class UserRepository implements ObjectRepository<User> {
         List<User> allUsers = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            allUsers.addAll(entityManager.createQuery("SELECT t FROM User t", User.class).getResultList());
+            allUsers.addAll(entityManager.createQuery("SELECT t FROM User t ORDER BY t.createdAt DESC", User.class).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
