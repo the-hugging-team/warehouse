@@ -2,15 +2,18 @@ package com.the.hugging.team.warehouse;
 
 import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.User;
-import com.the.hugging.team.repositories.UserRepository;
 import com.the.hugging.team.services.RoleService;
 import com.the.hugging.team.services.UserService;
 import org.junit.jupiter.api.*;
 
-import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserServiceTest {
+
+    private static User newUser;
+    private static Role admin;
+    private static Role operator;
+    private final UserService userService = UserService.getInstance();
 
     public static String generateRandomString(int from, int to) {
         StringBuilder randomString = new StringBuilder();
@@ -22,12 +25,6 @@ public class UserServiceTest {
         }
         return randomString.toString();
     }
-
-    private static User newUser;
-    private final UserService userService = UserService.getInstance();
-
-    private static Role admin;
-    private static Role operator;
 
     @BeforeAll
     public static void setUp() {
@@ -72,7 +69,7 @@ public class UserServiceTest {
         User user = new User();
         user.setFirstName("test");
         user.setLastName("test");
-        user.setUsername(generateRandomString(1,5));
+        user.setUsername(generateRandomString(1, 5));
         user.setRole(operator);
         user.setSex(1);
         user.setCreatedBy(userService.getUser(1));
@@ -86,10 +83,10 @@ public class UserServiceTest {
     @Test
     @Order(4)
     @DisplayName("Should update user")
-    void shouldUpdateUser(){
+    void shouldUpdateUser() {
         newUser.setUsername("testUPDATE");
         userService.updateUser(newUser);
 
-        Assertions.assertEquals("testUPDATE",newUser.getUsername());
+        Assertions.assertEquals("testUPDATE", newUser.getUsername());
     }
 }

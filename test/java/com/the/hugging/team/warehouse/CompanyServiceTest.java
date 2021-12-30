@@ -5,7 +5,6 @@ import com.the.hugging.team.entities.Company;
 import com.the.hugging.team.services.CompanyService;
 import org.junit.jupiter.api.*;
 
-import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CompanyServiceTest {
@@ -46,6 +45,6 @@ public class CompanyServiceTest {
         newCompany.setName("testUPDATE");
         companyService.updateCompany(newCompany);
 
-        Assertions.assertEquals("testUPDATE",newCompany.getName());
+        Assertions.assertEquals("testUPDATE", newCompany.getName());
     }
 }

@@ -1,7 +1,6 @@
 package com.the.hugging.team.warehouse;
 
 import com.the.hugging.team.entities.Product;
-import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.services.ProductCategoryService;
 import com.the.hugging.team.services.ProductQuantityTypeService;
 import com.the.hugging.team.services.ProductService;
@@ -17,7 +16,7 @@ public class ProductServiceTest {
     @Test
     @Order(1)
     @DisplayName("Should add product")
-    void shouldAddProduct(){
+    void shouldAddProduct() {
         Product product = new Product();
         product.setName("test");
         product.setNomenclature("test");
@@ -40,7 +39,7 @@ public class ProductServiceTest {
         newProduct.setName("testUPDATE");
         productService.updateProduct(newProduct);
 
-        Assertions.assertEquals("testUPDATE",newProduct.getName());
+        Assertions.assertEquals("testUPDATE", newProduct.getName());
     }
 
     @Test
