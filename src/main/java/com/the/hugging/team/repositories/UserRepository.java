@@ -1,5 +1,6 @@
 package com.the.hugging.team.repositories;
 
+import com.the.hugging.team.entities.Role;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
@@ -7,9 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserRepository implements ObjectRepository<User> {
 
@@ -103,5 +102,18 @@ public class UserRepository implements ObjectRepository<User> {
             log.error("Get User by username error: " + e.getMessage());
         }
         return authUser;
+    }
+
+    public List<User> getByRoles(Set<Role> roles) {
+        List<User> users = new ArrayList<>();
+        try {
+            entityManager.getTransaction().begin();
+            users.addAll(entityManager.createQuery("SELECT t FROM User t WHERE t.role IN (:roles)", User.class).setParameter("roles", roles).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get users error: " + e.getMessage());
+        }
+        return users;
     }
 }

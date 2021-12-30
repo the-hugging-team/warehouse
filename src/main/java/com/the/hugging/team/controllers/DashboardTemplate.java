@@ -11,6 +11,7 @@ import com.the.hugging.team.utils.wizard.events.EventSource;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ public class DashboardTemplate extends WindowHandler {
     private final User user = session.getUser();
     private final NotificationService notificationService = NotificationService.getInstance();
 
-    private ObservableList<Notification> notifications;
+    private ObservableList<Notification> notifications = FXCollections.observableArrayList();
 
     @FXML
     private AnchorPane workspace;
@@ -221,9 +222,10 @@ public class DashboardTemplate extends WindowHandler {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     List<Notification> notificationsList = notificationService.getUnreadUserNotifications(user);
-                    if (notificationsList.size() > 0) {
-                        notifications.setAll(notificationsList);
-                    }
+
+                    notifications.setAll(notificationsList);
+
+                    //noinspection BusyWait
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -234,11 +236,15 @@ public class DashboardTemplate extends WindowHandler {
         notificationThread.setDaemon(true);
         notificationThread.start();
 
-        notifications.addListener((ListChangeListener<Notification>) c -> {
-            if (notifications.size() > 0) {
-                notificationsButton.getStyleClass().add("menu-button-notifications-active");
-            } else {
-                notificationsButton.getStyleClass().remove("menu-button-notifications-active");
+        notifications.addListener((ListChangeListener<Notification>) change -> {
+            while (change.next()) {
+                if (change.wasReplaced() || change.wasAdded()) {
+                    if (!notificationsButton.getStyleClass().contains("menu-button-notifications-active")) {
+                        notificationsButton.getStyleClass().add("menu-button-notifications-active");
+                    }
+                } else if (change.wasRemoved()) {
+                    notificationsButton.getStyleClass().remove("menu-button-notifications-active");
+                }
             }
         });
     }

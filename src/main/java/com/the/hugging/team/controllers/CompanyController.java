@@ -1,11 +1,14 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Company;
+import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.ActivityService;
 import com.the.hugging.team.services.ActivityTypeService;
 import com.the.hugging.team.services.CompanyService;
 import com.the.hugging.team.utils.Dialogs;
+import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.TableResizer;
+import com.the.hugging.team.utils.WindowHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,11 +21,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class CompanyController extends DashboardTemplate {
+public class CompanyController extends WindowHandler {
 
     private final CompanyService companiesService = CompanyService.getInstance();
     private final ActivityService activityService = ActivityService.getInstance();
     private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
+    private final User user = Session.getInstance().getUser();
 
     @FXML
     private TableView<Company> table;

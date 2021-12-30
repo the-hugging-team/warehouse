@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,4 +28,8 @@ public class NotificationType {
     @ManyToOne(optional = false)
     @JoinColumn(name = "notification_template_id", nullable = false)
     private NotificationTemplate notificationTemplate;
+
+    @ManyToMany(mappedBy = "notificationTypes")
+    @ToString.Exclude
+    private Set<Role> roles;
 }

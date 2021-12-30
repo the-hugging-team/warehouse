@@ -72,6 +72,14 @@ Light Blue - #8ecae6
     -fx-fill: WHITE;
 }
 
+.menu-button-notifications-active {
+    -fx-background-color: #ffb703;
+}
+
+.menu-button-notifications-active .menu-icon {
+    -fx-fill: WHITE;
+}
+
 /*    Dropdown buttons start    */
 
 .menu-button-dropdown-container {
