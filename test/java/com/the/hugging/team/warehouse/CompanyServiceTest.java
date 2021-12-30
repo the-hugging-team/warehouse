@@ -2,20 +2,19 @@ package com.the.hugging.team.warehouse;
 
 import com.the.hugging.team.entities.Address;
 import com.the.hugging.team.entities.Company;
-import com.the.hugging.team.repositories.CompanyRepository;
 import com.the.hugging.team.services.CompanyService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CompanyServiceTest {
 
     private static Company newCompany;
     private final CompanyService companyService = CompanyService.getInstance();
 
     @Test
+    @Order(1)
     @DisplayName("Should add new company")
     void shouldAddNewCompany() {
         Address newAddress = new Address();
@@ -32,6 +31,7 @@ public class CompanyServiceTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("Should delete company")
     void shouldDeleteCompany() {
         companyService.deleteCompany(newCompany);
@@ -40,13 +40,12 @@ public class CompanyServiceTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("Should update company")
     void shouldUpdateCompany() {
-        List<Company> companies = CompanyRepository.getInstance().getAll();
-        Company existingCompany = companies.get(1);
-        existingCompany.setName("testUPDATE");
-        companyService.updateCompany(existingCompany);
+        newCompany.setName("testUPDATE");
+        companyService.updateCompany(newCompany);
 
-        Assertions.assertTrue(companyService.getAllCompanies().contains(existingCompany));
+        Assertions.assertEquals("testUPDATE",newCompany.getName());
     }
 }

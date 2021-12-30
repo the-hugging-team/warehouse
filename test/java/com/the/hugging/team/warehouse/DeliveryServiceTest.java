@@ -17,14 +17,13 @@ public class DeliveryServiceTest {
     private static User newUser = UserRepository.getInstance().getById(2).orElse(null);
     private final DeliveryService deliveryService = DeliveryService.getInstance();
 
-    @Test
+    @Test//TODO
     @DisplayName("Should add delivery")
     void shouldAddDelivery(){
         Delivery delivery = new Delivery();
         delivery.setInvoice(newInvoice);
         delivery.setTransaction(newTransaction);
         //delivery.setDeliveryProducts(newDeliveryProducts);
-        //delivery.setCreatedAt();
         delivery.setCreatedBy(newUser);
     }
 
