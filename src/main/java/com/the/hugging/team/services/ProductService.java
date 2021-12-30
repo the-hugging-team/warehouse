@@ -10,6 +10,7 @@ import java.util.List;
 public class ProductService {
 
     private static final ProductRepository productRepository = ProductRepository.getInstance();
+    private static final NotificationService notificationService = NotificationService.getInstance();
     private static ProductService INSTANCE = null;
 
     public static ProductService getInstance() {
@@ -31,6 +32,11 @@ public class ProductService {
     public void updateProductsFromSellBean(ObservableList<Product> products) {
         for (Product beanProduct : products) {
             productRepository.update(beanProduct);
+
+            if (beanProduct.getQuantity() <= 3 && beanProduct.getQuantity() != 0)
+                notificationService.sendNotification(notificationService.getNotificationTypeBySlug("notification_types.product_reached_minimum_amount"), beanProduct.getName());
+            else if (beanProduct.getQuantity() == 0)
+                notificationService.sendNotification(notificationService.getNotificationTypeBySlug("notification_types.product_out_of_stock"), beanProduct.getName());
         }
     }
 
