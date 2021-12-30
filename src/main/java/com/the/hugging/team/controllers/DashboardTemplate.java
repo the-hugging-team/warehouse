@@ -3,6 +3,7 @@ package com.the.hugging.team.controllers;
 import com.the.hugging.team.entities.Notification;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.NotificationService;
+import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
@@ -24,6 +25,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.List;
 
 public class DashboardTemplate extends WindowHandler {
@@ -210,7 +213,11 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     public void showNotifications(ActionEvent event)
     {
-
+        Dialogs.notificationsDialog(notifications);
+        notifications.forEach(notification  ->
+        {
+            if (notification.getReadAt() == null) notification.setReadAt(new Timestamp(System.currentTimeMillis()));
+        });
     }
 
     public void logout(ActionEvent e) {
@@ -227,7 +234,9 @@ public class DashboardTemplate extends WindowHandler {
         Thread notificationThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    List<Notification> notificationsList = notificationService.getUnreadUserNotifications(user);
+                    Comparator<Notification> notificationComparator = Comparator.comparing(Notification::getCreatedAt);
+                    List<Notification> notificationsList = notificationService.getAllUserNotifications(user);
+                    notificationsList.sort(notificationComparator.reversed());
 
                     notifications.setAll(notificationsList);
 
