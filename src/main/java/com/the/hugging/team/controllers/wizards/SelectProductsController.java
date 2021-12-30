@@ -23,6 +23,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
 
@@ -158,9 +160,10 @@ public class SelectProductsController extends WindowHandler {
     }
 
     private void setupCommonColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType) {
+
         nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomenclature()));
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        quantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getQuantity()).asObject());
+        quantity.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getQuantity()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
         quantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
     }
 
@@ -169,10 +172,10 @@ public class SelectProductsController extends WindowHandler {
 
 
         if (paymentBean.getBeanType().equals(PaymentBean.BeanType.SELL)) {
-            retailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRetailPrice()).asObject());
-            wholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getWholesalePrice()).asObject());
+            retailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+            wholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
         } else if (paymentBean.getBeanType().equals(PaymentBean.BeanType.DELIVERY)) {
-            searchDeliveryPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDeliveryPrice()).asObject());
+            searchDeliveryPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDeliveryPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
         }
 
     }
@@ -180,10 +183,10 @@ public class SelectProductsController extends WindowHandler {
     private void setupSellColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> retailPrice, TableColumn<Product, Double> retailPriceDDS, TableColumn<Product, Double> totalRetailPrice, TableColumn<Product, Double> wholesalePrice, TableColumn<Product, Double> wholesalePriceDDS, TableColumn<Product, Double> totalWholesalePrice) {
         setupColumns(nomenclature, name, quantity, quantityType, retailPrice, wholesalePrice);
 
-        productsRetailDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsRetailPrice()).asObject());
-        productsTotalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalRetailPrice()).asObject());
-        productsWholesaleDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDdsWholesalePrice()).asObject());
-        productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalWholesalePrice()).asObject());
+        productsRetailDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDdsRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        productsTotalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        productsWholesaleDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDdsWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getTotalWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
     }
 
     private void setupDeliveryColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> deliveryPrice) {

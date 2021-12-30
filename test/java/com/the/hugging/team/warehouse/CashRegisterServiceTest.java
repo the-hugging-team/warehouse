@@ -26,4 +26,5 @@ public class CashRegisterServiceTest {
 
         Assertions.assertFalse(cashRegisterService.getAllCashRegisters().contains(cashRegister));
     }
+
 }

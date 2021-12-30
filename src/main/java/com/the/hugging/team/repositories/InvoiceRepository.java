@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class InvoiceRepository implements ObjectRepository<Invoice> {
 
     @Override
     public List<Invoice> getAll() {
-        List<Invoice> allInvoices = new LinkedList<>();
+        List<Invoice> allInvoices = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allInvoices.addAll(entityManager.createQuery("SELECT t FROM Invoice t", Invoice.class).getResultList());

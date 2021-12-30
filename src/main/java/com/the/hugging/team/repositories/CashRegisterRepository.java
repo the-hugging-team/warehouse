@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class CashRegisterRepository implements ObjectRepository<CashRegister> {
 
     @Override
     public List<CashRegister> getAll() {
-        List<CashRegister> allCashRegisters = new LinkedList<>();
+        List<CashRegister> allCashRegisters = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allCashRegisters.addAll(entityManager.createQuery("SELECT t FROM CashRegister t", CashRegister.class).getResultList());

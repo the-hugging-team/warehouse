@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class ShelfRepository implements ObjectRepository<Shelf> {
 
     @Override
     public List<Shelf> getAll() {
-        List<Shelf> allShelves = new LinkedList<>();
+        List<Shelf> allShelves = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allShelves.addAll(entityManager.createQuery("SELECT t FROM Shelf t", Shelf.class).getResultList());

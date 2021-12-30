@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +76,7 @@ public class AddressRepository implements ObjectRepository<Address> {
 
     @Override
     public List<Address> getAll() {
-        List<Address> allAddresses = new LinkedList<>();
+        List<Address> allAddresses = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allAddresses.addAll(entityManager.createQuery("SELECT t FROM Address t", Address.class).getResultList());

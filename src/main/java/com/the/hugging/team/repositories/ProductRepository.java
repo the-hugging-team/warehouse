@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class ProductRepository implements ObjectRepository<Product> {
 
     @Override
     public List<Product> getAll() {
-        List<Product> AllProducts = new LinkedList<>();
+        List<Product> AllProducts = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             AllProducts.addAll(entityManager.createQuery("SELECT t FROM Product t", Product.class).getResultList());
@@ -90,7 +90,7 @@ public class ProductRepository implements ObjectRepository<Product> {
     }
 
     public List<Product> getByShelf(Shelf shelf) {
-        List<Product> products = new LinkedList<>();
+        List<Product> products = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             products.addAll(entityManager.createQuery("SELECT t FROM Product t WHERE t.shelf = :shelf", Product.class).setParameter("shelf", shelf).getResultList());
@@ -103,7 +103,7 @@ public class ProductRepository implements ObjectRepository<Product> {
     }
 
     public List<Product> getByProductCategoryType(String productCategoryTypeSlug) {
-        List<Product> products = new LinkedList<>();
+        List<Product> products = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             products.addAll(

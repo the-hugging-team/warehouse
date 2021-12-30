@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class TransactionRepository implements ObjectRepository<Transaction> {
 
     @Override
     public List<Transaction> getAll() {
-        List<Transaction> allTransactions = new LinkedList<>();
+        List<Transaction> allTransactions = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allTransactions.addAll(entityManager.createQuery("SELECT t FROM Transaction t", Transaction.class).getResultList());
@@ -90,7 +90,7 @@ public class TransactionRepository implements ObjectRepository<Transaction> {
     }
 
     public List<Transaction> getByCashRegister(CashRegister cr) {
-        List<Transaction> cashRegisterSpecificTransactions = new LinkedList<>();
+        List<Transaction> cashRegisterSpecificTransactions = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             cashRegisterSpecificTransactions.addAll(entityManager.createQuery("SELECT t FROM Transaction t WHERE t.cashRegister = :cashRegister", Transaction.class).setParameter("cashRegister", cr).getResultList());

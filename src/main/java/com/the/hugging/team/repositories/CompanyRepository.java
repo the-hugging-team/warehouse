@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,7 +75,7 @@ public class CompanyRepository implements ObjectRepository<Company> {
 
     @Override
     public List<Company> getAll() {
-        List<Company> allCompanies = new LinkedList<>();
+        List<Company> allCompanies = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             allCompanies.addAll(entityManager.createQuery("SELECT t FROM Company t", Company.class).getResultList());

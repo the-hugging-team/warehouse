@@ -229,13 +229,10 @@ public class Dialogs {
         okButton.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    if (bulstat.getText().length() != 9 &&
-                            bulstat.getText().length() != 10 &&
-                            bulstat.getText().length() != 13) {
+                    if (!bulstat.getText().matches("[0-9]{9}|[0-9]{10}|[0-9]{13}")) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect EIK format!");
                         event.consume();
-                    } else if (dds.getText().length() != 11 &&
-                            dds.getText().length() != 12) {
+                    } else if (!dds.getText().matches("BG[0-9]{9}")) {
                         Dialogs.warningDialog("Incorrect data", "Incorrect DDS number format!");
                         event.consume();
                     }
@@ -354,10 +351,6 @@ public class Dialogs {
             shelf.getSelectionModel().select(product.getShelf());
         }
 
-        TextField newQuantityTypeName = new TextField();
-        newQuantityTypeName.setPromptText("New quantity type name");
-        newQuantityTypeName.setText(null);
-
         grid.add(new Label("Product Name:"), 0, 0);
         grid.add(productName, 1, 0);
 
@@ -403,7 +396,6 @@ public class Dialogs {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
-                //make product entity
                 double newAmount, newRetailPrice, newWholesalePrice, newDeliveryPrice;
                 newAmount = Double.parseDouble(quantityAmount.getText());
                 newRetailPrice = Double.parseDouble(retailPrice.getText());
@@ -455,7 +447,7 @@ public class Dialogs {
 
             transaction.setCellValueFactory(cellData ->
                     new SimpleStringProperty((cellData.getValue().getTransaction().getTransactionType().getSlug().equals("transaction_types.sell") ? "+" : "-")
-                            + cellData.getValue().getTransaction().getAmount().toString()));
+                            + String.format("%.2f", cellData.getValue().getTransaction().getAmount())));
             transaction.setText("Transaction");
 
             operator.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedBy().getFirstName() + " " +
@@ -598,16 +590,16 @@ public class Dialogs {
             category.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductCategory().getName()));
             category.setText("Category");
 
-            quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString() + " " + cellData.getValue().getProductQuantityType().getName()));
+            quantity.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getQuantity()) + " " + cellData.getValue().getProductQuantityType().getName()));
             quantity.setText("Quantity");
 
-            retailPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRetailPrice().toString()));
+            retailPrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getRetailPrice())));
             retailPrice.setText("Retail price");
 
-            wholesalePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getWholesalePrice().toString()));
+            wholesalePrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getWholesalePrice())));
             wholesalePrice.setText("Wholesale price");
 
-            deliveryPrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeliveryPrice().toString()));
+            deliveryPrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getDeliveryPrice())));
             deliveryPrice.setText("Delivery price");
 
             table.getColumns().addAll(name, nomenclature, category, quantity, retailPrice, wholesalePrice, deliveryPrice);

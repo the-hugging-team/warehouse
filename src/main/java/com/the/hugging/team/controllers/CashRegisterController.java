@@ -67,7 +67,7 @@ public class CashRegisterController extends WindowHandler {
             return new SimpleStringProperty(textData);
         });
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
-        balance.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBalance().toString()));
+        balance.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getBalance())));
 
         table.getItems().setAll(filteredList);
         TableResizer.setDefault(table);

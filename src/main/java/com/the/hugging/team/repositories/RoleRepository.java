@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,7 +89,7 @@ public class RoleRepository implements ObjectRepository<Role> {
 
     @Override
     public List<Role> getAll() {
-        List<Role> AllProducts = new LinkedList<>();
+        List<Role> AllProducts = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
             AllProducts.addAll(entityManager.createQuery("SELECT t FROM Role t", Role.class).getResultList());

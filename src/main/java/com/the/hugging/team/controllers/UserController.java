@@ -20,6 +20,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import java.util.Comparator;
+import java.util.List;
+
 public class UserController extends WindowHandler {
     private final UserService userService = UserService.getInstance();
     private final Session session = Session.getInstance();
@@ -69,7 +72,12 @@ public class UserController extends WindowHandler {
 
     @FXML
     public void initialize() {
-        data = FXCollections.observableArrayList(userService.getAllUsers());
+        Comparator<User> userComparator = Comparator.comparing(User::getCreatedAt);
+
+        List<User> sortedUsers = userService.getAllUsers();
+        sortedUsers.sort(userComparator.reversed());
+
+        data = FXCollections.observableArrayList(sortedUsers);
 
         filteredList = new FilteredList<>(data, p -> true);
 

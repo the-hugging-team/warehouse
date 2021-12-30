@@ -25,62 +25,30 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
     @FXML
     private TextField companyOneName;
-
-    @FXML
     private TextField companyOneAddress;
-
-    @FXML
     private TextField companyOneDDSNumber;
-
-    @FXML
     private TextField companyOneEIK;
-
-    @FXML
     private TextField companyOneMOL;
 
     @FXML
     private TextField companyTwoName;
-
-    @FXML
     private TextField companyTwoAddress;
-
-    @FXML
     private TextField companyTwoDDSNumber;
-
-    @FXML
     private TextField companyTwoEIK;
-
-    @FXML
     private TextField companyTwoMOL;
 
     @FXML
     private TableView<SaleProduct> productTable;
-
-    @FXML
     private TableColumn<SaleProduct, String> number;
-
-    @FXML
     private TableColumn<SaleProduct, String> nomenclature;
-
-    @FXML
     private TableColumn<SaleProduct, String> name;
-
-    @FXML
     private TableColumn<SaleProduct, String> quantityType;
-
-    @FXML
     private TableColumn<SaleProduct, String> quantity;
-
-    @FXML
     private TableColumn<SaleProduct, String> singlePrice;
-
-    @FXML
     private TableColumn<SaleProduct, String> totalPrice;
 
     @FXML
     private TextField buyerDate;
-
-    @FXML
     private TextField buyerName;
 
     @FXML
@@ -88,14 +56,8 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
     @FXML
     private TextField basePrice;
-
-    @FXML
     private TextField ddsPercentage;
-
-    @FXML
     private TextField ddsValue;
-
-    @FXML
     private TextField finalPrice;
 
     public SaleInvoiceDialog(Sale sale, Window owner) {
@@ -132,9 +94,9 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getNomenclature()));
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getName()));
         quantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));
-        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuantity().toString()));
-        singlePrice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getWholesalePrice().toString()));
-        totalPrice.setCellValueFactory(cellData -> new SimpleStringProperty((cellData.getValue().getProduct().getWholesalePrice() * cellData.getValue().getQuantity()) + ""));
+        quantity.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getQuantity())));
+        singlePrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", cellData.getValue().getProduct().getWholesalePrice())));
+        totalPrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%.2f", (cellData.getValue().getProduct().getWholesalePrice() * cellData.getValue().getQuantity()))));
 
         productTable.getItems().setAll(filteredList);
         TableResizer.setDefault(productTable);
@@ -156,13 +118,13 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
         companyTwoEIK.setText(companyTwo.getBulstat());
         companyTwoMOL.setText(companyTwo.getMol());
 
-        buyerDate.setText(sale.getCreatedAt().toString());
+        buyerDate.setText(sale.getCreatedAtFormatted());
         buyerName.setText(invoice.getBuyer());
         sellerName.setText(invoice.getSeller());
 
-        basePrice.setText(invoice.getBasePrice().toString());
-        ddsPercentage.setText(100 / (invoice.getBasePrice() / invoice.getDds()) + "");
-        ddsValue.setText(invoice.getDds().toString());
-        finalPrice.setText(invoice.getTotalPrice().toString());
+        basePrice.setText(String.format("%.2f", invoice.getBasePrice()));
+        ddsPercentage.setText(String.format("%.2f", 100 / (invoice.getBasePrice() / invoice.getDds())));
+        ddsValue.setText(String.format("%.2f", invoice.getDds()));
+        finalPrice.setText(String.format("%.2f", invoice.getTotalPrice()));
     }
 }
