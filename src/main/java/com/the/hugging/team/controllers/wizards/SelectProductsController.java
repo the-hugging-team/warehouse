@@ -183,10 +183,10 @@ public class SelectProductsController extends WindowHandler {
     private void setupSellColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> retailPrice, TableColumn<Product, Double> retailPriceDDS, TableColumn<Product, Double> totalRetailPrice, TableColumn<Product, Double> wholesalePrice, TableColumn<Product, Double> wholesalePriceDDS, TableColumn<Product, Double> totalWholesalePrice) {
         setupColumns(nomenclature, name, quantity, quantityType, retailPrice, wholesalePrice);
 
-        productsRetailDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDdsRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
-        productsTotalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
-        productsWholesaleDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDdsWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
-        productsTotalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getTotalWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        retailPriceDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDdsRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        totalRetailPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getRetailPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        wholesalePriceDDS.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getDdsWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
+        totalWholesalePrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(BigDecimal.valueOf(cellData.getValue().getTotalWholesalePrice()).setScale(2, RoundingMode.HALF_UP).doubleValue()).asObject());
     }
 
     private void setupDeliveryColumns(TableColumn<Product, String> nomenclature, TableColumn<Product, String> name, TableColumn<Product, Double> quantity, TableColumn<Product, String> quantityType, TableColumn<Product, Double> deliveryPrice) {
