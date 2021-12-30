@@ -81,7 +81,7 @@ public class SaleRepository implements ObjectRepository<Sale> {
         List<Sale> allSales = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            allSales.addAll(entityManager.createQuery("SELECT t FROM Sale t", Sale.class).getResultList());
+            allSales.addAll(entityManager.createQuery("SELECT t FROM Sale t ORDER BY t.createdAt DESC", Sale.class).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
@@ -105,7 +105,7 @@ public class SaleRepository implements ObjectRepository<Sale> {
         List<Sale> cashRegisterSpecificSales = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            cashRegisterSpecificSales.addAll(entityManager.createQuery("SELECT t FROM Sale t WHERE t.cashRegister = :cashRegister", Sale.class).setParameter("cashRegister", cr).getResultList());
+            cashRegisterSpecificSales.addAll(entityManager.createQuery("SELECT t FROM Sale t WHERE t.cashRegister = :cashRegister ORDER BY t.createdAt DESC", Sale.class).setParameter("cashRegister", cr).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

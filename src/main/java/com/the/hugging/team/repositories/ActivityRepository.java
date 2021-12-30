@@ -80,7 +80,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         List<Activity> allActivities = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t", Activity.class).getResultList());
+            allActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t ORDER BY t.createdAt DESC", Activity.class).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
@@ -93,7 +93,7 @@ public class ActivityRepository implements ObjectRepository<Activity> {
         List<Activity> userSpecificActivities = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            userSpecificActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t WHERE t.user = :user", Activity.class).setParameter("user", user).getResultList());
+            userSpecificActivities.addAll(entityManager.createQuery("SELECT t FROM Activity t WHERE t.user = :user ORDER BY t.createdAt DESC", Activity.class).setParameter("user", user).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

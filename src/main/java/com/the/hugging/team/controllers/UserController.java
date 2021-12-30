@@ -72,12 +72,7 @@ public class UserController extends WindowHandler {
 
     @FXML
     public void initialize() {
-        Comparator<User> userComparator = Comparator.comparing(User::getCreatedAt);
-
-        List<User> sortedUsers = userService.getAllUsers();
-        sortedUsers.sort(userComparator.reversed());
-
-        data = FXCollections.observableArrayList(sortedUsers);
+        data = FXCollections.observableArrayList(userService.getAllUsers());
 
         filteredList = new FilteredList<>(data, p -> true);
 
