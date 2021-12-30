@@ -112,8 +112,8 @@ public class RoomController extends WindowHandler {
 
         if (room == null) Dialogs.notSelectedWarning();
         else {
-            DashboardTemplate.getInstance().loadView("views/dashboard/cruds/shelves-crud.fxml");
             Session.getInstance().setSelectedRoom(room);
+            DashboardTemplate.getInstance().loadView("views/dashboard/cruds/shelves-crud.fxml");
         }
     }
 

@@ -55,7 +55,7 @@ public class ShelfController extends WindowHandler {
     private FilteredList<Shelf> filteredList;
 
     public void initialize() {
-        data = FXCollections.observableArrayList(storageService.getAllShelves());
+        data = FXCollections.observableArrayList(storageService.getShelvesByRoom(Session.getInstance().getSelectedRoom()));
 
         filteredList = new FilteredList<>(data, p -> true);
 

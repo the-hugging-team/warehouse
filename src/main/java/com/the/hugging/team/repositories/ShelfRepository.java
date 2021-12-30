@@ -1,5 +1,6 @@
 package com.the.hugging.team.repositories;
 
+import com.the.hugging.team.entities.Room;
 import com.the.hugging.team.entities.Shelf;
 import com.the.hugging.team.utils.Connection;
 import org.apache.logging.log4j.LogManager;
@@ -86,6 +87,19 @@ public class ShelfRepository implements ObjectRepository<Shelf> {
             log.error("Get shelves error: " + e.getMessage());
         }
         return allShelves;
+    }
+
+    public List<Shelf> getShelvesByRoom(Room room) {
+        List<Shelf> shelves = new ArrayList<>();
+        try {
+            entityManager.getTransaction().begin();
+            shelves.addAll(entityManager.createQuery("SELECT t FROM Shelf t WHERE t.room = :room", Shelf.class).setParameter("room", room).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get shelves by room error: " + e.getMessage());
+        }
+        return shelves;
     }
 }
 

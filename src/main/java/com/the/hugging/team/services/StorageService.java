@@ -60,4 +60,8 @@ public class StorageService {
     public void deleteShelf(Shelf shelf) {
         shelfRepository.delete(shelf);
     }
+
+    public List<Shelf> getShelvesByRoom(Room room) {
+        return shelfRepository.getShelvesByRoom(room);
+    }
 }
