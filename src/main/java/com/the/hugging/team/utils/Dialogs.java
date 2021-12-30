@@ -13,9 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -615,5 +617,70 @@ public class Dialogs {
         }
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
         dialog.show();
+    }
+
+    public static void notificationsDialog(List<Notification> notifications) {
+        Dialog<User> dialog = new Dialog<>();
+        ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
+        dialog.setGraphic(null);
+        dialog.setTitle("Notifications");
+        dialog.setResizable(false);
+
+        if (notifications.size() == 0) {
+            dialog.setHeaderText("No notifications to show.");
+            dialog.getDialogPane().setPrefWidth(500);
+        } else {
+            dialog.setHeaderText(null);
+            dialog.getDialogPane().setPrefSize(700, 600);
+
+            TableView<Notification> notificationsTable = new TableView<>();
+            TableColumn<Notification, String> notification = new TableColumn<>();
+            TableColumn<Notification, String> time = new TableColumn<>();
+
+            notification.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNotification()));
+            notification.setText("Notification");
+            notification.setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) - 150);
+            notification.setResizable(false);
+
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+
+            time.setCellValueFactory(cellData -> new SimpleStringProperty(timePassedByMillis(now.getTime() - cellData.getValue().getCreatedAt().getTime())));
+            time.setText("Time");
+            time.setPrefWidth(150);
+            notification.setResizable(false);
+
+            notificationsTable.getColumns().addAll(notification, time);
+            notificationsTable.setEditable(false);
+            notificationsTable.getItems().setAll(notifications);
+
+            notificationsTable.setRowFactory(new Callback<>() {
+                @Override
+                public TableRow<Notification> call(TableView<Notification> param) {
+                    return new TableRow<>() {
+                        @Override
+                        protected void updateItem(Notification row, boolean empty) {
+                            super.updateItem(row, empty);
+
+                            if (!empty && row.getReadAt() == null)
+                                styleProperty().setValue(styleProperty().getValue().concat("-fx-font-weight: bold;"));
+                        }
+                    };
+                }
+            });
+
+            dialog.getDialogPane().setContent(notificationsTable);
+        }
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        dialog.show();
+    }
+
+    private static String timePassedByMillis(long millis) {
+        if (millis < 60000) {
+            return "less than a minute ago";
+        } else if (millis < 3600000) {
+            return millis / 60000 + " minutes ago";
+        } else if (millis < 86400000) {
+            return millis / 3600000 + " hours ago";
+        } else return millis / 86400000 + " days ago";
     }
 }

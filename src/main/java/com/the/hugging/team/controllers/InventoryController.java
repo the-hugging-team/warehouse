@@ -1,9 +1,12 @@
 package com.the.hugging.team.controllers;
 
 import com.the.hugging.team.entities.Product;
+import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.ProductService;
 import com.the.hugging.team.utils.Dialogs;
+import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.TableResizer;
+import com.the.hugging.team.utils.WindowHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +19,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class InventoryController extends DashboardTemplate {
+public class InventoryController extends WindowHandler {
 
     private final ProductService productService = ProductService.getInstance();
+    private final User user = Session.getInstance().getUser();
 
     @FXML
     private TableView<Product> table;
@@ -80,8 +84,7 @@ public class InventoryController extends DashboardTemplate {
     }
 
     @FXML
-    private void search(ActionEvent event)
-    {
+    private void search(ActionEvent event) {
         String search = searchField.getText();
 
         filteredList.setPredicate(product -> product.getName().contains(search) || product.getNomenclature().contains(search));
@@ -89,8 +92,7 @@ public class InventoryController extends DashboardTemplate {
     }
 
     @FXML
-    private void create(ActionEvent event)
-    {
+    private void create(ActionEvent event) {
         Dialogs.productDialog(new Product(), "Create product").ifPresent(product ->
         {
             data.add(productService.addProduct(product));
@@ -99,8 +101,7 @@ public class InventoryController extends DashboardTemplate {
     }
 
     @FXML
-    private void edit(ActionEvent event)
-    {
+    private void edit(ActionEvent event) {
         Product product = table.getSelectionModel().getSelectedItem();
 
         if (product == null) Dialogs.notSelectedWarning();
@@ -112,8 +113,7 @@ public class InventoryController extends DashboardTemplate {
     }
 
     @FXML
-    private void delete(ActionEvent event)
-    {
+    private void delete(ActionEvent event) {
         Product product = table.getSelectionModel().getSelectedItem();
 
         if (product == null) Dialogs.notSelectedWarning();

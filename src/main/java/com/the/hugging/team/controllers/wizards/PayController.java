@@ -21,13 +21,11 @@ public class PayController extends WindowHandler {
     private final ProductService productService = ProductService.getInstance();
     private final ActivityService activityService = ActivityService.getInstance();
     private final ActivityTypeService activityTypeService = ActivityTypeService.getInstance();
+    private final NotificationService notificationService = NotificationService.getInstance();
     private final EventSource eventSource = EventSource.getInstance();
 
     private final PaymentBean paymentBean = PaymentBean.getInstance();
     private boolean isSell, isDelivery;
-
-    @FXML
-    private Button paymentButton;
 
     @FXML
     private TextField basePriceField;

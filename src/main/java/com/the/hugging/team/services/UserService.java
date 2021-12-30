@@ -6,6 +6,7 @@ import com.the.hugging.team.repositories.UserRepository;
 import com.the.hugging.team.utils.Hasher;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserService {
     private static UserService INSTANCE = null;
@@ -52,5 +53,9 @@ public class UserService {
 
     public void updateUser(User user) {
         userRepository.update(user);
+    }
+
+    public List<User> getUsersByRoles(Set<Role> roles) {
+        return userRepository.getByRoles(roles);
     }
 }

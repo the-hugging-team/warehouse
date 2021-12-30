@@ -1,6 +1,9 @@
 package com.the.hugging.team.controllers;
 
+import com.the.hugging.team.entities.Notification;
 import com.the.hugging.team.entities.User;
+import com.the.hugging.team.services.NotificationService;
+import com.the.hugging.team.utils.Dialogs;
 import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import com.the.hugging.team.utils.WindowHandler;
@@ -9,6 +12,9 @@ import com.the.hugging.team.utils.wizard.events.EventSource;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,11 +25,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 public class DashboardTemplate extends WindowHandler {
 
     private static DashboardTemplate instance = null;
     private final Session session = Session.getInstance();
-    protected final User user = session.getUser();
+    private final User user = session.getUser();
+    private final NotificationService notificationService = NotificationService.getInstance();
+
+    private ObservableList<Notification> notifications = FXCollections.observableArrayList();
+
     @FXML
     private AnchorPane workspace;
     @FXML
@@ -50,6 +63,9 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     private Button reportsButton;
 
+    @FXML
+    private Button notificationsButton;
+
     public static DashboardTemplate getInstance() {
         return instance;
     }
@@ -68,7 +84,11 @@ public class DashboardTemplate extends WindowHandler {
             ((Label) profile.lookup("#role")).setText("");
         }
 
-        Platform.runLater(() -> homeClick(null));
+        Platform.runLater(() -> {
+            homeClick(null);
+
+            initNotifications();
+        });
 
         FontAwesomeIconView usersIcon = new FontAwesomeIconView(FontAwesomeIcon.USERS);
         usersIcon.setSize("12.0pt");
@@ -185,8 +205,21 @@ public class DashboardTemplate extends WindowHandler {
     }
 
     @FXML
-    public void reportsClick(ActionEvent e) {
+    public void reportsClick(ActionEvent event) {
         selectButton(reportsButton);
+    }
+
+    @FXML
+    public void showNotifications(ActionEvent event) {
+        Dialogs.notificationsDialog(notificationService.getAllUserNotifications(user));
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        notifications.forEach(notification ->
+        {
+            if (notification.getReadAt() == null) {
+                notification.setReadAt(now);
+                notificationService.update(notification);
+            }
+        });
     }
 
     public void logout(ActionEvent e) {
@@ -198,6 +231,40 @@ public class DashboardTemplate extends WindowHandler {
     }
 
 //    ----------Utility Methods----------
+
+    private void initNotifications() {
+        Thread notificationThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    List<Notification> notificationsList = notificationService.getUnreadUserNotifications(user);
+
+                    notifications.setAll(notificationsList);
+
+                    //noinspection BusyWait
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        notificationThread.setDaemon(true);
+        notificationThread.start();
+
+        notifications.addListener((ListChangeListener<Notification>) change -> {
+            while (change.next()) {
+                if (change.wasReplaced() || change.wasAdded()) {
+                    if (!notificationsButton.getStyleClass().contains("menu-button-notifications-active")) {
+                        notificationsButton.getStyleClass().add("menu-button-notifications-active");
+
+                        Platform.runLater(() -> change.getList().forEach(notification -> notificationService.sendPushNotification(notification.getNotification())));
+                    }
+                } else if (change.wasRemoved()) {
+                    notificationsButton.getStyleClass().remove("menu-button-notifications-active");
+                }
+            }
+        });
+    }
 
     private void selectButton(Button button) {
         boolean isDropdownItem = button.getStyleClass().contains("menu-button-dropdown-item");

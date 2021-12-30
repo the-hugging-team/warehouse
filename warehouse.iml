@@ -6,7 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="default" value="4dcf01fe-c1b6-48b4-a2ea-a969640375ec" />
+          <factory-entry name="default" value="b5e0c898-a944-444a-b086-e9e0a2cc8539" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="default" />
@@ -71,5 +71,6 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.14.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.14.1" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:11.1.1" level="project" />
   </component>
 </module>

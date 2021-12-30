@@ -125,7 +125,8 @@
                 <FontAwesomeIconView glyphName="SIGN_OUT" size="20" styleClass="menu-icon"/>
             </graphic>
         </Button>
-        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="menu2-button">
+        <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotifications" prefHeight="50.0"
+                prefWidth="50.0" styleClass="menu2-button">
             <HBox.margin>
                 <Insets left="90.0" top="5.0"/>
             </HBox.margin>
