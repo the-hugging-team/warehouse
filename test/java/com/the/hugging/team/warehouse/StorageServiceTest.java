@@ -49,18 +49,18 @@ public class StorageServiceTest {
 
     @Test
     @Order(5)
+    @DisplayName("Should delete shelf")
+    void shouldDeleteShelf() {
+        storageService.deleteShelf(newShelf);
+        Assertions.assertFalse(storageService.getAllShelves().contains(newShelf));
+    }
+
+    @Test
+    @Order(6)
     @DisplayName("Should delete room")
     void shouldDeleteRoom() {
         storageService.deleteRoom(newRoom);
 
         Assertions.assertFalse(storageService.getAllRooms().contains(newRoom));
-    }
-
-    @Test
-    @Order(6)
-    @DisplayName("Should delete shelf")
-    void shouldDeleteShelf() {
-        storageService.deleteShelf(newShelf);
-        Assertions.assertFalse(storageService.getAllShelves().contains(newShelf));
     }
 }

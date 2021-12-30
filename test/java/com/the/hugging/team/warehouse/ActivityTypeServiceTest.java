@@ -1,6 +1,6 @@
 package com.the.hugging.team.warehouse;
 
-import com.the.hugging.team.repositories.ActivityTypeRepository;
+import com.the.hugging.team.services.ActivityTypeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,9 +10,9 @@ public class ActivityTypeServiceTest {
 
     @ParameterizedTest
     @DisplayName("Should get activity type by slug")
-    @ValueSource(strings = {"activities.users.create", "activities.users.edit", "activities.companies.create", "activities.companies.edit", "activities.companies.delete",
-            "activities.cash-registers.create", "activities.cash-registers.delete", "activities.sale", "activities.delivery", "activities.storage.create", "activities.storage.edit", "activities.storage.delete"})
+    @ValueSource(strings = {"activity-types.users.create", "activity-types.users.edit", "activity-types.companies.create", "activity-types.companies.edit", "activity-types.companies.delete",
+            "activity-types.cash-registers.create", "activity-types.cash-registers.delete", "activity-types.sale", "activity-types.delivery", "activity-types.storage.create", "activity-types.storage.edit", "activity-types.storage.delete"})
     void shouldGetActivityTypeBySlug(String slug) {
-        Assertions.assertEquals(slug, ActivityTypeRepository.getInstance().getBySlug(slug).get().getSlug());
+        Assertions.assertEquals(slug, ActivityTypeService.getInstance().getActivityTypeBySlug(slug).getSlug());
     }
 }
