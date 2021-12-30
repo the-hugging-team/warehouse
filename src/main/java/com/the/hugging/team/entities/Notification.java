@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "notifications", indexes = {
         @Index(name = "fk_notifications_user_id_idx", columnList = "user_id"),
-        @Index(name = "fk_notifications_notification_template_id_idx", columnList = "notification_template_id")
 })
 public class Notification {
     @Id
@@ -23,9 +22,8 @@ public class Notification {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "notification_template_id", nullable = false)
-    private NotificationTemplate notificationTemplate;
+    @Column(nullable = false)
+    private String notification;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,4 +34,9 @@ public class Notification {
 
     @Column(name = "read_at")
     private Timestamp readAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+    }
 }

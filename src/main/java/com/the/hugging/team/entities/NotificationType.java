@@ -17,6 +17,11 @@ import java.util.Set;
         @Index(name = "fk_notification_type_notification_template_id_idx", columnList = "notification_template_id")
 })
 public class NotificationType {
+    public static final String PRODUCT_OUT_OF_STOCK = "notification_types.product_out_of_stock";
+    public static final String PRODUCT_REACHED_MIN = "notification_types.product_reached_minimum_amount";
+    public static final String CASH_REGISTER_OUT_OF_MONEY = "notification_types.cash_register_out_of_money";
+    public static final String CASH_REGISTER_REACHED_MIN = "notification_types.cash_register_reached_minimum_amount";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
