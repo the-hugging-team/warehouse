@@ -364,13 +364,13 @@ public class SelectProductsController extends WindowHandler {
             }
         });
 
-        productCategories.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setupProducts(newValue));
+        productCategories.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setupProducts(oldValue, newValue));
 
         productCategories.getSelectionModel().selectFirst();
     }
 
-    private void setupProducts(ProductCategory productCategory) {
-        if (paymentBean.getSearchData() != null) {
+    private void setupProducts(ProductCategory oldCategory, ProductCategory productCategory) {
+        if (paymentBean.getSearchData() != null && oldCategory.equals(productCategory)) {
             searchData = paymentBean.getSearchData();
         } else {
             searchData = FXCollections.observableArrayList(productService.getProductsByProductCategoryType(productCategory.getSlug()));

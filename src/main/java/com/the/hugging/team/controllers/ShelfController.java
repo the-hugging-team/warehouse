@@ -63,7 +63,7 @@ public class ShelfController extends WindowHandler {
         id.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
 
         table.getItems().setAll(filteredList);
-        TableResizer.setCustomColumns(table, List.of(0, 2), List.of(100, 200));
+        TableResizer.setCustomColumns(table, List.of(0, 1), List.of(100, 200));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() == 0) {
