@@ -675,7 +675,7 @@ public class Dialogs {
                             super.updateItem(row, empty);
 
                             if (!empty && row.getReadAt() == null)
-                                styleProperty().setValue("-fx-font-weight: bold;");
+                                styleProperty().setValue(styleProperty().getValue().concat("-fx-font-weight: bold;"));
                         }
                     };
                 }
