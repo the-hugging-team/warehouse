@@ -203,8 +203,14 @@ public class DashboardTemplate extends WindowHandler {
     }
 
     @FXML
-    public void reportsClick(ActionEvent e) {
+    public void reportsClick(ActionEvent event) {
         selectButton(reportsButton);
+    }
+
+    @FXML
+    public void showNotifications(ActionEvent event)
+    {
+
     }
 
     public void logout(ActionEvent e) {
@@ -241,6 +247,10 @@ public class DashboardTemplate extends WindowHandler {
                 if (change.wasReplaced() || change.wasAdded()) {
                     if (!notificationsButton.getStyleClass().contains("menu-button-notifications-active")) {
                         notificationsButton.getStyleClass().add("menu-button-notifications-active");
+                        change.getAddedSubList().forEach(notification ->
+                        {
+                            if (notification.getUser() != session.getUser()) notificationService.sendPushNotification(notification.getNotification());
+                        });
                     }
                 } else if (change.wasRemoved()) {
                     notificationsButton.getStyleClass().remove("menu-button-notifications-active");

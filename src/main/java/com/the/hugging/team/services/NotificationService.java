@@ -54,7 +54,7 @@ public class NotificationService {
         };
     }
 
-    private void sendPushNotification(String text)
+    public void sendPushNotification(String text)
     {
         Notifications notificationBuilder = Notifications.create()
                 .title("New notification")
