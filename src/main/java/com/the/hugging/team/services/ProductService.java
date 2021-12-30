@@ -33,10 +33,11 @@ public class ProductService {
         for (Product beanProduct : products) {
             productRepository.update(beanProduct);
 
-            if (beanProduct.getQuantity() <= 3 && beanProduct.getQuantity() != 0)
+            if (beanProduct.getQuantity() <= 3 && beanProduct.getQuantity() != 0) {
                 notificationService.sendNotification(notificationService.getNotificationTypeBySlug("notification_types.product_reached_minimum_amount"), beanProduct.getName());
-            else if (beanProduct.getQuantity() == 0)
+            } else if (beanProduct.getQuantity() == 0) {
                 notificationService.sendNotification(notificationService.getNotificationTypeBySlug("notification_types.product_out_of_stock"), beanProduct.getName());
+            }
         }
     }
 

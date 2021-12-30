@@ -26,7 +26,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.List;
 
 public class DashboardTemplate extends WindowHandler {
@@ -211,12 +210,15 @@ public class DashboardTemplate extends WindowHandler {
     }
 
     @FXML
-    public void showNotifications(ActionEvent event)
-    {
-        Dialogs.notificationsDialog(notifications);
-        notifications.forEach(notification  ->
+    public void showNotifications(ActionEvent event) {
+        Dialogs.notificationsDialog(notificationService.getAllUserNotifications(user));
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        notifications.forEach(notification ->
         {
-            if (notification.getReadAt() == null) notification.setReadAt(new Timestamp(System.currentTimeMillis()));
+            if (notification.getReadAt() == null) {
+                notification.setReadAt(now);
+                notificationService.update(notification);
+            }
         });
     }
 
@@ -234,9 +236,7 @@ public class DashboardTemplate extends WindowHandler {
         Thread notificationThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    Comparator<Notification> notificationComparator = Comparator.comparing(Notification::getCreatedAt);
-                    List<Notification> notificationsList = notificationService.getAllUserNotifications(user);
-                    notificationsList.sort(notificationComparator.reversed());
+                    List<Notification> notificationsList = notificationService.getUnreadUserNotifications(user);
 
                     notifications.setAll(notificationsList);
 
@@ -256,10 +256,8 @@ public class DashboardTemplate extends WindowHandler {
                 if (change.wasReplaced() || change.wasAdded()) {
                     if (!notificationsButton.getStyleClass().contains("menu-button-notifications-active")) {
                         notificationsButton.getStyleClass().add("menu-button-notifications-active");
-                        change.getAddedSubList().forEach(notification ->
-                        {
-                            if (notification.getUser() != session.getUser()) notificationService.sendPushNotification(notification.getNotification());
-                        });
+
+                        Platform.runLater(() -> change.getList().forEach(notification -> notificationService.sendPushNotification(notification.getNotification())));
                     }
                 } else if (change.wasRemoved()) {
                     notificationsButton.getStyleClass().remove("menu-button-notifications-active");

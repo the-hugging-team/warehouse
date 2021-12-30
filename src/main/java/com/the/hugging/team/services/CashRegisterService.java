@@ -43,10 +43,11 @@ public class CashRegisterService {
         cashRegister.setBalance(cashRegister.getBalance() - finalPrice);
         cashRegisterRepository.update(cashRegister);
 
-        if (cashRegister.getBalance() <= 3000 && cashRegister.getBalance() != 0)
+        if (cashRegister.getBalance() <= 3000 && cashRegister.getBalance() != 0) {
             notificationService.sendNotification(notificationService.getNotificationTypeBySlug("notification_types.cash_register_reached_minimum_amount"), cashRegister.getId().toString());
-        else if (cashRegister.getBalance() == 0)
+        } else if (cashRegister.getBalance() == 0) {
             notificationService.sendNotification(notificationService.getNotificationTypeBySlug("notification_types.cash_register_out_of_money"), cashRegister.getId().toString());
+        }
     }
 
     public CashRegister getMainCashRegister() {

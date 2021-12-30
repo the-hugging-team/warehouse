@@ -94,7 +94,7 @@ public class NotificationRepository implements ObjectRepository<Notification> {
         List<Notification> allNotifications = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            allNotifications.addAll(entityManager.createQuery("SELECT t FROM Notification t WHERE t.user = :user", Notification.class).setParameter("user", user).getResultList());
+            allNotifications.addAll(entityManager.createQuery("SELECT t FROM Notification t WHERE t.user = :user ORDER BY t.createdAt DESC", Notification.class).setParameter("user", user).getResultList());
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

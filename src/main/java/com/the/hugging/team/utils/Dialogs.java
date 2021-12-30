@@ -627,20 +627,17 @@ public class Dialogs {
         dialog.show();
     }
 
-    public static void notificationsDialog(ObservableList<Notification> notifications)
-    {
+    public static void notificationsDialog(List<Notification> notifications) {
         Dialog<User> dialog = new Dialog<>();
         ((Stage) dialog.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Window.CELLABLUE_PATH));
         dialog.setGraphic(null);
         dialog.setTitle("Notifications");
         dialog.setResizable(false);
 
-        if (notifications.size() == 0)
-        {
+        if (notifications.size() == 0) {
             dialog.setHeaderText("No notifications to show.");
             dialog.getDialogPane().setPrefWidth(500);
-        }
-        else {
+        } else {
             dialog.setHeaderText(null);
             dialog.getDialogPane().setPrefSize(700, 600);
 
@@ -653,11 +650,9 @@ public class Dialogs {
             notification.setPrefWidth((dialog.getDialogPane().getPrefWidth() - 10 * 2) - 150);
             notification.setResizable(false);
 
-            time.setCellValueFactory(cellData ->
-                    {
-                        Timestamp now = new Timestamp(System.currentTimeMillis());
-                        return new SimpleStringProperty(timePassedByMillis(now.getTime() - cellData.getValue().getCreatedAt().getTime()));
-                    });
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+
+            time.setCellValueFactory(cellData -> new SimpleStringProperty(timePassedByMillis(now.getTime() - cellData.getValue().getCreatedAt().getTime())));
             time.setText("Time");
             time.setPrefWidth(150);
             notification.setResizable(false);
@@ -687,20 +682,13 @@ public class Dialogs {
         dialog.show();
     }
 
-    private static String timePassedByMillis(long millis)
-    {
-        if (millis < 60000)
-        {
+    private static String timePassedByMillis(long millis) {
+        if (millis < 60000) {
             return "less than a minute ago";
-        }
-        else if (millis < 3600000)
-        {
+        } else if (millis < 3600000) {
             return millis / 60000 + " minutes ago";
-        }
-        else if (millis < 86400000)
-        {
+        } else if (millis < 86400000) {
             return millis / 3600000 + " hours ago";
-        }
-        else return millis / 86400000 + " days ago";
+        } else return millis / 86400000 + " days ago";
     }
 }

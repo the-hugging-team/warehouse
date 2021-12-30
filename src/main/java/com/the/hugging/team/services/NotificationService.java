@@ -27,6 +27,10 @@ public class NotificationService {
         return INSTANCE;
     }
 
+    public void update(Notification notification) {
+        notificationRepository.update(notification);
+    }
+
     public void sendNotification(NotificationType type, String value) {
         String notificationText = buildNotificationText(type, value);
 
@@ -37,7 +41,6 @@ public class NotificationService {
             notification.setNotification(notificationText);
             notificationRepository.save(notification);
         });
-        sendPushNotification(notificationText);
     }
 
     private String buildNotificationText(NotificationType type, String value) {
@@ -54,8 +57,7 @@ public class NotificationService {
         };
     }
 
-    public void sendPushNotification(String text)
-    {
+    public void sendPushNotification(String text) {
         Notifications notificationBuilder = Notifications.create()
                 .title("New notification")
                 .text(text)
