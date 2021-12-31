@@ -11,7 +11,7 @@ public final class Session {
 
     private User user;
     private Room selectedRoom;
-    private CashRegister selectedCashRegister = CashRegisterService.getInstance().getAllCashRegisters().get(0);
+    private CashRegister selectedCashRegister;
 
     private Session() {
     }
@@ -48,8 +48,13 @@ public final class Session {
     }
 
     public void cleanSession() {
+        if (selectedCashRegister != null) {
+            CashRegisterService.getInstance().setCashRegisterUser(selectedCashRegister, null);
+        }
+
         user = null;
         selectedRoom = null;
+        selectedCashRegister = null;
     }
 }
 

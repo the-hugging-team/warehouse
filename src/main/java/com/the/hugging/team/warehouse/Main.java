@@ -1,6 +1,7 @@
 package com.the.hugging.team.warehouse;
 
 import com.the.hugging.team.utils.Connection;
+import com.the.hugging.team.utils.Session;
 import com.the.hugging.team.utils.Window;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,8 +25,8 @@ public class Main extends Application {
 
     @Override
     public void stop() {
-
         try {
+            Session.getInstance().cleanSession();
             Connection.closeEMF();
         } catch (Exception e) {
             Log.info("Could not close EMF");

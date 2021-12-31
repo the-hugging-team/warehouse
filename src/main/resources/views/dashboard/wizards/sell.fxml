@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="720.0" prefWidth="1080.0"
-            xmlns="http://javafx.com/javafx/17" fx:controller="com.the.hugging.team.controllers.SellController">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.the.hugging.team.controllers.SellController">
     <stylesheets>
         <URL value="@../../../assets/css/dashboard.css"/>
         <URL value="@../../../assets/css/wizard.css"/>
     </stylesheets>
+    <AnchorPane fx:id="cashRegisterPane" layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="1080.0"
+                stylesheets="@../../../assets/css/wizard.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane fx:id="selectCashRegisterPane" layoutX="355.0" layoutY="235.0" prefHeight="250.0" prefWidth="370.0"
+              styleClass="labelPane">
+            <Label layoutX="105.0" layoutY="50.0" styleClass="font-regular" text="Select cash register">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Label>
+            <Pane layoutX="46.0" layoutY="100.0" prefHeight="35.0" prefWidth="280.0" styleClass="labelPane">
+                <ChoiceBox fx:id="cashRegisterSelect" layoutX="20.0" layoutY="2.5" prefHeight="30.0"
+                           prefWidth="250.0" style="-fx-background-color: none;"/>
+            </Pane>
+            <Button layoutX="110.0" layoutY="170.0" mnemonicParsing="false" onAction="#selectCashRegister"
+                    prefWidth="150.0" text="Select">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+                <styleClass>
+                    <String fx:value="font-regular"/>
+                    <String fx:value="paymentButton"/>
+                </styleClass>
+            </Button>
+        </Pane>
+    </AnchorPane>
     <AnchorPane fx:id="wizardPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../assets/css/wizard.css"
-                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0"/>
 </AnchorPane>

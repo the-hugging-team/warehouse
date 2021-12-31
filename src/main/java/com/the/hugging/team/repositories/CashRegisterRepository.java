@@ -88,5 +88,19 @@ public class CashRegisterRepository implements ObjectRepository<CashRegister> {
         }
         return allCashRegisters;
     }
+
+    public List<CashRegister> getAllUnused() {
+        List<CashRegister> allUnusedCashRegisters = new ArrayList<>();
+        try {
+            entityManager.getTransaction().begin();
+            //noinspection JpaQlInspection
+            allUnusedCashRegisters.addAll(entityManager.createQuery("SELECT t FROM CashRegister t WHERE t.user = null", CashRegister.class).getResultList());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            log.error("Get all unused cash register error: " + e.getMessage());
+        }
+        return allUnusedCashRegisters;
+    }
 }
 

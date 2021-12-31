@@ -1,6 +1,7 @@
 package com.the.hugging.team.services;
 
 import com.the.hugging.team.entities.CashRegister;
+import com.the.hugging.team.entities.User;
 import com.the.hugging.team.repositories.CashRegisterRepository;
 
 import java.util.List;
@@ -21,6 +22,19 @@ public class CashRegisterService {
 
     public List<CashRegister> getAllCashRegisters() {
         return cashRegisterRepository.getAll();
+    }
+
+    public List<CashRegister> getAllUnusedCashRegisters() {
+        return cashRegisterRepository.getAllUnused();
+    }
+
+    public CashRegister getCashRegisterById(int id) {
+        return cashRegisterRepository.getById(id).orElse(null);
+    }
+
+    public void setCashRegisterUser(CashRegister cashRegister, User user) {
+        cashRegister.setUser(user);
+        cashRegisterRepository.update(cashRegister);
     }
 
     public CashRegister addCashRegister() {

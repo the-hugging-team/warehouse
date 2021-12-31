@@ -1,5 +1,6 @@
 package com.the.hugging.team.controllers;
 
+import com.the.hugging.team.entities.CashRegister;
 import com.the.hugging.team.entities.Notification;
 import com.the.hugging.team.entities.User;
 import com.the.hugging.team.services.NotificationService;
@@ -231,6 +232,11 @@ public class DashboardTemplate extends WindowHandler {
     }
 
 //    ----------Utility Methods----------
+
+    public void setCashRegister(CashRegister cashRegister) {
+        Label roleLabel = (Label) profile.lookup("#role");
+        roleLabel.setText(roleLabel.getText() + " - Cash register " + cashRegister.getId());
+    }
 
     private void initNotifications() {
         Thread notificationThread = new Thread(() -> {
