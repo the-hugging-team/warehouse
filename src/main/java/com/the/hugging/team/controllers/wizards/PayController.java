@@ -38,6 +38,8 @@ public class PayController extends WindowHandler {
     private AnchorPane payAnchor;
     @FXML
     private Pane paymentInformationPane;
+    @FXML
+    private Button paymentButton;
 
     private ObservableList<Product> products;
     private Integer dds = 0;

@@ -21,8 +21,7 @@ public class ActivityService {
         return INSTANCE;
     }
 
-    public void addActivity(ActivityType activityType)
-    {
+    public void addActivity(ActivityType activityType) {
         Activity activity = new Activity();
         activity.setActivityType(activityType);
         activity.setUser(session.getUser());
@@ -30,8 +29,7 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
-    public List<Activity> getActivitiesByUser(User user)
-    {
+    public List<Activity> getActivitiesByUser(User user) {
         return activityRepository.getByUser(user);
     }
 }

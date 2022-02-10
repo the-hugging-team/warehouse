@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class SaleInvoiceDialog extends Dialog<Sale> {
 
-    private Sale sale;
+    private final Sale sale;
 
     @FXML
     private TextField companyOneName;
@@ -109,7 +109,7 @@ public class SaleInvoiceDialog extends Dialog<Sale> {
 
         FilteredList<SaleProduct> filteredList = new FilteredList<>(data, p -> true);
 
-        number.setCellValueFactory(cellData -> new SimpleStringProperty((productTable.getItems().indexOf(cellData.getValue()) + 1) + ""));
+        number.setCellValueFactory(cellData -> new SimpleStringProperty((filteredList.indexOf(cellData.getValue()) + 1) + ""));
         nomenclature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getNomenclature()));
         name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getName()));
         quantityType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductQuantityType().getName()));

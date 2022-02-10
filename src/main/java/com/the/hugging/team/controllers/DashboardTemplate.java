@@ -36,7 +36,7 @@ public class DashboardTemplate extends WindowHandler {
     private final User user = session.getUser();
     private final NotificationService notificationService = NotificationService.getInstance();
 
-    private ObservableList<Notification> notifications = FXCollections.observableArrayList();
+    private final ObservableList<Notification> notifications = FXCollections.observableArrayList();
 
     @FXML
     private AnchorPane workspace;
@@ -208,6 +208,8 @@ public class DashboardTemplate extends WindowHandler {
     @FXML
     public void reportsClick(ActionEvent event) {
         selectButton(reportsButton);
+
+        loadView("views/dashboard/reports/reports.fxml");
     }
 
     @FXML

@@ -18,7 +18,6 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -480,7 +479,11 @@ public class Dialogs {
                     cellData.getValue().getCreatedBy().getLastName()));
             operator.setText("Operator");
 
-            time.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedAt().toString()));
+            time.setCellValueFactory(cellData ->
+            {
+                String rawData = cellData.getValue().getCreatedAt().toString();
+                return new SimpleStringProperty(rawData.substring(0, rawData.length() - 5));
+            });
             time.setText("Time");
 
             table.getColumns().addAll(transaction, time, operator);
@@ -556,7 +559,11 @@ public class Dialogs {
             name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActivityType().getName()));
             name.setText("Activity");
 
-            time.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatedAt().toString()));
+            time.setCellValueFactory(cellData ->
+            {
+                String rawData = cellData.getValue().getCreatedAt().toString();
+                return new SimpleStringProperty(rawData.substring(0, rawData.length() - 5));
+            });
             time.setText("Time");
 
             table.getColumns().addAll(name, time);

@@ -89,8 +89,7 @@ public class ActivityTypeRepository implements ObjectRepository<ActivityType> {
         return allActivityTypes;
     }
 
-    public Optional<ActivityType> getBySlug(String slug)
-    {
+    public Optional<ActivityType> getBySlug(String slug) {
         ActivityType activityType = null;
         try {
             entityManager.getTransaction().begin();

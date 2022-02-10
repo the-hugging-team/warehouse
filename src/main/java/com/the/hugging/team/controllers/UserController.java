@@ -14,14 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-
-import java.util.Comparator;
-import java.util.List;
 
 public class UserController extends WindowHandler {
     private final UserService userService = UserService.getInstance();
@@ -86,6 +80,18 @@ public class UserController extends WindowHandler {
         table.getItems().setAll(filteredList);
         TableResizer.setDefault(table);
 
+        table.setRowFactory(tv -> {
+            final TableRow<User> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    showActivityHistory(new ActionEvent());
+                }
+            });
+
+            return row;
+        });
+
         checkPermissions();
     }
 
@@ -123,16 +129,14 @@ public class UserController extends WindowHandler {
     }
 
     @FXML
-    private void showActivityHistory(ActionEvent event)
-    {
+    private void showActivityHistory(ActionEvent event) {
         User userSelected = table.getSelectionModel().getSelectedItem();
 
         if (userSelected == null) Dialogs.notSelectedWarning();
         else Dialogs.userActivitiesDialog(userSelected);
     }
 
-    private void checkPermissions()
-    {
+    private void checkPermissions() {
         if (!user.can("permissions.users.create")) {
             sideBox.getChildren().remove(createButton);
         }

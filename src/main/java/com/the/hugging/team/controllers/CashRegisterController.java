@@ -15,10 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 public class CashRegisterController extends WindowHandler {
@@ -77,6 +74,18 @@ public class CashRegisterController extends WindowHandler {
                 filteredList.setPredicate(p -> true);
                 table.getItems().setAll(filteredList);
             }
+        });
+
+        table.setRowFactory(tv -> {
+            final TableRow<CashRegister> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    showSaleHistory(new ActionEvent());
+                }
+            });
+
+            return row;
         });
 
         checkPermissions();
